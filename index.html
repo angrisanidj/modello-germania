@@ -618,6 +618,41 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
   .mobile-poll summary:after{grid-column:2;grid-row:1/3;align-self:center}
 }
 
+
+.export-media-card{margin-top:18px;border-radius:16px}
+.export-media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:8px 18px 18px}
+.export-media-item{border:1px solid #e4e6e8;border-radius:14px;padding:14px;background:#fbfbfa;display:flex;flex-direction:column;gap:10px}
+.export-media-item strong{font-size:15px;letter-spacing:-.01em}
+.export-media-item p{margin:0;color:#666c74;font-size:12px;line-height:1.45}
+.export-media-actions{display:flex;gap:8px;flex-wrap:wrap}
+.export-media-actions button{border-radius:999px;padding:8px 12px;font-size:11px}
+.export-media-actions button.secondary{background:#fff}
+@media(max-width:720px){.export-media-grid{grid-template-columns:1fr;padding:8px 14px 16px}.export-media-item{padding:13px}.export-media-actions button{flex:1;justify-content:center}}
+
+
+/* --- v21.19: export PNG direttamente nelle visualizzazioni --- */
+.graphic-export-inline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:0 18px 12px}
+.projection-head + .graphic-export-inline{padding:0 22px 10px}
+.map-head + .graphic-export-inline{padding:10px 22px 0;border-top:1px solid #f0f0ed}
+.graphic-export-group{display:flex;align-items:center;gap:6px;min-width:0}
+.graphic-export-label{font-size:9px;letter-spacing:.075em;text-transform:uppercase;font-weight:850;color:#777b82;margin-right:2px;white-space:nowrap}
+.graphic-export-group select{appearance:none;border:1px solid #d9dce0;background:#fff;color:#3e434a;border-radius:999px;padding:6px 24px 6px 9px;font:700 10px/1 system-ui,-apple-system,"Segoe UI",sans-serif;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,#666 50%),linear-gradient(135deg,#666 50%,transparent 50%);background-position:calc(100% - 11px) 50%,calc(100% - 8px) 50%;background-size:4px 4px,4px 4px;background-repeat:no-repeat}
+.graphic-export-group button{min-height:30px;border-radius:999px;padding:6px 10px;font-size:10px;line-height:1;background:#fff;border-color:#d9dce0;color:#333}
+.graphic-export-group button:hover{background:#f5f5f3;border-color:#bbbfc4}
+.graphic-export-group button[data-export-graphic]{background:#111;color:#fff;border-color:#111}
+.graphic-export-group button[data-export-graphic]:hover{background:#292929}
+.graphic-export-group button:disabled{opacity:.6;cursor:wait}
+@media(max-width:720px){
+  .graphic-export-inline,.projection-head + .graphic-export-inline,.map-head + .graphic-export-inline{padding-left:14px;padding-right:14px;gap:8px}
+  .graphic-export-group{width:100%;display:grid;grid-template-columns:minmax(72px,1fr) auto auto auto;gap:6px}
+  .graphic-export-label{overflow:hidden;text-overflow:ellipsis}
+  .graphic-export-group select,.graphic-export-group button{min-height:36px}
+}
+@media(max-width:390px){
+  .graphic-export-group{grid-template-columns:1fr auto auto}
+  .graphic-export-label{grid-column:1/-1}
+}
+
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
@@ -676,6 +711,20 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
         <div><h2 id="projectionTitle">630 seggi</h2><p id="projectionSubtitle">Calcolo in corso…</p></div>
         <div class="proj-badge">630 seggi</div>
       </div>
+      <div class="graphic-export-inline" aria-label="Esporta proiezione del Bundestag">
+        <div class="graphic-export-group" data-graphic-group="hemicycle">
+          <span class="graphic-export-label">Emiciclo</span>
+          <select data-export-ratio aria-label="Formato immagine emiciclo"><option value="16:9">16:9</option><option value="5:2">5:2</option></select>
+          <button type="button" data-export-graphic="hemicycle">PNG</button>
+          <button type="button" data-share-graphic="hemicycle">Condividi</button>
+        </div>
+        <div class="graphic-export-group" data-graphic-group="seatprojection">
+          <span class="graphic-export-label">Proiezione seggi</span>
+          <select data-export-ratio aria-label="Formato immagine proiezione seggi"><option value="16:9">16:9</option><option value="5:2">5:2</option></select>
+          <button type="button" data-export-graphic="seatprojection">PNG</button>
+          <button type="button" data-share-graphic="seatprojection">Condividi</button>
+        </div>
+      </div>
       <div id="parliament" class="parliament-wrap"></div>
       <div id="seatStrip" class="seat-strip"></div>
     </div>
@@ -725,6 +774,14 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
           <button type="button" class="active" data-mapmode="winner">Vincitore</button>
           <button type="button" data-mapmode="margin">Margine</button>
           <button type="button" data-mapmode="coverage">Copertura</button>
+        </div>
+      </div>
+      <div class="graphic-export-inline" aria-label="Esporta la mappa">
+        <div class="graphic-export-group" data-graphic-group="map">
+          <span class="graphic-export-label">Mappa Germania</span>
+          <select data-export-ratio aria-label="Formato immagine mappa"><option value="16:9">16:9</option><option value="5:2">5:2</option></select>
+          <button type="button" data-export-graphic="map">PNG</button>
+          <button type="button" data-share-graphic="map">Condividi</button>
         </div>
       </div>
       <div id="mapSummary" class="map-summary"><span class="map-summary-chip"><strong>Caricamento della base territoriale…</strong></span></div>
@@ -838,6 +895,14 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
       <div class="cardhead">
         <div><h3>Andamento nel tempo</h3><p>Media mobile semplice calcolata sulle rilevazioni comprese nella finestra selezionata.</p></div>
         <div class="controls" id="windowControls"><button data-win="7" class="active">7 gg</button><button data-win="14">14 gg</button><button data-win="30">30 gg</button></div>
+      </div>
+      <div class="graphic-export-inline" aria-label="Esporta andamento nel tempo">
+        <div class="graphic-export-group" data-graphic-group="trend">
+          <span class="graphic-export-label">Andamento nel tempo</span>
+          <select data-export-ratio aria-label="Formato immagine andamento nel tempo"><option value="16:9">16:9</option><option value="5:2">5:2</option></select>
+          <button type="button" data-export-graphic="trend">PNG</button>
+          <button type="button" data-share-graphic="trend">Condividi</button>
+        </div>
       </div>
       <div class="controls" id="rangeControls" style="padding:10px 18px 0"><button data-range="180" class="active">6 mesi</button><button data-range="365">1 anno</button><button data-range="730">2 anni</button><button data-range="all">Tutto</button></div>
       <div id="lineChart" class="chartbox"></div>
@@ -1589,6 +1654,31 @@ function drawPreviewCard(){
   return canvas;
 }
 function downloadPreviewPng(){ const canvas=drawPreviewCard(); if(!canvas) return; canvas.toBlob(blob=>{ if(!blob) return; const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=snapshotFilename('png'); document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},120); },'image/png'); }
+function fileDateStamp(){const d=projectionAverage()?.date||state.fetchedAt||new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function safeRatio(ratio){return ratio==='5:2'?'5:2':'16:9'}
+function exportDimensions(ratio){ratio=safeRatio(ratio);return ratio==='5:2'?{width:1500,height:600}:{width:1600,height:900}}
+function graphicFilename(kind,ratio='16:9'){const suffix={hemicycle:'emiciclo_bundestag',seatprojection:'proiezione_seggi',map:'mappa_germania',trend:'andamento_tempo'}[kind]||kind;return `bundestag_${suffix}_${safeRatio(ratio).replace(':','x')}_${fileDateStamp()}.png`}
+function triggerBlobDownload(blob,filename){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},200)}
+function canvasToBlob(canvas){return new Promise((resolve,reject)=>canvas.toBlob(b=>b?resolve(b):reject(new Error('Esportazione PNG non riuscita')),'image/png'))}
+function loadImage(src){return new Promise((resolve,reject)=>{const img=new Image();img.onload=()=>resolve(img);img.onerror=()=>reject(new Error("Impossibile caricare l'immagine SVG per l'esportazione"));img.src=src})}
+function cloneSvgWithStyles(svgEl){const clone=svgEl.cloneNode(true);const src=[svgEl,...svgEl.querySelectorAll('*')],dst=[clone,...clone.querySelectorAll('*')];const attrs=['fill','stroke','stroke-width','stroke-linecap','stroke-linejoin','opacity','font-size','font-family','font-weight','text-anchor','dominant-baseline','display','visibility','filter'];src.forEach((node,i)=>{const copy=dst[i],cs=getComputedStyle(node);attrs.forEach(a=>{const v=cs.getPropertyValue(a);if(v)copy.style.setProperty(a,v)});if(node.tagName==='svg'&&copy){copy.setAttribute('xmlns','http://www.w3.org/2000/svg');copy.setAttribute('xmlns:xlink','http://www.w3.org/1999/xlink')}});return clone}
+function svgMarkupForExport(svgEl,w,h){const clone=cloneSvgWithStyles(svgEl);clone.setAttribute('width',w);clone.setAttribute('height',h);if(!clone.getAttribute('viewBox')) clone.setAttribute('viewBox',`0 0 ${w} ${h}`);return new XMLSerializer().serializeToString(clone)}
+function svgNaturalSize(svgEl){const vb=(svgEl.getAttribute('viewBox')||'').trim().split(/\s+/).map(Number);if(vb.length===4&&vb.slice(2).every(v=>Number.isFinite(v)&&v>0))return{w:vb[2],h:vb[3]};const r=svgEl.getBoundingClientRect();return{w:Math.max(1,r.width||800),h:Math.max(1,r.height||500)}}
+function exportLayout(ratio){const {width,height}=exportDimensions(ratio);const compact=safeRatio(ratio)==='5:2';return{width,height,compact,headerBottom:compact?112:132,footerTop:height-(compact?42:54),side:compact?42:54}}
+function drawExportHeader(ctx,w,title,subtitle,compact=false){const top=compact?24:30;ctx.fillStyle='#f5f5f2';ctx.fillRect(0,0,w,compact?112:132);ctx.fillStyle='#111';ctx.fillRect(0,0,w,8);ctx.fillStyle='#dd0000';ctx.fillRect(0,8,w,8);ctx.fillStyle='#ffcc00';ctx.fillRect(0,16,w,8);ctx.fillStyle='#171717';ctx.font=`900 ${compact?32:39}px system-ui, -apple-system, sans-serif`;ctx.fillText(title,compact?42:54,compact?64:78);ctx.font=`400 ${compact?16:18}px system-ui, -apple-system, sans-serif`;ctx.fillStyle='#5e6470';const max=compact?118:122;ctx.fillText(String(subtitle||'').slice(0,max),compact?42:54,compact?91:108)}
+function drawExportFooter(ctx,w,h,compact=false){const side=compact?42:54,y=h-(compact?20:24);ctx.strokeStyle='#e1e4e8';ctx.beginPath();ctx.moveTo(side,h-(compact?38:50));ctx.lineTo(w-side,h-(compact?38:50));ctx.stroke();ctx.fillStyle='#555d67';ctx.font=`400 ${compact?12:14}px system-ui, -apple-system, sans-serif`;ctx.fillText('Daniele Angrisani · Modello previsionale Bundestag · @putino',side,y);const ds=projectionAverage()?.date?fmtDate(projectionAverage().date):fmtDate(new Date());const label=`Aggiornato al ${ds}`;const m=ctx.measureText(label);ctx.fillText(label,w-side-m.width,y)}
+async function buildSvgExportCanvas(svgEl,{title,subtitle,ratio='16:9'}={}){const L=exportLayout(ratio),c=document.createElement('canvas');c.width=L.width;c.height=L.height;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,L.width,L.height);drawExportHeader(ctx,L.width,title,subtitle,L.compact);drawExportFooter(ctx,L.width,L.height,L.compact);const nat=svgNaturalSize(svgEl),box={x:L.side,y:L.headerBottom+8,w:L.width-L.side*2,h:L.footerTop-L.headerBottom-18};const markup=svgMarkupForExport(svgEl,nat.w,nat.h),url='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(markup),img=await loadImage(url),scale=Math.min(box.w/nat.w,box.h/nat.h),dw=nat.w*scale,dh=nat.h*scale,dx=box.x+(box.w-dw)/2,dy=box.y+(box.h-dh)/2;ctx.drawImage(img,dx,dy,dw,dh);return c}
+function seatProjectionTitle(){return document.getElementById('projectionTitle')?.textContent?.trim()||'Proiezione dei seggi'}
+function seatProjectionSubtitle(){return document.getElementById('projectionSubtitle')?.textContent?.trim()||'Scenario centrale e intervalli probabilistici'}
+async function buildSeatProjectionCanvas(ratio='16:9'){const raw=projectSeats();if(!raw)throw new Error('La proiezione dei seggi non è ancora disponibile');const pr=mcDisplayProjection(raw),L=exportLayout(ratio),c=document.createElement('canvas');c.width=L.width;c.height=L.height;const ctx=c.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,L.width,L.height);drawExportHeader(ctx,L.width,'Proiezione seggi',seatProjectionTitle(),L.compact);drawExportFooter(ctx,L.width,L.height,L.compact);const order=['union','afd','spd','gruene','linke','bsw','fdp','fw','ssw'],cols=L.compact?5:3,gap=L.compact?12:16,side=L.side,top=L.headerBottom+12,bottom=L.footerTop-8,rows=Math.ceil(order.length/cols),boxW=(L.width-side*2-gap*(cols-1))/cols,boxH=(bottom-top-gap*(rows-1))/rows;order.forEach((k,idx)=>{const p=partyByKey(k),seats=pr.seats[k]||0,v=k==='ssw'?null:raw.avg[k],st=state.monteCarlo?.stats?.[k],range=st?`${st.low}–${st.high}`:'—',col=idx%cols,row=Math.floor(idx/cols),x=side+col*(boxW+gap),y=top+row*(boxH+gap),pad=L.compact?12:16;ctx.fillStyle='#fafaf8';ctx.strokeStyle='#e2e4e7';ctx.lineWidth=1.5;ctx.beginPath();ctx.roundRect(x,y,boxW,boxH,L.compact?12:16);ctx.fill();ctx.stroke();ctx.fillStyle=p.color;ctx.fillRect(x,y,6,boxH);ctx.fillStyle='#171717';ctx.font=`800 ${L.compact?16:20}px system-ui, -apple-system, sans-serif`;const labelY=y+(L.compact?26:34);ctx.fillText(p.label,x+pad,labelY);ctx.font=`900 ${L.compact?34:46}px system-ui, -apple-system, sans-serif`;ctx.fillText(String(seats),x+pad,y+(L.compact?68:88));ctx.fillStyle='#5e6470';ctx.font=`500 ${L.compact?11:14}px system-ui, -apple-system, sans-serif`;let ty=y+(L.compact?91:116);if(v!==null){ctx.fillText(`${pct(v)} nei sondaggi`,x+pad,ty);ty+=L.compact?17:21}ctx.fillText(`80%: ${range} seggi`,x+pad,ty)});return c}
+function getCurrentMapSvg(){const wrap=document.querySelector('.germany-map-wrap');if(wrap?.classList.contains('local-fallback')){try{return document.getElementById('localMapFrame')?.contentDocument?.querySelector('svg')}catch(e){return null}}return document.getElementById('germanyDistrictMap')}
+function mapModeLabel(){return districtState.mode==='margin'?'Margine':districtState.mode==='coverage'?'Copertura':'Vincitore'}
+async function buildGraphicCanvas(kind,ratio='16:9'){ratio=safeRatio(ratio);if(kind==='hemicycle'){const svg=document.querySelector('#parliament .parliament-svg');if(!svg)throw new Error('Emiciclo non disponibile');return buildSvgExportCanvas(svg,{title:'Emiciclo del Bundestag',subtitle:seatProjectionTitle(),ratio})}if(kind==='trend'){const svg=document.querySelector('#lineChart svg');if(!svg)throw new Error("Grafico dell'andamento non disponibile");const range=document.querySelector('#rangeControls button.active')?.textContent?.trim()||'',win=document.querySelector('#windowControls button.active')?.textContent?.trim()||'';return buildSvgExportCanvas(svg,{title:'Andamento nel tempo',subtitle:`Media mobile ${win} · orizzonte ${range}`,ratio})}if(kind==='map'){const svg=getCurrentMapSvg();if(!svg)throw new Error('Mappa non disponibile');const filters=[...districtState.partyFilters].map(k=>DISTRICT_PARTIES[k]?.label).filter(Boolean);const filterText=filters.length?` · evidenza: ${filters.join(', ')}`:'';return buildSvgExportCanvas(svg,{title:'Mappa dei collegi della Germania',subtitle:`${mapModeLabel()} · 299 Wahlkreise${filterText}`,ratio})}if(kind==='seatprojection')return buildSeatProjectionCanvas(ratio);throw new Error('Tipo di esportazione non riconosciuto')}
+async function shareGraphic(kind,ratio='16:9'){const canvas=await buildGraphicCanvas(kind,ratio),blob=await canvasToBlob(canvas),filename=graphicFilename(kind,ratio),title={hemicycle:'Emiciclo del Bundestag',seatprojection:'Proiezione seggi Bundestag',map:'Mappa dei collegi in Germania',trend:'Andamento nel tempo'}[kind]||'Grafico',file=new File([blob],filename,{type:'image/png'});if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title,text:`${title} · ${location.href}`});return true}if(navigator.share){await navigator.share({title,text:`${title} · ${location.href}`,url:location.href});triggerBlobDownload(blob,filename);return true}triggerBlobDownload(blob,filename);alert('Il browser non supporta la condivisione diretta del PNG. Ho scaricato il file così puoi pubblicarlo manualmente sui social.');return false}
+async function exportGraphic(kind,ratio='16:9'){const canvas=await buildGraphicCanvas(kind,ratio),blob=await canvasToBlob(canvas);triggerBlobDownload(blob,graphicFilename(kind,ratio));return true}
+function graphicRatioFromButton(btn){return btn.closest('.graphic-export-group')?.querySelector('[data-export-ratio]')?.value||'16:9'}
+function initGraphicExports(){document.querySelectorAll('[data-export-graphic]').forEach(btn=>btn.addEventListener('click',async()=>{const old=btn.textContent,ratio=graphicRatioFromButton(btn);btn.disabled=true;btn.textContent='Esporto…';try{await exportGraphic(btn.dataset.exportGraphic,ratio)}catch(err){console.error(err);alert(err.message||'Esportazione non riuscita')}finally{btn.disabled=false;btn.textContent=old}}));document.querySelectorAll('[data-share-graphic]').forEach(btn=>btn.addEventListener('click',async()=>{const old=btn.textContent,ratio=graphicRatioFromButton(btn);btn.disabled=true;btn.textContent='Condivido…';try{await shareGraphic(btn.dataset.shareGraphic,ratio)}catch(err){if(err?.name!=='AbortError'){console.error(err);alert(err.message||'Condivisione non riuscita')}}finally{btn.disabled=false;btn.textContent=old}}))}
+
 function downloadSnapshotJson(){ const data=buildCurrentSnapshot(); downloadBlob(snapshotFilename('json'), JSON.stringify(data,null,2), 'application/json'); }
 function pageShareData(){return {url:location.href,title:document.title,text:'Sondaggi e proiezione del Bundestag: media dei sondaggi, seggi probabilistici e collegi simulati.'}}
 
@@ -1662,6 +1752,7 @@ document.getElementById('refreshBtn').addEventListener('click',()=>fetchData(tru
 document.getElementById('downloadSnapshotBtn')?.addEventListener('click',downloadSnapshotJson);
 document.getElementById('downloadPngBtn')?.addEventListener('click',downloadPreviewPng);
 document.querySelectorAll('[data-share]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openShare(el.dataset.share)}));
+initGraphicExports();
 document.querySelectorAll('[data-ai]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openAi(el.dataset.ai)}));
 document.querySelectorAll('#windowControls button').forEach(b=>b.addEventListener('click',()=>{state.window=+b.dataset.win;document.querySelectorAll('#windowControls button').forEach(x=>x.classList.toggle('active',x===b));renderKPIs();renderSnapshot();renderMomentum();renderThreshold();renderLegend();renderLineChart()}));
 document.querySelectorAll('#rangeControls button').forEach(b=>b.addEventListener('click',()=>{state.range=b.dataset.range==='all'?'all':+b.dataset.range;document.querySelectorAll('#rangeControls button').forEach(x=>x.classList.toggle('active',x===b));renderLineChart()}));
