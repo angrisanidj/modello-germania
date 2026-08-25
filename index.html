@@ -1648,39 +1648,40 @@ function drawPreviewCard(){
   const wrap=(s,x,y,maxW,lineH,font,color,maxLines=3)=>{ctx.font=font;ctx.fillStyle=color;ctx.textAlign='left';const words=String(s).split(/\s+/);let line='',lines=[];for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxW&&line){lines.push(line);line=word}else line=test}if(line)lines.push(line);lines=lines.slice(0,maxLines);lines.forEach((ln,i)=>ctx.fillText(ln,x,y+i*lineH));return y+(lines.length-1)*lineH};
 
   ctx.clearRect(0,0,w,h);ctx.fillStyle='#f6f6f3';ctx.fillRect(0,0,w,h);
-  ctx.fillStyle='#111';ctx.fillRect(0,0,w,18);ctx.fillStyle='#dd0000';ctx.fillRect(0,18,w,18);ctx.fillStyle='#ffcc00';ctx.fillRect(0,36,w,18);
+  ctx.fillStyle='#111';ctx.fillRect(0,0,w,16);ctx.fillStyle='#dd0000';ctx.fillRect(0,16,w,16);ctx.fillStyle='#ffcc00';ctx.fillRect(0,32,w,16);
 
-  // Main left card
-  rr(42,90,700,472,22,'#ffffff','#d9dce0',1.4);
-  text('DANIELE ANGRISANI · MODELLO PREVISIONALE',70,134,'700 18px system-ui, -apple-system, sans-serif','#656a72');
-  text('Elezioni',70,198,'900 58px system-ui, -apple-system, sans-serif');
-  text('federali',70,252,'900 58px system-ui, -apple-system, sans-serif');
-  text('tedesche',70,306,'900 58px system-ui, -apple-system, sans-serif');
-  wrap('Media dei sondaggi, proiezione probabilistica dei seggi, mappa dei collegi uninominali e costruttore di maggioranze.',70,350,620,27,'400 21px system-ui, -apple-system, sans-serif','#60666f',3);
+  const leftX=42,leftY=82,leftW=700,leftH=432,rightX=780,rightW=376;
+  rr(leftX,leftY,leftW,leftH,22,'#ffffff','#d9dce0',1.4);
+  text('DANIELE ANGRISANI · MODELLO PREVISIONALE',70,126,'700 18px system-ui, -apple-system, sans-serif','#656a72');
+  text('Elezioni',70,188,'900 58px system-ui, -apple-system, sans-serif');
+  text('federali',70,242,'900 58px system-ui, -apple-system, sans-serif');
+  text('tedesche',70,296,'900 58px system-ui, -apple-system, sans-serif');
+  wrap('Media dei sondaggi, proiezione probabilistica dei seggi, mappa dei collegi uninominali e costruttore di maggioranze.',70,338,620,25,'400 20px system-ui, -apple-system, sans-serif','#60666f',2);
 
-  const bars=ranked.slice(0,8), max=Math.max(30,...bars.map(p=>p.val)), barX=178, barW=305, labelX=70, valX=540, y0=425, step=30;
-  bars.forEach((p,i)=>{const y=y0+i*step;text(p.label,labelX,y,'600 17px system-ui, -apple-system, sans-serif','#24272b');rr(barX,y-14,barW,13,7,'#e7eaee');rr(barX,y-14,Math.max(4,barW*(p.val/max)),13,7,p.color);text(pct(p.val),valX,y,'700 17px system-ui, -apple-system, sans-serif','#25282c','right')});
-  const sourceLine=`Fonte: ${recent30.length} rilevazioni · ${instituteCount} istituti${latest?` · Ultima: ${fmtDate(latest.date)} (${latest.institute}${latest.client?' · '+latest.client:''})`:''}`;
-  text(sourceLine,70,548,'400 13px system-ui, -apple-system, sans-serif','#656a72');
+  const bars=ranked.slice(0,6), max=Math.max(30,...bars.map(p=>p.val)), barX=160, barW=300, labelX=70, valX=525, y0=398, step=38;
+  bars.forEach((p,i)=>{const y=y0+i*step;text(p.label,labelX,y,'700 16px system-ui, -apple-system, sans-serif','#24272b');rr(barX,y-13,barW,14,7,'#e7eaee');rr(barX,y-13,Math.max(4,barW*(p.val/max)),14,7,p.color);text(pct(p.val),valX,y,'700 16px system-ui, -apple-system, sans-serif','#25282c','right')});
+  const metaLine1=`${recent30.length} rilevazioni · ${instituteCount} istituti`;
+  const metaLine2=latest?`Ultima: ${fmtDate(latest.date)} (${latest.institute}${latest.client?' · '+latest.client:''})`:'';
+  text(metaLine1,70,leftY+leftH-36,'500 13px system-ui, -apple-system, sans-serif','#656a72');
+  if(metaLine2) text(metaLine2,70,leftY+leftH-16,'500 13px system-ui, -apple-system, sans-serif','#656a72');
 
-  // Summary right card — fully dynamic leader
-  rr(780,90,376,172,22,'#191a1c');
-  text('Quadro sintetico',808,133,'800 18px system-ui, -apple-system, sans-serif','#ffcc00');
-  const leaderFont=leader.label.length>9?'900 50px system-ui, -apple-system, sans-serif':'900 70px system-ui, -apple-system, sans-serif';
-  text(leader.label,808,208,leaderFont,'#ffffff');
-  text(`${pct(leader.val)} · primo partito nella media corrente`,808,240,'500 16px system-ui, -apple-system, sans-serif','#d9dde3');
+  rr(rightX,leftY,rightW,150,22,'#191a1c');
+  text('Quadro sintetico',808,126,'800 18px system-ui, -apple-system, sans-serif','#ffcc00');
+  const leaderFont=leader.label.length>9?'900 48px system-ui, -apple-system, sans-serif':'900 66px system-ui, -apple-system, sans-serif';
+  text(leader.label,808,192,leaderFont,'#ffffff');
+  text(`${pct(leader.val)} · primo partito nella media corrente`,808,220,'500 16px system-ui, -apple-system, sans-serif','#d9dde3');
 
-  rr(780,282,376,280,22,'#ffffff','#d9dce0',1.4);
-  text('Modello con Monte Carlo calibrato',808,322,'500 16px system-ui, -apple-system, sans-serif','#656a72');
+  rr(rightX,250,rightW,264,22,'#ffffff','#d9dce0',1.4);
+  text('Modello con Monte Carlo calibrato',808,288,'500 16px system-ui, -apple-system, sans-serif','#656a72');
   const info=[
     ['Contenuto','Media, seggi e collegi'],
     ['Aggiornamento','Automatico + manuale'],
     ['Metodo','Sainte-Laguë + simulazioni']
   ];
-  info.forEach((r,i)=>{const yy=366+i*78;ctx.fillStyle='#ffcc00';ctx.beginPath();ctx.arc(810,yy-5,7,0,Math.PI*2);ctx.fill();text(r[0],830,yy,'800 18px system-ui, -apple-system, sans-serif');text(r[1],830,yy+25,'400 15px system-ui, -apple-system, sans-serif','#626872');if(i<2){ctx.strokeStyle='#e5e7ea';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(808,yy+43);ctx.lineTo(1128,yy+43);ctx.stroke()}});
+  info.forEach((r,i)=>{const yy=330+i*74;ctx.fillStyle='#ffcc00';ctx.beginPath();ctx.arc(810,yy-4,7,0,Math.PI*2);ctx.fill();text(r[0],830,yy,'800 18px system-ui, -apple-system, sans-serif');text(r[1],830,yy+24,'400 15px system-ui, -apple-system, sans-serif','#626872');if(i<2){ctx.strokeStyle='#e5e7ea';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(808,yy+40);ctx.lineTo(1128,yy+40);ctx.stroke()}});
 
-  text('Fonte: Wahlen in Deutschland',70,608,'400 13px system-ui, -apple-system, sans-serif','#666b73');
-  text('@putino',1130,608,'600 13px system-ui, -apple-system, sans-serif','#666b73','right');
+  text('Fonte: Wahlen in Deutschland',70,546,'400 13px system-ui, -apple-system, sans-serif','#666b73');
+  text('@putino',1130,546,'600 13px system-ui, -apple-system, sans-serif','#666b73','right');
   return canvas;
 }
 function downloadPreviewPng(){ const canvas=drawPreviewCard(); if(!canvas) return; canvas.toBlob(blob=>{ if(!blob) return; const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=snapshotFilename('png'); document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},120); },'image/png'); }
