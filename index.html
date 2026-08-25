@@ -9,13 +9,13 @@
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta property="og:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta property="og:image" content="preview-bundestag-v21.png" />
+<meta property="og:image" content="preview-bundestag-v21.png?v=20260825d" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta name="twitter:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta name="twitter:image" content="preview-bundestag-v21.png" />
+<meta name="twitter:image" content="preview-bundestag-v21.png?v=20260825d" />
 <style>
 :root{
   --de-black:#111111; --de-red:#dd0000; --de-gold:#ffcc00;
@@ -1642,46 +1642,40 @@ function drawPreviewCard(){
   const start30=latest?new Date(latest.date):null; if(start30) start30.setDate(start30.getDate()-29);
   const recent30=latest?state.polls.filter(p=>p.date>=start30&&p.date<=latest.date):[];
   const instituteCount=new Set(recent30.map(p=>p.institute)).size;
-
-  const rr=(x,y,rw,rh,r,fill,stroke=null,lw=1)=>{ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,rw,rh,r);else{ctx.rect(x,y,rw,rh)};if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}};
+  const rr=(x,y,rw,rh,r,fill,stroke=null,lw=1)=>{ctx.beginPath();if(ctx.roundRect)ctx.roundRect(x,y,rw,rh,r);else ctx.rect(x,y,rw,rh);if(fill){ctx.fillStyle=fill;ctx.fill()}if(stroke){ctx.strokeStyle=stroke;ctx.lineWidth=lw;ctx.stroke()}};
   const text=(s,x,y,font,color='#171717',align='left')=>{ctx.font=font;ctx.fillStyle=color;ctx.textAlign=align;ctx.fillText(String(s),x,y)};
-  const wrap=(s,x,y,maxW,lineH,font,color,maxLines=3)=>{ctx.font=font;ctx.fillStyle=color;ctx.textAlign='left';const words=String(s).split(/\s+/);let line='',lines=[];for(const word of words){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxW&&line){lines.push(line);line=word}else line=test}if(line)lines.push(line);lines=lines.slice(0,maxLines);lines.forEach((ln,i)=>ctx.fillText(ln,x,y+i*lineH));return y+(lines.length-1)*lineH};
+  const wrap=(s,x,y,maxW,lineH,font,color,maxLines=2)=>{ctx.font=font;ctx.fillStyle=color;ctx.textAlign='left';const words=String(s).split(/\s+/);let line='',lines=[];for(const word of words){const t=line?line+' '+word:word;if(ctx.measureText(t).width>maxW&&line){lines.push(line);line=word}else line=t}if(line)lines.push(line);lines.slice(0,maxLines).forEach((ln,i)=>ctx.fillText(ln,x,y+i*lineH));};
 
   ctx.clearRect(0,0,w,h);ctx.fillStyle='#f6f6f3';ctx.fillRect(0,0,w,h);
-  ctx.fillStyle='#111';ctx.fillRect(0,0,w,16);ctx.fillStyle='#dd0000';ctx.fillRect(0,16,w,16);ctx.fillStyle='#ffcc00';ctx.fillRect(0,32,w,16);
+  ctx.fillStyle='#111';ctx.fillRect(0,0,w,14);ctx.fillStyle='#dd0000';ctx.fillRect(0,14,w,14);ctx.fillStyle='#ffcc00';ctx.fillRect(0,28,w,14);
 
-  const leftX=42,leftY=82,leftW=700,leftH=432,rightX=780,rightW=376;
-  rr(leftX,leftY,leftW,leftH,22,'#ffffff','#d9dce0',1.4);
-  text('DANIELE ANGRISANI · MODELLO PREVISIONALE',70,126,'700 18px system-ui, -apple-system, sans-serif','#656a72');
-  text('Elezioni',70,188,'900 58px system-ui, -apple-system, sans-serif');
-  text('federali',70,242,'900 58px system-ui, -apple-system, sans-serif');
-  text('tedesche',70,296,'900 58px system-ui, -apple-system, sans-serif');
-  wrap('Media dei sondaggi, proiezione probabilistica dei seggi, mappa dei collegi uninominali e costruttore di maggioranze.',70,338,620,25,'400 20px system-ui, -apple-system, sans-serif','#60666f',2);
+  const leftX=34,leftY=58,leftW=690,leftH=512,rightX=758,rightW=408;
+  rr(leftX,leftY,leftW,leftH,22,'#fff','#d9dce0',1.4);
+  text('DANIELE ANGRISANI · MODELLO PREVISIONALE',62,100,'700 15px system-ui, -apple-system, sans-serif','#656a72');
+  text('Elezioni',62,160,'900 56px system-ui, -apple-system, sans-serif');
+  text('federali',62,212,'900 56px system-ui, -apple-system, sans-serif');
+  text('tedesche',62,264,'900 56px system-ui, -apple-system, sans-serif');
+  wrap('Media dei sondaggi, proiezione probabilistica dei seggi, mappa dei collegi uninominali e costruttore di maggioranze.',62,304,620,24,'400 18px system-ui, -apple-system, sans-serif','#60666f',2);
 
-  const bars=ranked.slice(0,6), max=Math.max(30,...bars.map(p=>p.val)), barX=160, barW=300, labelX=70, valX=525, y0=398, step=38;
-  bars.forEach((p,i)=>{const y=y0+i*step;text(p.label,labelX,y,'700 16px system-ui, -apple-system, sans-serif','#24272b');rr(barX,y-13,barW,14,7,'#e7eaee');rr(barX,y-13,Math.max(4,barW*(p.val/max)),14,7,p.color);text(pct(p.val),valX,y,'700 16px system-ui, -apple-system, sans-serif','#25282c','right')});
-  const metaLine1=`${recent30.length} rilevazioni · ${instituteCount} istituti`;
-  const metaLine2=latest?`Ultima: ${fmtDate(latest.date)} (${latest.institute}${latest.client?' · '+latest.client:''})`:'';
-  text(metaLine1,70,leftY+leftH-36,'500 13px system-ui, -apple-system, sans-serif','#656a72');
-  if(metaLine2) text(metaLine2,70,leftY+leftH-16,'500 13px system-ui, -apple-system, sans-serif','#656a72');
+  const bars=ranked.slice(0,6),max=Math.max(30,...bars.map(p=>p.val)),labelX=62,barX=150,barW=300,valX=528,y0=370,step=31;
+  bars.forEach((p,i)=>{const y=y0+i*step;text(p.label,labelX,y,'700 15px system-ui, -apple-system, sans-serif','#24272b');rr(barX,y-12,barW,12,6,'#e7eaee');rr(barX,y-12,Math.max(4,barW*(p.val/max)),12,6,p.color);text(pct(p.val),valX,y,'700 15px system-ui, -apple-system, sans-serif','#25282c','right')});
+  ctx.strokeStyle='#eceef1';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(62,540);ctx.lineTo(666,540);ctx.stroke();
+  text(`${recent30.length} rilevazioni · ${instituteCount} istituti`,62,558,'500 12px system-ui, -apple-system, sans-serif','#656a72');
+  if(latest) text(`Ultima: ${fmtDate(latest.date)} (${latest.institute}${latest.client?' · '+latest.client:''})`,240,558,'500 12px system-ui, -apple-system, sans-serif','#656a72');
 
   rr(rightX,leftY,rightW,150,22,'#191a1c');
-  text('Quadro sintetico',808,126,'800 18px system-ui, -apple-system, sans-serif','#ffcc00');
-  const leaderFont=leader.label.length>9?'900 48px system-ui, -apple-system, sans-serif':'900 66px system-ui, -apple-system, sans-serif';
-  text(leader.label,808,192,leaderFont,'#ffffff');
-  text(`${pct(leader.val)} · primo partito nella media corrente`,808,220,'500 16px system-ui, -apple-system, sans-serif','#d9dde3');
+  text('Quadro sintetico',788,100,'800 18px system-ui, -apple-system, sans-serif','#ffcc00');
+  const leaderFont=leader.label.length>9?'900 46px system-ui, -apple-system, sans-serif':'900 66px system-ui, -apple-system, sans-serif';
+  text(leader.label,788,160,leaderFont,'#fff');
+  text(`${pct(leader.val)} · primo partito nella media corrente`,788,190,'500 14px system-ui, -apple-system, sans-serif','#d9dde3');
 
-  rr(rightX,250,rightW,264,22,'#ffffff','#d9dce0',1.4);
-  text('Modello con Monte Carlo calibrato',808,288,'500 16px system-ui, -apple-system, sans-serif','#656a72');
-  const info=[
-    ['Contenuto','Media, seggi e collegi'],
-    ['Aggiornamento','Automatico + manuale'],
-    ['Metodo','Sainte-Laguë + simulazioni']
-  ];
-  info.forEach((r,i)=>{const yy=330+i*74;ctx.fillStyle='#ffcc00';ctx.beginPath();ctx.arc(810,yy-4,7,0,Math.PI*2);ctx.fill();text(r[0],830,yy,'800 18px system-ui, -apple-system, sans-serif');text(r[1],830,yy+24,'400 15px system-ui, -apple-system, sans-serif','#626872');if(i<2){ctx.strokeStyle='#e5e7ea';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(808,yy+40);ctx.lineTo(1128,yy+40);ctx.stroke()}});
+  rr(rightX,226,rightW,344,22,'#fff','#d9dce0',1.4);
+  text('Modello con Monte Carlo calibrato',788,262,'500 16px system-ui, -apple-system, sans-serif','#656a72');
+  const info=[['Contenuto','Media, seggi e collegi'],['Aggiornamento','Automatico + manuale'],['Metodo','Sainte-Laguë + simulazioni']];
+  info.forEach((r,i)=>{const yy=310+i*82;ctx.fillStyle='#ffcc00';ctx.beginPath();ctx.arc(792,yy-4,7,0,Math.PI*2);ctx.fill();text(r[0],812,yy,'800 18px system-ui, -apple-system, sans-serif');text(r[1],812,yy+24,'400 15px system-ui, -apple-system, sans-serif','#626872');if(i<2){ctx.strokeStyle='#e5e7ea';ctx.beginPath();ctx.moveTo(788,yy+43);ctx.lineTo(1138,yy+43);ctx.stroke()}});
 
-  text('Fonte: Wahlen in Deutschland',70,546,'400 13px system-ui, -apple-system, sans-serif','#666b73');
-  text('@putino',1130,546,'600 13px system-ui, -apple-system, sans-serif','#666b73','right');
+  text('Fonte: Wahlen in Deutschland',34,612,'400 12px system-ui, -apple-system, sans-serif','#666b73');
+  text('@putino',1160,612,'600 12px system-ui, -apple-system, sans-serif','#666b73','right');
   return canvas;
 }
 function downloadPreviewPng(){ const canvas=drawPreviewCard(); if(!canvas) return; canvas.toBlob(blob=>{ if(!blob) return; const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=snapshotFilename('png'); document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},120); },'image/png'); }
@@ -1724,14 +1718,17 @@ function socialShareTarget(kind){
   return u.href;
 }
 
-function openShare(kind){ const s=pageShareData(), shareUrl=socialShareTarget(kind), u=encodeURIComponent(shareUrl), txt=encodeURIComponent(s.text+' '+shareUrl); let url='';
-  if(kind==='x') url=`https://x.com/intent/post?text=${txt}`;
-  else if(kind==='threads') url=`https://www.threads.net/intent/post?text=${txt}`;
+function openShare(kind){
+  const s=pageShareData(),shareUrl=socialShareTarget(kind),u=encodeURIComponent(shareUrl);
+  const shortText='Elezioni federali tedesche: sondaggi, proiezione dei seggi e collegi.';
+  let url='';
+  if(kind==='x') url=`https://x.com/intent/post?text=${encodeURIComponent(shortText+' '+shareUrl)}`;
+  else if(kind==='threads') url=`https://www.threads.net/intent/post?text=${encodeURIComponent(shortText+' '+shareUrl)}`;
   else if(kind==='facebook') url=`https://www.facebook.com/sharer/sharer.php?u=${u}`;
   else if(kind==='linkedin') url=`https://www.linkedin.com/sharing/share-offsite/?url=${u}`;
-  else if(kind==='telegram') url=`https://t.me/share/url?url=${u}&text=${encodeURIComponent(s.title)}`;
-  else if(kind==='whatsapp') url=`https://api.whatsapp.com/send?text=${txt}`;
-  else if(kind==='copy'){ navigator.clipboard?.writeText(location.href); setStatus('ok','Link copiato negli appunti'); return; }
+  else if(kind==='telegram') url=`https://t.me/share/url?url=${u}`;
+  else if(kind==='whatsapp') url=`https://api.whatsapp.com/send?text=${u}`;
+  else if(kind==='copy'){navigator.clipboard?.writeText(location.href);setStatus('ok','Link copiato negli appunti');return;}
   if(url) window.open(url,'_blank','noopener');
 }
 function aiPrompt(){
