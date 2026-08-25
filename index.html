@@ -980,6 +980,62 @@ body.sticky-nowcast-offset{padding-top:0}
   .mobile-nowcast-majority span{display:none}
 }
 
+
+/* --- v22.1 mobile fix: status badge distribuzione seggi --- */
+@media(max-width:760px){
+  .card-section__top{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .card-section__top > .subtle,
+  .card-section__top > #probStatusInline,
+  .card-section__top > #forecastStatusInline{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+  }
+  #probStatusInline,
+  #forecastStatusInline{
+    display:block;
+  }
+  #probStatusInline .status-chip,
+  #forecastStatusInline .status-chip{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    justify-content:flex-start;
+    align-items:flex-start;
+    gap:10px;
+    padding:10px 12px;
+    border-radius:18px;
+  }
+  #probStatusInline .status-chip .chip-work,
+  #forecastStatusInline .status-chip .chip-work{
+    flex:1 1 auto;
+    min-width:0;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+  }
+  #probStatusInline .status-chip .chip-label,
+  #forecastStatusInline .status-chip .chip-label{
+    display:block;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    line-height:1.2;
+  }
+  #probStatusInline .status-chip .chip-meta,
+  #forecastStatusInline .status-chip .chip-meta{
+    display:block;
+    white-space:normal;
+    overflow-wrap:anywhere;
+    word-break:break-word;
+    line-height:1.15;
+  }
+}
+
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
