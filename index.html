@@ -1036,6 +1036,119 @@ body.sticky-nowcast-offset{padding-top:0}
   }
 }
 
+
+/* --- v22.1 definitive mobile status layout --- */
+@media(max-width:760px){
+  .mc-head{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:start!important;
+    gap:10px!important;
+  }
+  .mc-head>div{min-width:0!important}
+  .mc-status{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:9px 11px!important;
+    border-radius:14px!important;
+    font-size:9.5px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    text-align:left!important;
+  }
+  .forecast-main>div:first-child{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:10px!important;
+    align-items:start!important;
+  }
+  .forecast-main>div:first-child>div:first-child{min-width:0!important}
+  .forecast-status{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:9px 11px!important;
+    border-radius:14px!important;
+    font-size:10px!important;
+    line-height:1.15!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+    text-align:left!important;
+  }
+}
+
+
+/* --- v22.1 stronger mobile fix: distribution status chips never overflow --- */
+@media(max-width:760px){
+  .card-section__top{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .card-section__top > #probStatusInline,
+  .card-section__top > #forecastStatusInline{
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    display:block;
+  }
+  #probStatusInline .status-chip,
+  #forecastStatusInline .status-chip{
+    display:flex;
+    width:100%;
+    max-width:100%;
+    min-width:0;
+    justify-content:flex-start;
+    align-items:center;
+    gap:8px;
+    padding:10px 12px;
+    border-radius:18px;
+    overflow:hidden;
+  }
+  #probStatusInline .desktop-only,
+  #forecastStatusInline .desktop-only{
+    display:none !important;
+  }
+  #probStatusInline .mobile-only,
+  #forecastStatusInline .mobile-only{
+    display:block !important;
+  }
+  #probStatusInline .status-chip .chip-work,
+  #forecastStatusInline .status-chip .chip-work{
+    display:block;
+    width:100%;
+    min-width:0;
+    overflow:hidden;
+  }
+  #probStatusInline .status-chip .chip-label,
+  #forecastStatusInline .status-chip .chip-label{
+    display:none !important;
+  }
+  #probStatusInline .status-chip .chip-meta,
+  #forecastStatusInline .status-chip .chip-meta{
+    display:block;
+    width:100%;
+    min-width:0;
+    white-space:nowrap !important;
+    overflow:hidden !important;
+    text-overflow:ellipsis !important;
+    word-break:normal !important;
+    overflow-wrap:normal !important;
+    line-height:1.15;
+    font-size:14px;
+  }
+}
+
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
@@ -1786,7 +1899,19 @@ function purgeLegacySimulationCaches(){try{const remove=[];for(let i=0;i<localSt
 function saveMonteCarloCache(fp,mc){const packed={version:MC_ENGINE_VERSION,fingerprint:fp,savedAt:Date.now(),n:mc.n,sigma:mc.sigma,stats:mc.stats,centralSeats:mc.centralSeats,seed:mc.seed,districtsSimulated:mc.districtsSimulated,representativeIndex:mc.representativeIndex,territorialCalibration:mc.territorialCalibration,winnerTally:mc.winnerTally?Array.from(mc.winnerTally):null,coalitionWins:mc.coalitionWins?Array.from(mc.coalitionWins):null};return safeStorageSet(MC_CACHE_KEY,JSON.stringify(packed))}
 function loadMonteCarloCache(fp){try{const raw=safeStorageGet(MC_CACHE_KEY);if(!raw)return null;const p=JSON.parse(raw);if(p.version!==MC_ENGINE_VERSION||p.fingerprint!==fp||p.n!==MC_SIMS||!Array.isArray(p.coalitionWins)||p.coalitionWins.length!==COALITION_MASK_COUNT)return null;return{ready:true,n:p.n,sigma:p.sigma,stats:p.stats,centralSeats:p.centralSeats,manualExceptions:[],districtsSimulated:true,seed:p.seed,cached:true,savedAt:p.savedAt,representativeIndex:Number.isInteger(p.representativeIndex)?p.representativeIndex:null,winnerTally:Array.isArray(p.winnerTally)?Uint32Array.from(p.winnerTally):null,territorialCalibration:p.territorialCalibration||null,coalitionWins:Uint32Array.from(p.coalitionWins)}}catch(e){console.warn('Cache Monte Carlo non leggibile:',e);return null}}
 function yieldToBrowser(){return new Promise(resolve=>{if('requestIdleCallback' in window)requestIdleCallback(()=>resolve(),{timeout:40});else setTimeout(resolve,0)})}
-function updateMonteCarloProgress(done){state.mcProgress=done;const st=document.getElementById('mcStatus');if(st&&state.mcRunning){st.className='mc-status running';st.textContent=`Monte Carlo · ${done.toLocaleString('it-IT')} / ${MC_SIMS.toLocaleString('it-IT')} · blocchi da ${MC_BATCH.toLocaleString('it-IT')}`}}
+const IT_COUNT_FORMAT=new Intl.NumberFormat('it-IT',{maximumFractionDigits:0});
+function fmtCount(v){return IT_COUNT_FORMAT.format(Number(v)||0)}
+function compactStatusMode(){return window.matchMedia?.('(max-width:760px)')?.matches===true}
+function mcReadyStatusText(mc){
+  if(compactStatusMode())return `Pronto · ${fmtCount(MC_SIMS)} × 299 collegi`;
+  return `Pronto${mc.cached?' · cache locale':state.mcCachePersisted===false?' · cache del browser non disponibile':''} · ${fmtCount(MC_SIMS)} × 299 collegi · fattore ciclo + gerarchia Land/Wahlkreis · σ nazionale ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. · seed ${mc.seed}`;
+}
+function forecastRunningStatusText(done){return `${fmtCount(done)} / ${fmtCount(MC_SIMS)}`}
+function forecastReadyStatusText(fc){
+  if(compactStatusMode())return `Pronto · ${fc.horizon} mesi · σ ${fc.sigma.toFixed(2).replace('.',',')} p.p.`;
+  return `Pronto${fc.cached?' · cache':state.forecastCachePersisted===false?' · cache del browser non disponibile':''} · ${fc.horizon} mesi · σ ${fc.sigma.toFixed(2).replace('.',',')} p.p.`;
+}
+function updateMonteCarloProgress(done){state.mcProgress=done;const st=document.getElementById('mcStatus');if(st&&state.mcRunning){st.className='mc-status running';st.textContent=compactStatusMode()?`Monte Carlo · ${fmtCount(done)} / ${fmtCount(MC_SIMS)}`:`Monte Carlo · ${fmtCount(done)} / ${fmtCount(MC_SIMS)} · blocchi da ${fmtCount(MC_BATCH)}`}}
 function scheduleMonteCarlo(){
   const avg=projectionAverage();if(!avg)return;
   if(!districtState.ready){state.mcRunning=false;const st=document.getElementById('mcStatus');if(st){st.className='mc-status';st.textContent='In attesa della base dei 299 collegi'}return}
@@ -1929,19 +2054,19 @@ function loadForecastCache(fp){try{const p=readForecastCacheStore().entries?.[fp
 const forecastDistrictCacheByScale=new Map();
 function prepareForecastDistrictCache(horizonMonths){const baseCache=prepareMonteCarloDistrictCache(),cal=computeTerritorialCalibration();if(!cal)return baseCache;const currentMonths=monthsBetweenDates(projectionAverage()?.date||new Date(),TERRITORIAL_BASE_ELECTION),targetScale=Math.min(1,Math.sqrt(Math.max(0,currentMonths+Number(horizonMonths||0))/TERRITORIAL_REFERENCE_MONTHS)),key=`${hashString(String(districtState.source||''))}:${targetScale.toFixed(4)}`;const cached=forecastDistrictCacheByScale.get(key);if(cached?.base===districtState.base)return cached;const P=baseCache.P,N=baseCache.normalN,landMultLut=new Float32Array(P*N),districtMultLut=new Float32Array(P*N),landSigma=new Float32Array(P),districtSigma=new Float32Array(P);for(let p=0;p<P;p++){const k=baseCache.partyKeys[p],rl=Number.isFinite(cal.rawLand?.[k])&&cal.rawLand[k]>0?cal.rawLand[k]:cal.pooledLand,rd=Number.isFinite(cal.rawDistrict?.[k])&&cal.rawDistrict[k]>0?cal.rawDistrict[k]:cal.pooledDistrict,ls=k==='other'?0:Math.min(TERRITORIAL_LAND_CAP,rl*targetScale),ds=k==='other'?0:Math.min(TERRITORIAL_DISTRICT_CAP,rd*targetScale);landSigma[p]=ls;districtSigma[p]=ds;for(let i=0;i<N;i++){const z=cal.base?territorialNormalLut()[i]:0;landMultLut[p*N+i]=Math.exp(ls*z);districtMultLut[p*N+i]=Math.exp(ds*z)}}const out={...baseCache,landSigma,districtSigma,landMultLut,districtMultLut,factors:new Float64Array(P),counts:new Uint16Array(P),landMult:new Float32Array(P*baseCache.L),forecastScale:targetScale};forecastDistrictCacheByScale.set(key,out);return out}
 function forecastCoalitionProbability(keys){const fc=state.forecast;if(!fc?.ready||!keys?.length)return null;const mask=coalitionMask(keys);return mask&&fc.coalitionWins?.length===COALITION_MASK_COUNT?(fc.coalitionWins[mask]||0)/fc.n:null}
-function updateForecastProgress(done){state.forecastProgress=done;const st=document.getElementById('forecastStatus');if(st&&state.forecastRunning){st.className='forecast-status running';st.textContent=`${done.toLocaleString('it-IT')} / ${MC_SIMS.toLocaleString('it-IT')}`}}
+function updateForecastProgress(done){state.forecastProgress=done;const st=document.getElementById('forecastStatus');if(st&&state.forecastRunning){st.className='forecast-status running';st.textContent=forecastRunningStatusText(done)}}
 async function runForecastMonteCarloAsync(avg,horizon,point,token){if(!districtState.ready)throw new Error('I 299 collegi devono essere caricati prima del forecast.');const sigma=point.sigma,seedText=forecastFingerprint(avg,horizon,point)+'|async1000',seed=hashString(seedText),rngState={rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()},samples=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,new Uint16Array(MC_SIMS)])),entry=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),over5=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),threeSeat=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),voteLeader=Object.fromEntries(MC_KEYS.filter(k=>k!=='other').map(k=>[k,0])),districtCache=prepareForecastDistrictCache(horizon),coalitionWins=new Uint32Array(COALITION_MASK_COUNT),coalitionScratch=new Uint16Array(COALITION_MASK_COUNT);
   for(let start=0;start<MC_SIMS;start+=MC_BATCH){if(token!==state.forecastToken)return null;const end=Math.min(MC_SIMS,start+MC_BATCH);for(let i=start;i<end;i++){const v=drawNationalVoteVector(avg,rngState,sigma);let leader=null,lv=-1;for(const k of MC_KEYS){if(k==='other')continue;if(v[k]>lv){lv=v[k];leader=k}}if(leader)voteLeader[leader]++;const directWins=simulateDirectWinnerCounts(v,districtCache,i,seed),w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE,cduThree=directWins[districtCache.index.cdu]>=3,csuThree=directWins[districtCache.index.csu]>=3;if(cduVote>=5||cduThree)w.cdu=cduVote;if(csuVote>=5||csuThree)w.csu=csuVote;for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw']){const hasThree=directWins[districtCache.index[k]]>=3;if(hasThree)threeSeat[k]++;if(v[k]>=5)over5[k]++;if(v[k]>=5||hasThree)w[k]=v[k]}w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0,fw:a.fw||0,ssw:a.ssw||0};for(const k of MC_SEAT_KEYS){samples[k][i]=sv[k]||0;if((sv[k]||0)>0)entry[k]++}accumulateCoalitionWins(sv,coalitionWins,coalitionScratch)}updateForecastProgress(end);if(end<MC_SIMS)await yieldToBrowser()}
   const stats={},med={};for(const k of MC_SEAT_KEYS){const low=quantileTyped(samples[k],MC_QLOW),median=quantileTyped(samples[k],.5),high=quantileTyped(samples[k],MC_QHIGH);stats[k]={low,median,high,entry:(entry[k]||0)/MC_SIMS,over5:(over5[k]||0)/MC_SIMS,threeSeat:(threeSeat[k]||0)/MC_SIMS,leader:(voteLeader[k]||0)/MC_SIMS};med[k]=median}let bestI=0,bestScore=Infinity;for(let i=0;i<MC_SIMS;i++){let score=0;for(const k of MC_SEAT_KEYS){const d=samples[k][i]-med[k];score+=d*d}if(score<bestScore){bestScore=score;bestI=i}}const centralSeats={};for(const k of MC_SEAT_KEYS)centralSeats[k]=samples[k][bestI];return{ready:true,cached:false,n:MC_SIMS,horizon,sigma,drift:point.drift,stats,centralSeats,seed,coalitionWins,territorialScale:districtCache.forecastScale||computeTerritorialCalibration()?.scale||0}}
-function renderForecast(){renderForecastCalibration();if(state.forecast?.ready){const avgNow=projectionAverage(),pt=forecastPoint(state.forecast.horizon),fp=avgNow&&pt?forecastFingerprint(avgNow,state.forecast.horizon,pt):null;if(!fp||state.forecastFingerprint!==fp){state.forecast=null;state.forecastFingerprint=null}}const st=document.getElementById('forecastStatus'),grid=document.getElementById('forecastPartyGrid'),thr=document.getElementById('forecastThreshold'),coal=document.getElementById('forecastCoalitions');if(!st||!grid||!thr||!coal)return;if(state.forecastRunning){st.className='forecast-status running';st.textContent=`${state.forecastProgress.toLocaleString('it-IT')} / ${MC_SIMS.toLocaleString('it-IT')}`;grid.innerHTML='<div class="empty-small">Calcolo della deriva temporale e propagazione dell’incertezza attraverso soglia, collegi e riparto dei seggi…</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>';return}if(!state.forecast?.ready){st.className='forecast-status';st.textContent='Non calcolato';return}const fc=state.forecast,avg=projectionAverage();st.className='forecast-status ready';st.textContent=`Pronto${fc.cached?' · cache':state.forecastCachePersisted===false?' · cache del browser non disponibile':''} · ${fc.horizon} mesi · σ ${fc.sigma.toFixed(2).replace('.',',')} p.p.`;const order=['afd','union','spd','gruene','linke','fdp','bsw','fw','ssw'].filter(k=>fc.stats[k]);grid.innerHTML=order.map(k=>{const p=partyByKey(k),x=fc.stats[k],central=fc.centralSeats[k]||0,v=k==='ssw'?SSW_ASSUMED_SHARE:avg?.[k];return `<div class="mc-party" style="--c:${p.color}"><div class="mc-party-top"><span class="mc-party-name">${esc(p.label)}</span><span class="mc-party-vote">${pct(v)}</span></div><div class="mc-party-seats">${central}</div><div class="mc-party-range">Mediana: <strong>${x.median}</strong> · intervallo 80%: <strong>${x.low}–${x.high}</strong></div>${k!=='ssw'&&((v??99)<8||x.entry<.995)?`<div class="mc-party-prob">Ingresso: <strong>${(x.entry*100).toFixed(0)}%</strong></div>`:''}</div>`}).join('');const near=order.filter(k=>k!=='ssw');thr.innerHTML=near.length?near.map(k=>{const p=partyByKey(k),x=fc.stats[k],pr=x.entry*100;return `<div class="mc-row"><div class="name" style="--c:${p.color}"><i></i><span>${esc(p.label)}</span></div><strong>${pr.toFixed(0)}%</strong><div class="mc-bar" style="--c:${p.color};--w:${pr.toFixed(1)}%"><span></span></div><div class="mc-sub">sopra il 5%: ${(x.over5*100).toFixed(0)}% · almeno 3 collegi: ${(x.threeSeat*100).toFixed(0)}%</div></div>`}).join(''):'<div class="empty-small">Nessun partito presenta un rischio significativo di esclusione.</div>';const combos=[['union','spd'],['union','gruene'],['union','spd','gruene'],['spd','gruene','linke'],['union','fdp'],['union','afd']];coal.innerHTML=combos.map(keys=>{const prob=forecastCoalitionProbability(keys),pol=coalitionPoliticalLevel(keys),pc=prob*100,name=keys.map(k=>partyByKey(k).label).join(' + '),c=pol.level==='formal'?'#c52938':pol.level==='strong'?'#d78a00':pol.level==='difficult'?'#8a9098':'#111';return `<div class="mc-row"><div class="name"><span>${esc(name)}</span></div><strong>${pc.toFixed(0)}%</strong><div class="mc-bar" style="--c:${c};--w:${pc.toFixed(1)}%"><span></span></div><div class="mc-sub">${pol.level!=='open'?esc(pol.meta.label)+' · ':''}probabilità di almeno 316 seggi</div></div>`}).join('')}
+function renderForecast(){renderForecastCalibration();if(state.forecast?.ready){const avgNow=projectionAverage(),pt=forecastPoint(state.forecast.horizon),fp=avgNow&&pt?forecastFingerprint(avgNow,state.forecast.horizon,pt):null;if(!fp||state.forecastFingerprint!==fp){state.forecast=null;state.forecastFingerprint=null}}const st=document.getElementById('forecastStatus'),grid=document.getElementById('forecastPartyGrid'),thr=document.getElementById('forecastThreshold'),coal=document.getElementById('forecastCoalitions');if(!st||!grid||!thr||!coal)return;if(state.forecastRunning){st.className='forecast-status running';st.textContent=forecastRunningStatusText(state.forecastProgress);grid.innerHTML='<div class="empty-small">Calcolo della deriva temporale e propagazione dell’incertezza attraverso soglia, collegi e riparto dei seggi…</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>';return}if(!state.forecast?.ready){st.className='forecast-status';st.textContent='Non calcolato';return}const fc=state.forecast,avg=projectionAverage();st.className='forecast-status ready';st.textContent=forecastReadyStatusText(fc);const order=['afd','union','spd','gruene','linke','fdp','bsw','fw','ssw'].filter(k=>fc.stats[k]);grid.innerHTML=order.map(k=>{const p=partyByKey(k),x=fc.stats[k],central=fc.centralSeats[k]||0,v=k==='ssw'?SSW_ASSUMED_SHARE:avg?.[k];return `<div class="mc-party" style="--c:${p.color}"><div class="mc-party-top"><span class="mc-party-name">${esc(p.label)}</span><span class="mc-party-vote">${pct(v)}</span></div><div class="mc-party-seats">${central}</div><div class="mc-party-range">Mediana: <strong>${x.median}</strong> · intervallo 80%: <strong>${x.low}–${x.high}</strong></div>${k!=='ssw'&&((v??99)<8||x.entry<.995)?`<div class="mc-party-prob">Ingresso: <strong>${(x.entry*100).toFixed(0)}%</strong></div>`:''}</div>`}).join('');const near=order.filter(k=>k!=='ssw');thr.innerHTML=near.length?near.map(k=>{const p=partyByKey(k),x=fc.stats[k],pr=x.entry*100;return `<div class="mc-row"><div class="name" style="--c:${p.color}"><i></i><span>${esc(p.label)}</span></div><strong>${pr.toFixed(0)}%</strong><div class="mc-bar" style="--c:${p.color};--w:${pr.toFixed(1)}%"><span></span></div><div class="mc-sub">sopra il 5%: ${(x.over5*100).toFixed(0)}% · almeno 3 collegi: ${(x.threeSeat*100).toFixed(0)}%</div></div>`}).join(''):'<div class="empty-small">Nessun partito presenta un rischio significativo di esclusione.</div>';const combos=[['union','spd'],['union','gruene'],['union','spd','gruene'],['spd','gruene','linke'],['union','fdp'],['union','afd']];coal.innerHTML=combos.map(keys=>{const prob=forecastCoalitionProbability(keys),pol=coalitionPoliticalLevel(keys),pc=prob*100,name=keys.map(k=>partyByKey(k).label).join(' + '),c=pol.level==='formal'?'#c52938':pol.level==='strong'?'#d78a00':pol.level==='difficult'?'#8a9098':'#111';return `<div class="mc-row"><div class="name"><span>${esc(name)}</span></div><strong>${pc.toFixed(0)}%</strong><div class="mc-bar" style="--c:${c};--w:${pc.toFixed(1)}%"><span></span></div><div class="mc-sub">${pol.level!=='open'?esc(pol.meta.label)+' · ':''}probabilità di almeno 316 seggi</div></div>`}).join('')}
 async function scheduleForecast(force=false){if(state.mcRunning){alert('Attendi il completamento del nowcast: il forecast partirà dopo le 50.000 simulazioni di base.');return}const avg=projectionAverage(),horizon=Number(document.getElementById('forecastHorizon')?.value||state.forecastHorizon||12),point=forecastPoint(horizon);state.forecastHorizon=horizon;renderForecastCalibration();if(!avg||!point||point.cycles<2){alert('Dati storici insufficienti per calibrare questo orizzonte.');return}const fp=forecastFingerprint(avg,horizon,point);if(!force&&state.forecast?.ready&&state.forecastFingerprint===fp){renderForecast();return}const cached=!force?loadForecastCache(fp):null;if(cached){state.forecast=cached;state.forecastFingerprint=fp;state.forecastRunning=false;state.forecastProgress=MC_SIMS;state.forecastCachePersisted=true;renderForecast();return}const token=++state.forecastToken;state.forecastFingerprint=fp;state.forecastRunning=true;state.forecastProgress=0;state.forecast=null;renderForecast();try{const res=await runForecastMonteCarloAsync(avg,horizon,point,token);if(!res||token!==state.forecastToken)return;state.forecast=res;state.forecastRunning=false;state.forecastProgress=MC_SIMS;state.forecastCachePersisted=saveForecastCache(fp,res);renderForecast()}catch(e){if(token!==state.forecastToken)return;console.error(e);state.forecastRunning=false;const st=document.getElementById('forecastStatus');if(st){st.className='forecast-status';st.textContent='Forecast non disponibile'}alert(e.message||'Forecast non disponibile')}}
 function initForecastUI(){const sel=document.getElementById('forecastHorizon'),btn=document.getElementById('forecastRun');sel?.addEventListener('change',()=>{state.forecastHorizon=Number(sel.value);renderForecastCalibration();if(state.forecast?.horizon!==state.forecastHorizon){state.forecast=null;renderForecast()}});btn?.addEventListener('click',()=>scheduleForecast(false));renderForecastCalibration()}
 
 function renderMonteCarlo(){
   renderErrorStructure();
   const status=document.getElementById('mcStatus'),grid=document.getElementById('mcPartyGrid'),thr=document.getElementById('mcThreshold'),coal=document.getElementById('mcCoalitions');if(!status||!grid||!thr||!coal)return;
-  if(state.mcRunning||!state.monteCarlo?.ready){status.className='mc-status running';status.textContent=state.mcRunning?`Monte Carlo · ${state.mcProgress.toLocaleString('it-IT')} / ${MC_SIMS.toLocaleString('it-IT')} · blocchi da ${MC_BATCH.toLocaleString('it-IT')}`:'In attesa dei dati';if(state.mcRunning){grid.innerHTML='<div class="empty-small">Sto propagando l’incertezza nazionale regolarizzata, la componente territoriale, la soglia e i 299 collegi attraverso Sainte-Laguë/Schepers.</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>'}return}
-  const mc=state.monteCarlo,avg=projectionAverage();state.modelUpdatedAt=mc.cached&&mc.savedAt?new Date(mc.savedAt):new Date();updateUtilityMeta();saveDailySnapshotMaybe();status.className='mc-status ready';status.textContent=`Pronto${mc.cached?' · cache locale':state.mcCachePersisted===false?' · cache del browser non disponibile':''} · 50.000 × 299 collegi · fattore ciclo + gerarchia Land/Wahlkreis · σ nazionale ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. · seed ${mc.seed}`;
+  if(state.mcRunning||!state.monteCarlo?.ready){status.className='mc-status running';status.textContent=state.mcRunning?(compactStatusMode()?`Monte Carlo · ${fmtCount(state.mcProgress)} / ${fmtCount(MC_SIMS)}`:`Monte Carlo · ${fmtCount(state.mcProgress)} / ${fmtCount(MC_SIMS)} · blocchi da ${fmtCount(MC_BATCH)}`):'In attesa dei dati';if(state.mcRunning){grid.innerHTML='<div class="empty-small">Sto propagando l’incertezza nazionale regolarizzata, la componente territoriale, la soglia e i 299 collegi attraverso Sainte-Laguë/Schepers.</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>'}return}
+  const mc=state.monteCarlo,avg=projectionAverage();state.modelUpdatedAt=mc.cached&&mc.savedAt?new Date(mc.savedAt):new Date();updateUtilityMeta();saveDailySnapshotMaybe();status.className='mc-status ready';status.textContent=mcReadyStatusText(mc);
   const order=['afd','union','spd','gruene','linke','fdp','bsw','fw','ssw'].filter(k=>mc.stats[k]);
   grid.innerHTML=order.map(k=>{const p=partyByKey(k),st=mc.stats[k],vote=k==='ssw'?SSW_ASSUMED_SHARE:avg?.[k],central=mc.centralSeats[k]||0;const leaderLine=st.leader>.005?`<div class="mc-party-prob">Primo partito: <strong>${(st.leader*100).toFixed(0)}%</strong></div>`:'';const entryLine=(k!=='ssw'&&(vote<8||st.entry<.995))?`<div class="mc-party-prob">Ingresso nel riparto: <strong>${(st.entry*100).toFixed(0)}%</strong></div>`:'';return `<div class="mc-party" style="--c:${p.color}"><div class="mc-party-top"><span class="mc-party-name">${esc(p.label)}</span><span class="mc-party-vote">${pct(vote)}</span></div><div class="mc-party-band">${st.low}–${st.high}</div><div class="mc-party-range">Intervallo 80% · mediana marginale <strong>${st.median}</strong></div><div class="mc-party-central">Scenario rappresentativo nell’emiciclo: <strong>${central}</strong></div>${entryLine}${leaderLine}</div>`}).join('');
   const near=order.filter(k=>k!=='ssw');thr.innerHTML=near.length?near.map(k=>{const p=partyByKey(k),pr=mc.stats[k].entry*100,over=mc.stats[k].over5*100,three=mc.stats[k].threeSeat*100;return `<div class="mc-row"><div class="name" style="--c:${p.color}"><i></i><span>${esc(p.label)}</span></div><strong>${pr.toFixed(0)}%</strong><div class="mc-bar" style="--c:${p.color};--w:${pr.toFixed(1)}%"><span></span></div><div class="mc-sub">quota media ${pct(avg?.[k])} · sopra il 5%: ${over.toFixed(0)}% · almeno 3 collegi: ${three.toFixed(0)}% · ingresso complessivo: ${pr.toFixed(0)}%</div></div>`}).join(''):'<div class="empty-small">Nessun partito presenta un rischio significativo di esclusione.</div>';
@@ -2592,6 +2717,16 @@ document.querySelectorAll('#windowControls button').forEach(b=>b.addEventListene
 document.querySelectorAll('#rangeControls button').forEach(b=>b.addEventListener('click',()=>{state.range=b.dataset.range==='all'?'all':+b.dataset.range;document.querySelectorAll('#rangeControls button').forEach(x=>x.classList.toggle('active',x===b));renderLineChart()}));
 let resizeTimer;addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>state.polls.length&&renderLineChart(),160)});
 purgeLegacySimulationCaches();initConstituencyUI();initReveal();fetchData(false);
+let statusLayoutRaf=0;
+window.addEventListener('resize',()=>{
+  if(statusLayoutRaf)return;
+  statusLayoutRaf=requestAnimationFrame(()=>{
+    statusLayoutRaf=0;
+    if(state.monteCarlo?.ready&&!state.mcRunning){const el=document.getElementById('mcStatus');if(el)el.textContent=mcReadyStatusText(state.monteCarlo)}
+    if(state.forecast?.ready&&!state.forecastRunning){const el=document.getElementById('forecastStatus');if(el)el.textContent=forecastReadyStatusText(state.forecast)}
+  });
+},{passive:true});
+
 </script>
 <!-- v22.1 · copy feedback + poll refresh 12h+jitter · 25-08-2026 -->
 </body>
