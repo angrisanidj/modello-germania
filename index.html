@@ -515,18 +515,17 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
 .tablewrap{border-top:1px solid #eee}.poll-tablewrap table{font-size:10.5px}.share-rail{border:0;border-top:1px solid #deded9;border-bottom:1px solid #deded9;border-radius:0;box-shadow:none;background:transparent;width:100%;justify-content:flex-start;margin:44px 0 18px;padding:14px 0}.share-btn{background:#fff;border-radius:50%;width:38px;height:38px}.ai-card{border-radius:14px}.editorial-foot{border-top:1px solid #d8d8d3;margin-top:40px}
 .reveal-on-scroll{transform:translateY(10px)}
 @media(max-width:900px){.hero-grid{grid-template-columns:1fr}.actions{justify-content:flex-start}.editorial-meta{align-items:flex-start;flex-direction:column}.kpis{grid-template-columns:1fr 1fr}.kpi:nth-child(2){border-right:0!important}.projection-layout,.mc-layout,.constituency-layout{grid-template-columns:1fr}.read-guide-grid{grid-template-columns:1fr}.parliament-svg{max-height:360px}.germany-map-wrap{min-height:500px}#germanyDistrictMap{height:500px}}
-@media(max-width:580px){.shell{padding:0 12px 50px}.hero{margin:0 -12px;padding:30px 12px 22px}.hero h1{font-size:45px}.hero .subtitle{font-size:14px}.editorial-meta-main{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}.editorial-meta-actions{width:100%}.editorial-meta-actions button{flex:1}.kpis{grid-template-columns:1fr 1fr}.kpi{padding:15px 12px}.kpi:first-child{padding-left:0}.kpi .value{font-size:21px}.section-title{margin-top:38px}.section-title h2{font-size:28px}.projection-head h2{font-size:25px}.seat-strip{grid-template-columns:1fr 1fr}.chartbox{height:315px}.share-rail::before{flex-basis:auto}.ai-grid{grid-template-columns:1fr}}
+@media(max-width:580px){.shell{padding:0 12px 50px}.hero{margin:0 -12px;padding:30px 12px 22px}.hero h1{font-size:45px}.hero .subtitle{font-size:14px}.editorial-meta-main{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px}.editorial-meta-actions{width:100%}.editorial-meta-actions button{flex:1}.kpis{grid-template-columns:1fr 1fr}.kpi{padding:17px 12px;min-height:116px;display:flex;flex-direction:column;justify-content:flex-start}.kpi:nth-child(odd){padding-left:0}.kpi:nth-child(even){padding-right:0}.kpi:nth-child(-n+2){border-bottom:1px solid #e3e3df!important}.kpi:nth-child(1),.kpi:nth-child(3){border-right:1px solid #e3e3df!important}.kpi:nth-child(2),.kpi:nth-child(4){border-right:0!important}.kpi .label{min-height:24px;display:flex;align-items:flex-end}.kpi .value{font-size:21px}.section-title{margin-top:38px}.section-title h2{font-size:28px}.projection-head h2{font-size:25px}.seat-strip{grid-template-columns:1fr 1fr}.chartbox{height:315px}.share-rail::before{flex-basis:auto}.ai-grid{grid-template-columns:1fr}}
 
 
 /* ===== v21.13 · compact recent-polls table on desktop ===== */
 .polls-card .cardhead{padding:16px 18px 12px;align-items:center}
 .polls-card .tablewrap{margin-top:0}
-.polls-card .poll-tablewrap table{table-layout:fixed;width:100%;min-width:1080px}
-.polls-card .poll-tablewrap th:nth-child(1),.polls-card .poll-tablewrap td:nth-child(1){width:8.5%}
-.polls-card .poll-tablewrap th:nth-child(2),.polls-card .poll-tablewrap td:nth-child(2){width:14%}
-.polls-card .poll-tablewrap th:nth-child(3),.polls-card .poll-tablewrap td:nth-child(3){width:13%}
-.polls-card .poll-tablewrap th:nth-child(4),.polls-card .poll-tablewrap td:nth-child(4){width:18%}
-.polls-card .poll-tablewrap th:nth-child(n+5),.polls-card .poll-tablewrap td:nth-child(n+5){width:5.166%}
+.polls-card .poll-tablewrap table{table-layout:fixed;width:100%;min-width:980px}
+.polls-card .poll-tablewrap th:nth-child(1),.polls-card .poll-tablewrap td:nth-child(1){width:9%}
+.polls-card .poll-tablewrap th:nth-child(2),.polls-card .poll-tablewrap td:nth-child(2){width:15%}
+.polls-card .poll-tablewrap th:nth-child(3),.polls-card .poll-tablewrap td:nth-child(3){width:14%}
+.polls-card .poll-tablewrap th:nth-child(n+4),.polls-card .poll-tablewrap td:nth-child(n+4){width:6.888%}
 .polls-card .poll-details{min-width:0;max-width:none;overflow:hidden;text-overflow:ellipsis}
 .polls-card .client{max-width:none}
 @media(max-width:720px){
@@ -696,22 +695,22 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
       </div>
       <div class="card threshold-scenario">
         <h3>Eccezione dei tre collegi</h3>
-        <p>In base al regime oggi applicabile, un partito sotto il 5% può partecipare al riparto se arriva primo in almeno tre collegi. Quando la mappa territoriale è disponibile, il modello applica automaticamente questa eccezione nello scenario centrale; gli interruttori restano disponibili per costruire scenari alternativi.</p>
+        <p>In base al regime oggi applicabile, un partito sotto il 5% può partecipare al riparto se arriva primo in almeno tre collegi. Nello scenario centrale l’eccezione è determinata dalla mappa mostrata sotto; nelle 50.000 simulazioni i 299 collegi vengono invece ricalcolati a ogni estrazione, quindi la clausola dei tre collegi è una variabile aleatoria. Gli interruttori restano disponibili soltanto per costruire scenari manuali alternativi.</p>
         <div id="exceptions" class="exception-list"></div>
       </div>
     </div>
   </section>
 
 
-  <div class="section-title" id="probabilisticSection"><div><div class="section-kicker">Incertezza</div><h2>Proiezione probabilistica</h2><p>Il centro della previsione resta la media ponderata a 14 giorni. L’errore storico dei sondaggi viene invece propagato attraverso 50.000 simulazioni del sistema elettorale vigente.</p></div><span class="badge">50.000 simulazioni</span></div>
+  <div class="section-title" id="probabilisticSection"><div><div class="section-kicker">Incertezza</div><h2>Proiezione probabilistica</h2><p>Il centro della previsione resta la media ponderata a 14 giorni. L’errore storico dei sondaggi viene propagato attraverso 50.000 simulazioni del sistema elettorale vigente, inclusa la simulazione dei 299 collegi per la clausola dei tre mandati diretti.</p></div><span class="badge">50.000 simulazioni</span></div>
   <section class="mc-layout">
     <div class="card mc-card">
       <div class="mc-head"><div><h3>Distribuzione dei seggi</h3><p>Il numero principale è lo stesso scenario centrale coerente mostrato nell’emiciclo: una singola simulazione da 630 seggi scelta come la più vicina all’insieme delle mediane marginali. Sotto restano indicate la mediana di ciascun partito e l’intervallo 10°–90° percentile.</p></div><span id="mcStatus" class="mc-status">In attesa dei dati</span></div>
       <div id="mcPartyGrid" class="mc-party-grid"><div class="empty-small">La simulazione partirà dopo il caricamento dei sondaggi.</div></div>
-      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: i backtest 2017–2025 mostrano errori che cambiano segno. Il modello mantiene quindi la media dei sondaggi come valore atteso e calibra soltanto la dispersione. Con tre cicli non è statisticamente prudente stimare una matrice di correlazione storica tra partiti: gli shock sono generati separatamente e le quote vengono poi rinormalizzate al 100%.</div>
+      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: i backtest 2017–2025 mostrano errori che cambiano segno. Il modello mantiene quindi la media dei sondaggi come valore atteso e calibra soltanto la dispersione. Ogni simulazione ricalcola anche i 299 collegi per verificare la clausola dei tre mandati diretti. Resta una limitazione importante: il proportional swing trasferisce lo shock nazionale ai collegi senza aggiungere un errore locale specifico. Con tre cicli non è inoltre statisticamente prudente stimare una matrice di correlazione storica tra partiti: gli shock nazionali sono generati separatamente e le quote vengono poi rinormalizzate al 100%.</div>
     </div>
     <aside class="card mc-side">
-      <div class="mc-section"><h3>Probabilità di ingresso</h3><p>Probabilità di ottenere almeno un seggio, incorporando la soglia del 5% e le eccezioni territoriali attive nello scenario. Se la mappa centrale attribuisce almeno tre collegi a un partito, l’eccezione resta attiva nelle simulazioni; i 299 collegi non vengono risimulati a ogni estrazione.</p><div id="mcThreshold" class="mc-list"><div class="empty-small">Calcolo in corso…</div></div></div>
+      <div class="mc-section"><h3>Probabilità di ingresso</h3><p>Probabilità di ottenere almeno un seggio. In ogni estrazione vengono simulati anche i 299 collegi con lo stesso proportional swing della mappa centrale: un partito sotto il 5% entra nel riparto soltanto se in quella specifica simulazione arriva primo in almeno tre Wahlkreise, salvo eventuali scenari manuali forzati.</p><div id="mcThreshold" class="mc-list"><div class="empty-small">Calcolo in corso…</div></div></div>
       <div class="mc-section"><h3>Probabilità di maggioranza</h3><p>Probabilità che alcune combinazioni superino quota 316. Le incompatibilità politiche sono indicate separatamente e non alterano il calcolo aritmetico.</p><div id="mcCoalitions" class="mc-list"><div class="empty-small">Calcolo in corso…</div></div></div>
     </aside>
   </section>
@@ -806,29 +805,29 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
     </div>
   </section>
 
-  <div class="section-title"><div><div class="section-kicker">Calibrazione</div><h2>Backtest 2017–2025</h2><p>Tre cicli elettorali vengono usati per stimare la dimensione dell’errore dei sondaggi, non per imporre correzioni direzionali ai partiti.</p></div><span class="badge">3 elezioni</span></div>
+  <div class="section-title"><div><div class="section-kicker">Calibrazione</div><h2>Verifica retrospettiva 2017–2025</h2><p>La verifica usa la stessa aggregazione del modello corrente: finestra di 14 giorni, ultima rilevazione di ciascun istituto e peso che si dimezza ogni sette giorni. Il modulo territoriale è valutato separatamente.</p></div><span class="badge">3 elezioni · 19 osservazioni di partito</span></div>
   <section class="backtest backtest-grid">
     <div class="card bt-summary">
-      <h3>La correzione fissa peggiora il modello</h3>
-      <p>Applicando la stessa media pre-voto ai tre cicli, gli errori cambiano direzione da un’elezione all’altra. Per questo la previsione corrente resta centrata sulla media dei sondaggi e il Monte Carlo utilizza soltanto la dispersione storica.</p>
+      <h3>La calibrazione nazionale resta coerente</h3>
+      <p>Ricalcolando i tre cicli con il metodo oggi in uso, l’errore medio assoluto scende leggermente rispetto alla versione precedente. L’errore continua però a cambiare direzione da un’elezione all’altra: non emerge una correzione fissa per partito abbastanza stabile da migliorare il modello.</p>
       <div class="bt-metrics">
-        <div class="bt-metric"><div class="n">1,07 p.p.</div><div class="l">MAE complessivo</div></div>
-        <div class="bt-metric"><div class="n">1,26 p.p.</div><div class="l">RMSE storico</div></div>
-        <div class="bt-metric"><div class="n bt-good">1,3 p.p.</div><div class="l">σ usata nelle simulazioni</div></div>
+        <div class="bt-metric"><div class="n">1,04 p.p.</div><div class="l">MAE complessivo</div></div>
+        <div class="bt-metric"><div class="n">1,24 p.p.</div><div class="l">RMSE storico</div></div>
+        <div class="bt-metric"><div class="n bt-good">79%</div><div class="l">Copertura intervallo 80%</div></div>
       </div>
-      <div class="calib-verdict"><strong>Scelta del modello:</strong> nessun house bias strutturale per partito. Nei test, una correzione storica del 25% porta il MAE a circa 1,15 p.p.; al 50% a 1,26 p.p.; una correzione piena a circa 1,50 p.p., contro 1,07 p.p. senza correzione.</div>
-      <div class="bt-note"><strong>Controllo del motore dei seggi:</strong> alimentando Sainte-Laguë/Schepers con i voti reali del 2025, l’algoritmo ricostruisce esattamente i 630 seggi ufficiali. I cicli 2017 e 2021 vengono usati per calibrare l’errore sui voti, non per confrontare direttamente i seggi, perché allora era in vigore un sistema diverso e il Bundestag aveva dimensione variabile.</div>
+      <div class="calib-verdict"><strong>Controllo probabilistico:</strong> con σ = 1,3 p.p. e lo stesso meccanismo di shock indipendenti + rinormalizzazione usato oggi, 15 risultati di partito su 19 cadono nell’intervallo 10°–90° percentile. È vicino all’80% nominale, ma il campione resta molto piccolo: tre elezioni non bastano per considerare σ una stima precisa.</div>
+      <div class="bt-note"><strong>Correzione storica:</strong> in una verifica leave-one-election-out, applicare il 25% del bias medio osservato negli altri cicli porta il MAE a circa 1,12 p.p.; al 50% a 1,23 p.p.; una correzione piena a circa 1,45 p.p., contro 1,04 p.p. senza correzione. <strong>Parte territoriale:</strong> il controllo 2025 che ricostruisce 299 vincitori e 23 vittorie senza copertura è un test di coerenza interna, non un backtest previsionale out-of-sample. Il nuovo Monte Carlo dei collegi va validato in futuro contro una base territoriale precedente.</div>
     </div>
     <div class="card bt-table calibration-table">
-      <table><thead><tr><th>Elezione</th><th class="num">MAE sui voti</th><th>Indicazione</th></tr></thead><tbody>
-        <tr><td class="inst">2017</td><td class="num">1,45 p.p.</td><td>Errore più ampio; Union sovrastimata, AfD sottostimata.</td></tr>
-        <tr><td class="inst">2021</td><td class="num">0,83 p.p.</td><td>Union sottostimata; errori complessivamente più contenuti.</td></tr>
-        <tr><td class="inst">2025</td><td class="num">0,92 p.p.</td><td>Union e Verdi sovrastimati; Linke sottostimata.</td></tr>
+      <table><thead><tr><th>Elezione</th><th class="num">MAE sui voti</th><th class="num">Copertura 80%</th><th>Indicazione</th></tr></thead><tbody>
+        <tr><td class="inst">2017</td><td class="num">1,45 p.p.</td><td class="num">4/6</td><td>Union sovrastimata e AfD sottostimata; ciclo con l’errore più ampio.</td></tr>
+        <tr><td class="inst">2021</td><td class="num">0,83 p.p.</td><td class="num">5/6</td><td>Union sottostimata; gli altri principali partiti restano vicini alla media.</td></tr>
+        <tr><td class="inst">2025</td><td class="num">0,87 p.p.</td><td class="num">6/7</td><td>Union e Verdi sovrastimati; Linke sottostimata. FDP e BSW risultano ben calibrati sulla quota nazionale.</td></tr>
       </tbody></table>
       <div class="bt-mobile-cards">
-        <div class="bt-mobile-row"><div class="bt-mobile-party">2017</div><div><span>MAE</span><strong>1,45 p.p.</strong></div><div><span>Lettura</span><strong>errore più ampio</strong></div></div>
-        <div class="bt-mobile-row"><div class="bt-mobile-party">2021</div><div><span>MAE</span><strong>0,83 p.p.</strong></div><div><span>Lettura</span><strong>più contenuto</strong></div></div>
-        <div class="bt-mobile-row"><div class="bt-mobile-party">2025</div><div><span>MAE</span><strong>0,92 p.p.</strong></div><div><span>Lettura</span><strong>soglie corrette</strong></div></div>
+        <div class="bt-mobile-row"><div class="bt-mobile-party">2017</div><div><span>MAE</span><strong>1,45 p.p.</strong></div><div><span>Copertura 80%</span><strong>4/6 · 67%</strong></div></div>
+        <div class="bt-mobile-row"><div class="bt-mobile-party">2021</div><div><span>MAE</span><strong>0,83 p.p.</strong></div><div><span>Copertura 80%</span><strong>5/6 · 83%</strong></div></div>
+        <div class="bt-mobile-row"><div class="bt-mobile-party">2025</div><div><span>MAE</span><strong>0,87 p.p.</strong></div><div><span>Copertura 80%</span><strong>6/7 · 86%</strong></div></div>
       </div>
     </div>
   </section>
@@ -858,7 +857,7 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
 
   <section class="card polls-card">
     <div class="cardhead"><div><h3>Rilevazioni più recenti</h3><p>Le 30 osservazioni più recenti disponibili nella fonte.</p></div><span id="pollCountBadge" class="badge"><span class="poll-count-desktop">—</span><span class="poll-count-mobile">—</span></span></div>
-    <div class="tablewrap poll-tablewrap"><table><thead><tr><th>Data</th><th>Istituto</th><th>Committente</th><th>Dettagli</th><th>CDU/CSU</th><th>AfD</th><th>SPD</th><th>Verdi</th><th>Linke</th><th>BSW</th><th>FDP</th><th>FW</th><th>Altri</th></tr></thead><tbody id="pollTable"></tbody></table></div>
+    <div class="tablewrap poll-tablewrap"><table><thead><tr><th>Data</th><th>Istituto</th><th>Committente</th><th>CDU/CSU</th><th>AfD</th><th>SPD</th><th>Verdi</th><th>Linke</th><th>BSW</th><th>FDP</th><th>FW</th><th>Altri</th></tr></thead><tbody id="pollTable"></tbody></table></div>
     <div id="mobilePolls" class="mobile-polls" aria-label="Rilevazioni più recenti in formato mobile"></div>
   </section>
 
@@ -910,10 +909,12 @@ body{background:var(--paper);color:var(--ink)}.shell{max-width:1160px;padding:0 
       <a class="source-pill" target="_blank" rel="noopener" href="https://www.bundestag.de/parlament/wahlen/wahlrecht-inhalt-975000">Sistema elettorale · Bundestag ↗</a>
       <a class="source-pill" target="_blank" rel="noopener" href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/informationen-waehler/wahlsystem.html">Riparto dei seggi · Bundeswahlleiterin ↗</a>
       <a class="source-pill" target="_blank" rel="noopener" href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/bund-99.html">Risultati 2025 ↗</a>
+      <a class="source-pill" target="_blank" rel="noopener" href="https://www.wahlrecht.de/umfragen/archiv/2017.htm">Archivio sondaggi 2017 · Wahlrecht.de ↗</a>
+      <a class="source-pill" target="_blank" rel="noopener" href="https://www.wahlrecht.de/umfragen/archiv/2021.htm">Archivio sondaggi 2021 · Wahlrecht.de ↗</a>
       <a class="source-pill" target="_blank" rel="noopener" href="https://www.wahlrecht.de/umfragen/archiv/2025.htm">Archivio sondaggi 2025 · Wahlrecht.de ↗</a>
     </div>
     <div class="footnote"><strong>Incompatibilità politiche:</strong> il costruttore distingue la maggioranza aritmetica dalle posizioni ufficiali o pubblicamente dichiarate dei partiti. Non si tratta di impedimenti giuridici e tali posizioni possono cambiare. La CSU ha ripetutamente escluso una coalizione con i Verdi; poiché il modello aggrega CDU e CSU e non esiste un corrispondente <em>Unvereinbarkeitsbeschluss</em> dell’intera Union, CDU/CSU + Verdi non viene classificata automaticamente come incompatibile.</div>
-    <div class="footnote">* Nella verifica retrospettiva, la quota SSW deriva dal risultato ufficiale 2025: 76.138 Zweitstimmen su 49.649.512 voti validi, pari a circa lo 0,153%.</div>
+    <div class="footnote">* La verifica retrospettiva nazionale usa le ultime rilevazioni disponibili di ciascun istituto entro 14 giorni dal voto e la stessa emivita di 7 giorni del modello corrente. La copertura probabilistica è calcolata sulle 19 osservazioni di partito comparabili dei tre cicli; non costituisce una validazione out-of-sample della mappa dei collegi.</div>
   </footer>
   <div class="author-signature">Daniele Angrisani · Modello previsionale Bundestag · <a href="https://x.com/putino" target="_blank" rel="noopener">@putino</a></div>
 
@@ -1160,43 +1161,65 @@ function sainteLagueFast(weights,seats){
 function hashString(str){let h=2166136261>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
 function mulberry32(seed){return function(){let t=seed+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
 function quantileTyped(arr,q){const a=Uint16Array.from(arr);a.sort();const i=Math.max(0,Math.min(a.length-1,Math.round((a.length-1)*q)));return a[i]}
-function mcFingerprint(avg){const vals=MC_KEYS.map(k=>Number(avg?.[k]||0).toFixed(3)).join('|'),ex=[...state.directExceptions,...state.autoDirectExceptions].sort().join(',');return `${avg?.date?.toISOString?.().slice(0,10)||''}|${vals}|${ex}`}
+function mcFingerprint(avg){const vals=MC_KEYS.map(k=>Number(avg?.[k]||0).toFixed(3)).join('|'),manual=[...state.directExceptions].sort().join(',');return `${avg?.date?.toISOString?.().slice(0,10)||''}|${vals}|manual:${manual}|wk:${districtState.ready?299:0}|districtMC:v2`}
 function monteCarloCoalitionProbability(keys){const mc=state.monteCarlo;if(!mc?.ready||!keys?.length)return null;let win=0;for(let i=0;i<mc.n;i++){let seats=0;for(const k of keys)seats+=mc.samples[k]?.[i]||0;if(seats>=MAJORITY)win++}return win/mc.n}
 function scheduleMonteCarlo(force=false){
-  const avg=projectionAverage();if(!avg)return;const fp=mcFingerprint(avg);if(!force&&state.monteCarlo?.ready&&state.mcFingerprint===fp){renderMonteCarlo();return}
+  const avg=projectionAverage();if(!avg)return;
+  if(!districtState.ready){state.mcRunning=false;state.monteCarlo=null;const st=document.getElementById('mcStatus');if(st){st.className='mc-status';st.textContent='In attesa della base dei 299 collegi'}return}
+  const fp=mcFingerprint(avg);if(state.mcRunning&&state.mcFingerprint===fp)return;if(!force&&state.monteCarlo?.ready&&state.mcFingerprint===fp){renderMonteCarlo();return}
   const token=++state.mcToken;state.mcFingerprint=fp;state.mcRunning=true;state.monteCarlo=null;renderMonteCarlo();
   setTimeout(()=>{try{const result=runMonteCarlo(avg);if(token!==state.mcToken)return;state.monteCarlo=result;state.mcRunning=false;renderParliament();renderMonteCarlo()}catch(e){console.error(e);state.mcRunning=false;const st=document.getElementById('mcStatus');if(st){st.className='mc-status';st.textContent='Simulazione non disponibile'}}},40);
 }
+let mcDistrictCache=null;
+function prepareMonteCarloDistrictCache(){
+  if(mcDistrictCache?.base===districtState.base)return mcDistrictCache;
+  if(!districtState.ready||!districtState.base?.districts?.length)throw new Error('Base dei 299 collegi non disponibile per il Monte Carlo.');
+  const partyKeys=Object.keys(DISTRICT_PARTIES),P=partyKeys.length,D=districtState.base.districts.length;
+  const first=new Float32Array(D*P),modelKeys=new Array(P),denom=new Float64Array(P),base=baselineNationalShares(),unionBase=(base.cdu||0)+(base.csu||0);
+  for(let p=0;p<P;p++){const k=partyKeys[p],mk=DISTRICT_PARTIES[k].model;modelKeys[p]=mk;denom[p]=mk==='union'?unionBase:(base[k]||0)}
+  for(let d=0;d<D;d++){const row=districtState.base.districts[d].first||{},off=d*P;for(let p=0;p<P;p++)first[off+p]=Number(row[partyKeys[p]])||0}
+  mcDistrictCache={base:districtState.base,partyKeys,modelKeys,denom,first,D,P,factors:new Float64Array(P)};return mcDistrictCache;
+}
+function simulateDirectWinnerCounts(v,cache){
+  const {partyKeys,modelKeys,denom,first,D,P,factors}=cache;
+  for(let p=0;p<P;p++){const mk=modelKeys[p],cur=Number(v[mk])||0,den=denom[p];factors[p]=den>0?Math.max(0,Math.min(5,cur/den)):1}
+  const counts={union:0,afd:0,spd:0,gruene:0,linke:0,bsw:0,fdp:0,fw:0,other:0};
+  for(let d=0,off=0;d<D;d++,off+=P){let best=-1,win=0;for(let p=0;p<P;p++){const score=first[off+p]*factors[p];if(score>best){best=score;win=p}}counts[modelKeys[win]]=(counts[modelKeys[win]]||0)+1}
+  return counts;
+}
 function runMonteCarlo(avg){
-  const seedText=mcFingerprint(avg)+'|v16|'+MC_SIMS+'|'+MC_SIGMA, rng=mulberry32(hashString(seedText));let spare=null;
+  if(!districtState.ready)throw new Error('I 299 collegi devono essere caricati prima del Monte Carlo.');
+  const seedText=mcFingerprint(avg)+'|v17-districts|'+MC_SIMS+'|'+MC_SIGMA, rng=mulberry32(hashString(seedText));let spare=null;
   const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
   const samples=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,new Uint16Array(MC_SIMS)]));
-  const entry=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),over5=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),voteLeader=Object.fromEntries(MC_KEYS.filter(k=>k!=='other').map(k=>[k,0]));
-  const exceptions=new Set([...state.directExceptions,...state.autoDirectExceptions]);
+  const entry=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),over5=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),threeSeat=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),voteLeader=Object.fromEntries(MC_KEYS.filter(k=>k!=='other').map(k=>[k,0]));
+  const manualExceptions=new Set(state.directExceptions),districtCache=prepareMonteCarloDistrictCache();
   const target=100-SSW_ASSUMED_SHARE;
   for(let i=0;i<MC_SIMS;i++){
     const v={};let total=0;for(const k of MC_KEYS){const base=Number(avg[k]);const x=Math.max(.01,(Number.isFinite(base)?base:0)+MC_SIGMA*gauss());v[k]=x;total+=x}
     const scale=target/total;for(const k of MC_KEYS)v[k]*=scale;
     let leader=null,lv=-1;for(const k of MC_KEYS){if(k==='other')continue;if(v[k]>lv){lv=v[k];leader=k}}if(leader)voteLeader[leader]++;
+    const directWins=simulateDirectWinnerCounts(v,districtCache);
     const w={};for(const k of ['union','afd','spd','gruene','linke','bsw','fdp','fw']){
-      const eligible=v[k]>=5||exceptions.has(k);if(v[k]>=5)over5[k]++;
+      const hasThree=(directWins[k]||0)>=3;if(hasThree)threeSeat[k]++;
+      const eligible=v[k]>=5||hasThree||manualExceptions.has(k);if(v[k]>=5)over5[k]++;
       if(!eligible)continue;if(k==='union'){w.cdu=v.union*CDU_UNION_SHARE;w.csu=v.union*CSU_UNION_SHARE}else w[k]=v[k];
     }w.ssw=SSW_ASSUMED_SHARE;
     const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0,fw:a.fw||0,ssw:a.ssw||0};
     for(const k of MC_SEAT_KEYS){samples[k][i]=sv[k]||0;if((sv[k]||0)>0)entry[k]++}
   }
-  const stats={},med={};for(const k of MC_SEAT_KEYS){const low=quantileTyped(samples[k],MC_QLOW),median=quantileTyped(samples[k],.5),high=quantileTyped(samples[k],MC_QHIGH);stats[k]={low,median,high,entry:(entry[k]||0)/MC_SIMS,over5:(over5[k]||0)/MC_SIMS,leader:(voteLeader[k]||0)/MC_SIMS};med[k]=median}
+  const stats={},med={};for(const k of MC_SEAT_KEYS){const low=quantileTyped(samples[k],MC_QLOW),median=quantileTyped(samples[k],.5),high=quantileTyped(samples[k],MC_QHIGH);stats[k]={low,median,high,entry:(entry[k]||0)/MC_SIMS,over5:(over5[k]||0)/MC_SIMS,threeSeat:(threeSeat[k]||0)/MC_SIMS,leader:(voteLeader[k]||0)/MC_SIMS};med[k]=median}
   let bestI=0,bestScore=Infinity;for(let i=0;i<MC_SIMS;i++){let score=0;for(const k of MC_SEAT_KEYS){const d=samples[k][i]-med[k];score+=d*d}if(score<bestScore){bestScore=score;bestI=i}}
   const centralSeats={};for(const k of MC_SEAT_KEYS)centralSeats[k]=samples[k][bestI];
-  return{ready:true,n:MC_SIMS,sigma:MC_SIGMA,stats,samples,centralSeats,exceptions:[...exceptions],seed:hashString(seedText)};
+  return{ready:true,n:MC_SIMS,sigma:MC_SIGMA,stats,samples,centralSeats,manualExceptions:[...manualExceptions],districtsSimulated:true,seed:hashString(seedText)};
 }
 function renderMonteCarlo(){
   const status=document.getElementById('mcStatus'),grid=document.getElementById('mcPartyGrid'),thr=document.getElementById('mcThreshold'),coal=document.getElementById('mcCoalitions');if(!status||!grid||!thr||!coal)return;
-  if(state.mcRunning||!state.monteCarlo?.ready){status.className='mc-status running';status.textContent=state.mcRunning?'50.000 simulazioni in corso…':'In attesa dei dati';if(state.mcRunning){grid.innerHTML='<div class="empty-small">Sto propagando l’errore storico attraverso soglia, riparto dei seggi e Sainte-Laguë/Schepers.</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>'}return}
-  const mc=state.monteCarlo,avg=projectionAverage();state.modelUpdatedAt=new Date();updateUtilityMeta();saveDailySnapshotMaybe();status.className='mc-status ready';status.textContent=`Pronto · σ ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. · seed ${mc.seed}`;
+  if(state.mcRunning||!state.monteCarlo?.ready){status.className='mc-status running';status.textContent=state.mcRunning?'50.000 simulazioni in corso…':'In attesa dei dati';if(state.mcRunning){grid.innerHTML='<div class="empty-small">Sto propagando l’errore storico attraverso soglia, 299 collegi, clausola dei tre mandati e Sainte-Laguë/Schepers.</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>'}return}
+  const mc=state.monteCarlo,avg=projectionAverage();state.modelUpdatedAt=new Date();updateUtilityMeta();saveDailySnapshotMaybe();status.className='mc-status ready';status.textContent=`Pronto · 50.000 × 299 collegi · σ ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. · seed ${mc.seed}`;
   const order=['afd','union','spd','gruene','linke','fdp','bsw','fw','ssw'].filter(k=>mc.stats[k]);
   grid.innerHTML=order.map(k=>{const p=partyByKey(k),st=mc.stats[k],vote=k==='ssw'?SSW_ASSUMED_SHARE:avg?.[k],central=mc.centralSeats[k]||0;const extra=(k!=='ssw'&&(vote<8||st.entry<.995))?`<div class="mc-party-prob">Ingresso: <strong>${(st.entry*100).toFixed(0)}%</strong>${st.leader>.005?` · primo partito: <strong>${(st.leader*100).toFixed(0)}%</strong>`:''}</div>`:(st.leader>.005?`<div class="mc-party-prob">Primo partito: <strong>${(st.leader*100).toFixed(0)}%</strong></div>`:'');return `<div class="mc-party" style="--c:${p.color}"><div class="mc-party-top"><span class="mc-party-name">${esc(p.label)}</span><span class="mc-party-vote">${pct(vote)}</span></div><div class="mc-party-seats">${central}</div><div class="mc-party-range">Mediana marginale: <strong>${st.median}</strong> · intervallo 80%: <strong>${st.low}–${st.high}</strong></div>${extra}</div>`}).join('');
-  const near=order.filter(k=>k!=='ssw'&&((avg?.[k]??99)<8||mc.stats[k].entry<.995));thr.innerHTML=near.length?near.map(k=>{const p=partyByKey(k),pr=mc.stats[k].entry*100;return `<div class="mc-row"><div class="name" style="--c:${p.color}"><i></i><span>${esc(p.label)}</span></div><strong>${pr.toFixed(0)}%</strong><div class="mc-bar" style="--c:${p.color};--w:${pr.toFixed(1)}%"><span></span></div><div class="mc-sub">quota media ${pct(avg?.[k])} · probabilità di ottenere almeno un seggio</div></div>`}).join(''):'<div class="empty-small">Nessun partito presenta un rischio significativo di esclusione.</div>';
+  const near=order.filter(k=>k!=='ssw'&&((avg?.[k]??99)<8||mc.stats[k].entry<.995));thr.innerHTML=near.length?near.map(k=>{const p=partyByKey(k),pr=mc.stats[k].entry*100,over=mc.stats[k].over5*100,three=mc.stats[k].threeSeat*100;return `<div class="mc-row"><div class="name" style="--c:${p.color}"><i></i><span>${esc(p.label)}</span></div><strong>${pr.toFixed(0)}%</strong><div class="mc-bar" style="--c:${p.color};--w:${pr.toFixed(1)}%"><span></span></div><div class="mc-sub">quota media ${pct(avg?.[k])} · sopra il 5%: ${over.toFixed(0)}% · almeno 3 collegi: ${three.toFixed(0)}% · ingresso complessivo: ${pr.toFixed(0)}%</div></div>`}).join(''):'<div class="empty-small">Nessun partito presenta un rischio significativo di esclusione.</div>';
   const combos=[['union','spd'],['union','gruene'],['union','spd','gruene'],['spd','gruene','linke'],['union','fdp'],['union','afd']];
   coal.innerHTML=combos.map(keys=>{const prob=monteCarloCoalitionProbability(keys),v=coalitionVetoes(keys),name=keys.map(k=>partyByKey(k).label).join(' + '),pc=(prob*100);return `<div class="mc-row"><div class="name"><span>${esc(name)}</span></div><strong>${pc.toFixed(0)}%</strong><div class="mc-bar" style="--c:${v.length?'#b7aaa5':'#111'};--w:${pc.toFixed(1)}%"><span></span></div><div class="mc-sub">${v.length?'incompatibilità politica dichiarata · ':''}probabilità di almeno 316 seggi</div></div>`}).join('');
 }
@@ -1374,7 +1397,7 @@ async function loadConstituencyModel(){
   }catch(e){console.error(e);districtState.qa=null;renderMapQa();activateLocalMapFallback(e?.message||'base territoriale non disponibile')}
   finally{districtState.loading=false}
 }
-function updateConstituencyProjection(){if(!districtState.ready||!state.polls.length)return;joinDistrictLand();const factors=projectionFactors();if(!factors)return;districtState.projected=districtState.base.districts.map(d=>projectOneDistrict(d,factors));const prevAuto=[...state.autoDirectExceptions].sort().join(',');deriveAutomaticDirectExceptions(districtState.projected);const nextAuto=[...state.autoDirectExceptions].sort().join(',');const pr=projectSeats();if(prevAuto!==nextAuto)scheduleMonteCarlo(true);allocateLandSeats(pr,districtState.projected);renderParliament();renderConstituencyMap();renderMapSummary();if(districtState.selected){const d=districtState.projected.find(x=>x.id===districtState.selected);if(d)renderDistrictDetail(d)}renderExceptions(pr)}
+function updateConstituencyProjection(){if(!districtState.ready||!state.polls.length)return;joinDistrictLand();const factors=projectionFactors();if(!factors)return;districtState.projected=districtState.base.districts.map(d=>projectOneDistrict(d,factors));deriveAutomaticDirectExceptions(districtState.projected);const pr=projectSeats();allocateLandSeats(pr,districtState.projected);renderParliament();renderConstituencyMap();renderMapSummary();if(districtState.selected){const d=districtState.projected.find(x=>x.id===districtState.selected);if(d)renderDistrictDetail(d)}renderExceptions(pr);scheduleMonteCarlo()}
 function allCoords(geometry){const out=[];const walk=x=>{if(!Array.isArray(x))return;if(typeof x[0]==='number'&&typeof x[1]==='number')out.push(x);else x.forEach(walk)};walk(geometry?.coordinates);return out}
 function geoPath(geometry,proj){if(!geometry)return'';const polys=geometry.type==='Polygon'?[geometry.coordinates]:geometry.type==='MultiPolygon'?geometry.coordinates:[];let d='';for(const poly of polys){for(const ring of poly){ring.forEach((c,i)=>{const [x,y]=proj(c);d+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)});d+='Z'}}return d}
 function mapFill(d){const p=DISTRICT_PARTIES[d.winner]||DISTRICT_PARTIES.other;if(districtState.mode==='coverage'){if(d.winner==='other')return'#e3e2df';return d.covered?p.color:'#dedbd5'}if(districtState.mode==='margin'){const op=Math.max(.28,Math.min(1,.28+d.margin/20*.72));return hexWithWhite(p.color,op)}return p.color}
@@ -1421,7 +1444,7 @@ function renderParliament(){
   const cardOrder=['union','afd','spd','gruene','linke','bsw','fdp','fw','ssw'];strip.innerHTML=cardOrder.map(k=>{const p=partyByKey(k),s=pr.seats[k]||0,v=k==='ssw'?null:raw.avg[k],diff=s-(p.actual||0),diffText=diff===0?'±0':(diff>0?`+${diff}`:`${diff}`),cls=diff>0?'plus':diff<0?'minus':'',st=state.monteCarlo?.stats?.[k],range=st?`${st.low}–${st.high}`:'';return `<div class="seat-tile" style="--c:${p.color}"><div class="seat-name">${esc(p.label)}${v!==null?` · ${pct(v)}`:''}</div><div class="seat-number">${s}</div>${range?`<div class="seat-range">Intervallo 80%: ${range}</div>`:''}<div class="seat-sub">Scarto sul 2025 <span class="${cls}">${diffText}</span></div></div>`}).join('');
   renderExceptions(raw);renderCoalition(pr);
 }
-function renderExceptions(pr){const el=document.getElementById('exceptions'),below=PARTIES.filter(p=>p.key!=='other'&&Number.isFinite(pr.avg[p.key])&&pr.avg[p.key]<5);if(!below.length){el.innerHTML='<div class="empty-small">Nessun partito rilevato al di sotto del 5%.</div>';return}const directCounts={};if(districtState.ready)for(const d of districtState.projected){const mk=DISTRICT_PARTIES[d.winner]?.model;if(mk)directCounts[mk]=(directCounts[mk]||0)+1}el.innerHTML=below.map(p=>{const n=directCounts[p.key],auto=state.autoDirectExceptions.has(p.key),manual=state.directExceptions.has(p.key);let hint='';if(Number.isFinite(n))hint=auto?`<span class="auto-exception-label">· ${n} collegi · eccezione applicata automaticamente</span>`:`<span style="color:#85827b;font-size:9px;margin-left:5px">· mappa: ${n} collegi</span>`;return`<div class="exception-row ${auto?'auto-exception':''}"><div class="exception-party"><span class="party-dot" style="--c:${p.color}"></span>${p.label} <span style="color:#85827b;font-size:10px">${pct(pr.avg[p.key])}</span>${hint}</div><label class="switch" title="${auto?'Il modello prevede almeno tre primi posti nei collegi: eccezione applicata automaticamente':'Ipotizza manualmente almeno tre primi posti nei collegi'}"><input type="checkbox" data-exception="${p.key}" ${(auto||manual)?'checked':''} ${auto?'disabled':''}><span class="slider"></span></label></div>`}).join('');el.querySelectorAll('input[data-exception]:not(:disabled)').forEach(i=>i.addEventListener('change',()=>{i.checked?state.directExceptions.add(i.dataset.exception):state.directExceptions.delete(i.dataset.exception);renderParliament();scheduleMonteCarlo(true);if(districtState.ready)updateConstituencyProjection()}))}
+function renderExceptions(pr){const el=document.getElementById('exceptions'),below=PARTIES.filter(p=>p.key!=='other'&&Number.isFinite(pr.avg[p.key])&&pr.avg[p.key]<5);if(!below.length){el.innerHTML='<div class="empty-small">Nessun partito rilevato al di sotto del 5%.</div>';return}const directCounts={};if(districtState.ready)for(const d of districtState.projected){const mk=DISTRICT_PARTIES[d.winner]?.model;if(mk)directCounts[mk]=(directCounts[mk]||0)+1}el.innerHTML=below.map(p=>{const n=directCounts[p.key],auto=state.autoDirectExceptions.has(p.key),manual=state.directExceptions.has(p.key);let hint='';if(Number.isFinite(n))hint=auto?`<span class="auto-exception-label">· ${n} collegi · eccezione applicata automaticamente</span>`:`<span style="color:#85827b;font-size:9px;margin-left:5px">· mappa: ${n} collegi</span>`;return`<div class="exception-row ${auto?'auto-exception':''}"><div class="exception-party"><span class="party-dot" style="--c:${p.color}"></span>${p.label} <span style="color:#85827b;font-size:10px">${pct(pr.avg[p.key])}</span>${hint}</div><label class="switch" title="${auto?'Scenario centrale: almeno tre primi posti; nel Monte Carlo la clausola viene ricalcolata a ogni simulazione':'Ipotizza manualmente almeno tre primi posti nei collegi'}"><input type="checkbox" data-exception="${p.key}" ${(auto||manual)?'checked':''} ${auto?'disabled':''}><span class="slider"></span></label></div>`}).join('');el.querySelectorAll('input[data-exception]:not(:disabled)').forEach(i=>i.addEventListener('change',()=>{i.checked?state.directExceptions.add(i.dataset.exception):state.directExceptions.delete(i.dataset.exception);renderParliament();scheduleMonteCarlo(true);if(districtState.ready)updateConstituencyProjection()}))}
 function renderVetoList(){
   const el=document.getElementById('vetoList');if(!el)return;
   el.innerHTML=COALITION_VETOES.map(v=>{const a=partyByKey(v.a),b=partyByKey(v.b);return `<div class="veto-item"><div class="veto-pair"><span class="party-dot" style="--c:${a.color}"></span>${esc(a.label)} <span class="veto-arrow">×</span> <span class="party-dot" style="--c:${b.color}"></span>${esc(b.label)} <span class="veto-level">${esc(v.label)}</span></div><div class="veto-desc">${esc(v.desc)}</div></div>`}).join('');
@@ -1474,7 +1497,7 @@ function renderPollsters(){const last=state.polls[state.polls.length-1]?.date,el
 function formatItalianCountText(v){const s=String(v??'');return s.replace(/\b\d{4,}\b/g,m=>Number(m).toLocaleString('it-IT'))}
 function renderPollDetails(p){const bits=[];if(p.method)bits.push(esc(p.method));if(p.fieldwork)bits.push(esc(p.fieldwork));if(p.sample)bits.push(esc(formatItalianCountText(p.sample)));if(p.sourceUrl)bits.push(`<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">Fonte ↗</a>`);else if(p.source)bits.push(esc(p.source));return bits.length?bits.join('<span class="detail-sep">·</span>'):'—'}
 function renderMobilePollMeta(p){const bits=[];if(p.client)bits.push(`<span><strong>Committente:</strong> ${esc(p.client)}</span>`);if(p.method)bits.push(`<span>${esc(p.method)}</span>`);if(p.fieldwork)bits.push(`<span>${esc(p.fieldwork)}</span>`);if(p.sample)bits.push(`<span>${esc(formatItalianCountText(p.sample))}</span>`);if(p.sourceUrl)bits.push(`<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">Fonte ↗</a>`);else if(p.source)bits.push(`<span>${esc(p.source)}</span>`);return bits.length?bits.join(''):'<span>Nessun dettaglio aggiuntivo</span>'}
-function renderTable(){const body=document.getElementById('pollTable'),mobile=document.getElementById('mobilePolls'),rows=[...state.polls].sort((a,b)=>b.date-a.date).slice(0,30),nf=new Intl.NumberFormat('it-IT',{useGrouping:true}),total=nf.format(state.polls.length),badge=document.getElementById('pollCountBadge');badge.innerHTML=`<span class="poll-count-desktop">${total} rilevazioni totali</span><span class="poll-count-mobile">${rows.length} più recenti · ${total} totali</span>`;body.innerHTML=rows.map(p=>`<tr><td>${fmtDate(p.date)}</td><td class="inst">${esc(p.institute)}</td><td class="client">${esc(p.client||'—')}</td><td class="poll-details">${renderPollDetails(p)}</td>${PARTIES.map(x=>`<td>${pct(p[x.key])}</td>`).join('')}</tr>`).join('');if(mobile)mobile.innerHTML=rows.map(p=>{const ranked=PARTIES.filter(x=>x.key!=='other'&&Number.isFinite(p[x.key])).map(x=>({...x,val:p[x.key]})).sort((a,b)=>b.val-a.val),top2=ranked.slice(0,2),partyPills=PARTIES.filter(x=>Number.isFinite(p[x.key])).map(x=>`<span class="mobile-party-pill" style="--c:${x.color}"><i></i>${esc(x.label)} <strong>${pct(p[x.key])}</strong></span>`).join('');return `<details class="mobile-poll"><summary><div class="mobile-poll-main"><div class="mobile-poll-title"><span class="mobile-poll-date">${fmtDate(p.date)}</span><span class="mobile-poll-inst">${esc(p.institute)}</span></div></div><div class="mobile-poll-top2">${top2.map(x=>`<span style="--c:${x.color}"><i></i>${esc(x.label)} <strong>${pct(x.val)}</strong></span>`).join('')}</div></summary><div class="mobile-poll-body"><div class="mobile-poll-meta">${renderMobilePollMeta(p)}</div><div class="mobile-party-grid">${partyPills}</div></div></details>`}).join('')}
+function renderTable(){const body=document.getElementById('pollTable'),mobile=document.getElementById('mobilePolls'),rows=[...state.polls].sort((a,b)=>b.date-a.date).slice(0,30),nf=new Intl.NumberFormat('it-IT',{useGrouping:true}),total=nf.format(state.polls.length),badge=document.getElementById('pollCountBadge');badge.innerHTML=`<span class="poll-count-desktop">${total} rilevazioni totali</span><span class="poll-count-mobile">${rows.length} più recenti · ${total} totali</span>`;body.innerHTML=rows.map(p=>`<tr><td>${fmtDate(p.date)}</td><td class="inst">${esc(p.institute)}</td><td class="client">${esc(p.client||'—')}</td>${PARTIES.map(x=>`<td>${pct(p[x.key])}</td>`).join('')}</tr>`).join('');if(mobile)mobile.innerHTML=rows.map(p=>{const ranked=PARTIES.filter(x=>x.key!=='other'&&Number.isFinite(p[x.key])).map(x=>({...x,val:p[x.key]})).sort((a,b)=>b.val-a.val),top2=ranked.slice(0,2),partyPills=PARTIES.filter(x=>Number.isFinite(p[x.key])).map(x=>`<span class="mobile-party-pill" style="--c:${x.color}"><i></i>${esc(x.label)} <strong>${pct(p[x.key])}</strong></span>`).join('');return `<details class="mobile-poll"><summary><div class="mobile-poll-main"><div class="mobile-poll-title"><span class="mobile-poll-date">${fmtDate(p.date)}</span><span class="mobile-poll-inst">${esc(p.institute)}</span></div></div><div class="mobile-poll-top2">${top2.map(x=>`<span style="--c:${x.color}"><i></i>${esc(x.label)} <strong>${pct(x.val)}</strong></span>`).join('')}</div></summary><div class="mobile-poll-body"><div class="mobile-poll-meta">${renderMobilePollMeta(p)}</div><div class="mobile-party-grid">${partyPills}</div></div></details>`}).join('')}
 function renderLegend(){const cur=currentAvg();if(!cur)return;if(!state.visible.size)PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val).slice(0,6).forEach(p=>state.visible.add(p.key));const el=document.getElementById('legend');el.innerHTML=PARTIES.map(p=>`<label><input type="checkbox" data-party="${p.key}" ${state.visible.has(p.key)?'checked':''}><span class="swatch" style="--c:${p.color}"></span>${p.label}</label>`).join('');el.querySelectorAll('input').forEach(i=>i.addEventListener('change',()=>{i.checked?state.visible.add(i.dataset.party):state.visible.delete(i.dataset.party);renderLineChart()}))}
 function renderLineChart(){
   const data=historySeries(),el=document.getElementById('lineChart');
@@ -1528,6 +1551,7 @@ function buildCurrentSnapshot(){
     seatProjection:pr?pr.seats:null,
     seatProjectionUnionSplit:pr?.unionSplit||null,
     probabilistic:mc?.ready?Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,mc.stats[k]])):null,
+    monteCarloConstituencies:mc?.ready?{simulated:true,n:mc.n}:null,
     constituencies:districtSummary,
     directExceptionParties:[...state.directExceptions],
     automaticExceptionParties:[...state.autoDirectExceptions],
@@ -1597,7 +1621,7 @@ function aiPrompt(){
     avg?`Ultimo sondaggio incluso: ${fmtDate(avg.date)}.`:'',
     avg?`Media dei sondaggi: CDU/CSU ${pct(avg.union)}, AfD ${pct(avg.afd)}, SPD ${pct(avg.spd)}, Verdi ${pct(avg.gruene)}, Linke ${pct(avg.linke)}, FDP ${pct(avg.fdp)}, BSW ${pct(avg.bsw)}.`:'',
     pr?`Scenario centrale dei seggi: CDU/CSU ${pr.seats.union}, AfD ${pr.seats.afd}, SPD ${pr.seats.spd}, Verdi ${pr.seats.gruene}, Linke ${pr.seats.linke}, FDP ${pr.seats.fdp}, BSW ${pr.seats.bsw}, SSW ${pr.seats.ssw}.`: '',
-    mc?.ready?`Monte Carlo: ${mc.n.toLocaleString('it-IT')} simulazioni, sigma storica ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., seed ${mc.seed}.`: '',
+    mc?.ready?`Monte Carlo: ${mc.n.toLocaleString('it-IT')} simulazioni; in ciascuna vengono ricalcolati i 299 collegi per la clausola dei tre mandati; sigma storica ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.; seed ${mc.seed}.`: '',
     'Valuta metodologia, assunzioni, punti deboli, gestione della soglia del 5%, eccezione dei tre collegi, mappa degli uninominali e plausibilità delle coalizioni. Distingui errori tecnici, rischi statistici e suggerimenti editoriali.'
   ].filter(Boolean);
   return lines.join('\n');
