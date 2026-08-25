@@ -872,9 +872,20 @@ const PARTIES=[
   {key:'other',label:'Altri',aliases:['sonstige','sonst.','andere','other','others'],color:'#8a8d93',actual:0}
 ];
 const SSW={key:'ssw',label:'SSW',color:'#1b5e9a',actual:1};
-const DISTRICT_RESULTS_OFFICIAL_URLS=['data/kerg.csv?v=20260825-2','https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/kerg.csv','https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata/btw25/csv/kerg.csv'];
+const DISTRICT_RESULTS_OFFICIAL_URLS=[
+  ()=>new URL('./data/kerg.csv?v=20260825-4',document.baseURI).href,
+  'https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/kerg.csv?v=20260825-4',
+  'https://cdn.jsdelivr.net/gh/angrisanidj/modello-germania@main/data/kerg.csv',
+  'https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata/btw25/csv/kerg.csv'
+];
 const DISTRICT_RESULTS_FALLBACKS=['https://cdn.jsdelivr.net/gh/ZeitOnline/bundestagswahl-2025-gemeindeverbands-daten@main/gem_wk_data.csv','https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-2025-gemeindeverbands-daten/main/gem_wk_data.csv'];
-const DISTRICT_GEO_URLS=['data/wkr2025.geojson?v=20260825-2','https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/wkr2025.geojson','https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten/main/shapes_2025/wkr2025.geojson','https://cdn.jsdelivr.net/gh/ZeitOnline/bundestagswahl-historische-wahlkreis-daten@main/shapes_2025/wkr2025.geojson'];
+const DISTRICT_GEO_URLS=[
+  ()=>new URL('./data/wkr2025.geojson?v=20260825-4',document.baseURI).href,
+  'https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/wkr2025.geojson?v=20260825-4',
+  'https://cdn.jsdelivr.net/gh/angrisanidj/modello-germania@main/data/wkr2025.geojson',
+  'https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten/main/shapes_2025/wkr2025.geojson',
+  'https://cdn.jsdelivr.net/gh/ZeitOnline/bundestagswahl-historische-wahlkreis-daten@main/shapes_2025/wkr2025.geojson'
+];
 const DISTRICT_CACHE_KEY='de_wahlkreis_baseline_2025_v6_localfirst';
 const DISTRICT_CACHE_MS=365*24*60*60*1000;
 const LAND_NAMES={'01':'Schleswig-Holstein','02':'Amburgo','03':'Bassa Sassonia','04':'Brema','05':'Renania Settentrionale-Vestfalia','06':'Assia','07':'Renania-Palatinato','08':'Baden-Württemberg','09':'Baviera','10':'Saarland','11':'Berlino','12':'Brandeburgo','13':'Meclemburgo-Pomerania Anteriore','14':'Sassonia','15':'Sassonia-Anhalt','16':'Turingia'};
@@ -1120,12 +1131,17 @@ function parseNum(v){if(v===null||v===undefined||v==='')return null;const t=Stri
 function parseDelimited(text,sep){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const ch=text[i];if(quoted){if(ch==='"'&&text[i+1]==='"'){cell+='"';i++}else if(ch==='"')quoted=false;else cell+=ch}else{if(ch==='"')quoted=true;else if(ch===sep){row.push(cell);cell=''}else if(ch==='\n'){row.push(cell.replace(/\r$/,''));rows.push(row);row=[];cell=''}else cell+=ch}}if(cell.length||row.length){row.push(cell.replace(/\r$/,''));rows.push(row)}return rows}
 function finalizeDistrictBase(map,nationalVotes,source){const districts=[...map.values()].sort((a,b)=>a.id-b.id);for(const d of districts){for(const kind of ['first','second']){const sum=Object.entries(d[kind]).filter(([k])=>k!=='other').reduce((a,[,v])=>a+(Number(v)||0),0);if(!Number.isFinite(d[kind].other))d[kind].other=Math.max(0,100-sum)}for(const kind of ['firstCounts','secondCounts'])if(!d[kind].other)d[kind].other=0}return{districts,nationalVotes,source}}
 function parseOfficialKerg(text,expectedDistricts=299){
-  // kerg.csv ufficiale: le righe dei Wahlkreise hanno un codice a TRE cifre (001–299).
-  // I Länder usano codici a due cifre (01–16) e il totale federale 99: mantenere il
-  // codice testuale evita qualsiasi ambiguità tra, per esempio, Wahlkreis 099 e Bund 99.
-  const rows=parseDelimited(String(text||'').replace(/^\uFEFF/,''),';');
-  const dataStart=rows.findIndex((r,i)=>i>=5&&/^\d{3}$/.test(String(r[0]||'').trim())&&r.length>=21);
-  if(dataStart<0)throw new Error('Intestazione kerg.csv non riconosciuta: nessuna riga Wahlkreis 001–299 trovata.');
+  const normalized=String(text||'').replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');
+  const lines=normalized.split('\n');
+  // Prima verifichiamo il contenuto grezzo: il file ufficiale contiene righe 001–299.
+  const firstDistrictLine=lines.findIndex((line,i)=>i>=5&&/^\s*(?:00[1-9]|0[1-9]\d|[12]\d\d);/.test(line));
+  if(firstDistrictLine<0){
+    const preview=normalized.slice(0,120).replace(/\s+/g,' ').trim();
+    throw new Error(`Contenuto kerg.csv non riconosciuto${preview?`: ${preview}`:''}`);
+  }
+  const rows=parseDelimited(normalized,';');
+  const dataStart=rows.findIndex((r,i)=>i>=5&&/^\d{3}$/.test(String(r[0]||'').trim())&&Number(r[0])>=1&&Number(r[0])<=299);
+  if(dataStart<0)throw new Error('kerg.csv contiene i collegi, ma la suddivisione CSV non è stata interpretata correttamente.');
   const headerRows=rows.slice(0,dataStart),maxCols=Math.max(...rows.slice(0,Math.min(rows.length,dataStart+3)).map(r=>r.length));
   const generic=new Set(['anzahl','vorperiode','erststimmen','zweitstimmen','stimmen','aktuell','endgultig','']);
   const blocks=[];
@@ -1159,17 +1175,53 @@ function parseOfficialKerg(text,expectedDistricts=299){
     const missing=[];for(let i=1;i<=expectedDistricts;i++)if(!map.has(i))missing.push(i);
     throw new Error(`Sono stati riconosciuti ${map.size} collegi nel kerg.csv invece di ${expectedDistricts}.${missing.length?` Mancanti: ${missing.slice(0,15).join(', ')}${missing.length>15?'…':''}`:''}`);
   }
-  return finalizeDistrictBase(map,nationalVotes,'Die Bundeswahlleiterin · kerg.csv locale');
+  return finalizeDistrictBase(map,nationalVotes,'Die Bundeswahlleiterin · kerg.csv');
 }
 function parseZeitWk(text){const rows=parseDelimited(text,',');if(!rows.length)throw new Error('Dataset territoriale vuoto.');const h=rows[0].map(cleanKey),ix=(n)=>h.indexOf(cleanKey(n)),I={id:ix('id'),name:ix('name'),vote:ix('wahl'),party:ix('partei'),valid:ix('gueltige'),count:ix('stimmen')};if(Object.values(I).some(x=>x<0))throw new Error('Colonne del fallback ZEIT non riconosciute.');const map=new Map(),nationalVotes={};for(let r=1;r<rows.length;r++){const a=rows[r],idtxt=String(a[I.id]||'').trim();if(!/^\d{1,3}$/.test(idtxt))continue;const id=Number(idtxt);if(id<1||id>299)continue;const voteTxt=cleanKey(a[I.vote]),vote=voteTxt.includes('erst')?1:voteTxt.includes('zweit')?2:0;if(!vote)continue;const pk=districtPartyKey(a[I.party]),valid=parseNum(a[I.valid])||0,count=parseNum(a[I.count])||0,pctv=valid?count/valid*100:0;let d=map.get(id);if(!d){d={id,name:a[I.name]||`Wahlkreis ${id}`,first:{},second:{},firstCounts:{},secondCounts:{}};map.set(id,d)}const obj=vote===1?d.first:d.second,cobj=vote===1?d.firstCounts:d.secondCounts;if(pk==='other'){obj.other=(obj.other||0)+pctv;cobj.other=(cobj.other||0)+count}else{obj[pk]=pctv;cobj[pk]=count}if(vote===2)nationalVotes[pk]=(nationalVotes[pk]||0)+count}
 if(map.size<290)throw new Error(`Sono stati riconosciuti solo ${map.size} collegi nel fallback.`);return finalizeDistrictBase(map,nationalVotes,'ZEIT ONLINE / risultati territoriali 2025')}
 async function fetchWithTimeout(url,ms=15000,mode='text'){const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),ms);try{const r=await fetch(url,{cache:'no-store',signal:ctrl.signal});if(!r.ok)throw new Error(`HTTP ${r.status}`);return mode==='json'?await r.json():await r.text()}finally{clearTimeout(timer)}}
 async function fetchFirstSuccessful(urls,ms=15000,mode='text'){let lastErr=null;for(const url of urls){try{return await fetchWithTimeout(url,ms,mode)}catch(e){lastErr=e;console.warn('Fonte non disponibile, provo la successiva:',url,e)}}throw lastErr||new Error('Nessuna fonte disponibile')}
-async function loadDistrictBaseline(){const cached=localStorage.getItem(DISTRICT_CACHE_KEY);if(cached){try{const obj=JSON.parse(cached);if(Date.now()-obj.savedAt<DISTRICT_CACHE_MS&&obj.base?.districts?.length>=299)return obj.base}catch{}}
-let base=null,officialErr=null;
-for(const url of DISTRICT_RESULTS_OFFICIAL_URLS){try{base=parseOfficialKerg(await fetchWithTimeout(url,16000));if(base?.districts?.length===299)break}catch(e){officialErr=e;console.warn('Base territoriale ufficiale non leggibile da',url,e);base=null}}
-if(!base){try{base=parseZeitWk(await fetchFirstSuccessful(DISTRICT_RESULTS_FALLBACKS,25000))}catch(fallbackErr){throw new Error(`kerg.csv non utilizzabile: ${officialErr?.message||'errore di caricamento'}. Il fallback secondario non è completo (${fallbackErr?.message||'errore sconosciuto'}).`)}}
-try{localStorage.setItem(DISTRICT_CACHE_KEY,JSON.stringify({savedAt:Date.now(),base}))}catch{}return base}
+function resolveSourceUrl(candidate){return typeof candidate==='function'?candidate():candidate}
+async function fetchVerifiedKerg(candidate,ms=12000){
+  const url=resolveSourceUrl(candidate),text=await fetchWithTimeout(url,ms,'text');
+  const normalized=String(text||'').replace(/^\uFEFF/,'').replace(/\r\n?/g,'\n');
+  if(!/(?:^|\n)\s*001;/.test(normalized)||!normalized.includes('Nr;Gebiet;')){
+    const preview=normalized.slice(0,90).replace(/\s+/g,' ').trim();
+    throw new Error(`La risposta non è kerg.csv${preview?` (${preview})`:''}`);
+  }
+  return {url,text};
+}
+async function loadDistrictGeometry(){
+  let lastErr=null;
+  for(const candidate of DISTRICT_GEO_URLS){
+    const url=resolveSourceUrl(candidate);
+    try{
+      const geo=await fetchWithTimeout(url,10000,'json');
+      if(!geo||!Array.isArray(geo.features))throw new Error('GeoJSON senza features.');
+      const ids=new Set(geo.features.map(f=>Number(f.properties?.wkr_id??f.properties?.WKR_NR)).filter(n=>Number.isInteger(n)&&n>=1&&n<=299));
+      if(ids.size!==299)throw new Error(`GeoJSON con ${ids.size} collegi invece di 299.`);
+      districtState.geo=geo;prepareGeometryCache();return url;
+    }catch(e){lastErr=e;console.warn('Geometria non leggibile da',url,e)}
+  }
+  throw lastErr||new Error('Nessuna geometria dei 299 collegi disponibile.');
+}
+async function loadDistrictBaseline(){
+  const cached=localStorage.getItem(DISTRICT_CACHE_KEY);
+  if(cached){try{const obj=JSON.parse(cached);if(Date.now()-obj.savedAt<DISTRICT_CACHE_MS&&obj.base?.districts?.length===299)return obj.base}catch{}}
+  let base=null,lastErr=null,usedUrl='';
+  for(const candidate of DISTRICT_RESULTS_OFFICIAL_URLS){
+    const url=resolveSourceUrl(candidate);
+    try{
+      const loaded=await fetchVerifiedKerg(candidate,12000);
+      base=parseOfficialKerg(loaded.text);
+      if(base?.districts?.length===299){usedUrl=loaded.url;break}
+    }catch(e){lastErr=e;console.warn('Base territoriale non leggibile da',url,e);base=null}
+  }
+  if(!base)throw new Error(`Impossibile leggere kerg.csv da tutte le fonti previste. Ultimo errore: ${lastErr?.message||'sconosciuto'}`);
+  base.source=`Die Bundeswahlleiterin · kerg.csv${usedUrl.includes('raw.githubusercontent.com')?' (GitHub raw)':usedUrl.includes('jsdelivr')?' (jsDelivr)':usedUrl.includes('bundeswahlleiterin')?' (fonte ufficiale)':' (locale)'}`;
+  try{localStorage.setItem(DISTRICT_CACHE_KEY,JSON.stringify({savedAt:Date.now(),base}))}catch{}
+  return base;
+}
 function districtWinnerCounts(projected){const out={};for(const d of projected){if(d.winner==='other')continue;const mk=DISTRICT_PARTIES[d.winner]?.model;if(mk)out[mk]=(out[mk]||0)+1}return out}
 function deriveAutomaticDirectExceptions(projected){const counts=districtWinnerCounts(projected),avg=projectionAverage(),next=new Set();if(avg)for(const p of PARTIES){if(p.key==='other')continue;if(Number.isFinite(avg[p.key])&&avg[p.key]<5&&(counts[p.key]||0)>=3)next.add(p.key)}state.autoDirectExceptions=next;return counts}
 function runDistrictBaselineCheck(){joinDistrictLand();const unit={};for(const k of Object.keys(DISTRICT_PARTIES))unit[k]=1;const projected=districtState.base.districts.map(d=>projectOneDistrict(d,{f:unit}));const actual={seats:{union:208,afd:152,spd:120,gruene:85,linke:64,bsw:0,fdp:0,fw:0}};allocateLandSeats(actual,projected);const winners={},covered={};let uncovered=0;for(const d of projected){if(d.winner==='other')continue;winners[d.winner]=(winners[d.winner]||0)+1;if(d.covered)covered[d.winner]=(covered[d.winner]||0)+1;else uncovered++}const expectedWinners={cdu:143,csu:47,afd:46,spd:45,gruene:12,linke:6},expectedCovered={cdu:128,csu:44,afd:42,spd:44,gruene:12,linke:6};for(const [k,v] of Object.entries(expectedWinners))if((winners[k]||0)!==v)throw new Error(`backtest collegi 2025: vincitori ${k} ${(winners[k]||0)} ≠ ${v}`);for(const [k,v] of Object.entries(expectedCovered))if((covered[k]||0)!==v)throw new Error(`backtest collegi 2025: mandati coperti ${k} ${(covered[k]||0)} ≠ ${v}`);if(uncovered!==23)throw new Error(`backtest collegi 2025: ${uncovered} vittorie senza copertura ≠ 23`);return{uncovered,winners,covered}}
@@ -1187,9 +1239,9 @@ function prepareSchematicPathCache(){
 function activateLocalMapFallback(reason){
   const wrap=document.querySelector('.germany-map-wrap'),frame=document.getElementById('localMapFrame'),load=document.getElementById('mapLoading'),summary=document.getElementById('mapSummary');
   if(wrap)wrap.classList.add('local-fallback');if(frame)frame.style.display='block';if(load)load.classList.add('hidden');
-  const head=document.querySelector('.map-head h3'),desc=document.querySelector('.map-head p');if(head)head.textContent='Fallback schematico dei 299 collegi';if(desc)desc.textContent='Questa vista compare solo se la mappa geografica principale non può essere costruita. Per la mappa completa servono <code>data/kerg.csv</code> e <code>data/wkr2025.geojson</code> nella cartella <code>data/</code> del sito.';
+  const head=document.querySelector('.map-head h3'),desc=document.querySelector('.map-head p');if(head)head.textContent='Fallback schematico dei 299 collegi';if(desc)desc.textContent='Questa vista compare solo se la mappa geografica principale non può essere costruita. La dashboard prova automaticamente il file locale e le copie GitHub/jsDelivr prima di usare il fallback.';
   if(summary){summary.innerHTML=`<span class="local-map-notice"><strong>Fallback locale attivo</strong>${reason?' · '+esc(reason):''}</span><button id="mapRetryLocal" type="button">Riprova i dati territoriali</button>`;document.getElementById('mapRetryLocal')?.addEventListener('click',()=>{wrap?.classList.remove('local-fallback');districtState.loading=false;districtState.ready=false;districtState.pathCache=null;loadConstituencyModel()})}
-  const detail=document.getElementById('districtDetail');if(detail)detail.innerHTML='<div class="eyebrow">Fallback locale</div><h3>299 Wahlkreise disponibili</h3><div class="district-empty">Il cartogramma è caricato dal file locale <code>mappa_uninominali_locale.html</code>. Se vuoi vedere la vera mappa geografica dei 299 Wahlkreise, aggiungi nella cartella <code>data/</code> i file <code>kerg.csv</code> e <code>wkr2025.geojson</code>.</div>';
+  const detail=document.getElementById('districtDetail');if(detail)detail.innerHTML='<div class="eyebrow">Fallback locale</div><h3>299 Wahlkreise disponibili</h3><div class="district-empty">Il cartogramma viene usato soltanto se nessuna delle fonti della mappa geografica dei 299 Wahlkreise supera la verifica interna.</div>';
 }
 async function loadConstituencyModel(){
   if(districtState.loading||districtState.ready)return;districtState.loading=true;const load=document.getElementById('mapLoading');
@@ -1197,7 +1249,7 @@ async function loadConstituencyModel(){
   try{
     const base=await loadDistrictBaseline();if(!base?.districts||base.districts.length!==299)throw new Error('Base territoriale incompleta: sono necessari tutti i 299 collegi.');
     districtState.base=base;districtState.source=base.source;
-    try{districtState.geo=await fetchFirstSuccessful(DISTRICT_GEO_URLS,12000,'json');if(!districtState.geo?.features?.length)throw new Error('Geometrie vuote');prepareGeometryCache();districtState.geometryMode='official';document.querySelector('.map-card')?.setAttribute('data-geometry-mode','official')}
+    try{await loadDistrictGeometry();districtState.geometryMode='official';document.querySelector('.map-card')?.setAttribute('data-geometry-mode','official')}
     catch(geoErr){console.warn('Geometria ufficiale non disponibile: uso il cartogramma locale.',geoErr);districtState.geo=null;prepareSchematicPathCache()}
     districtState.qa=runDistrictBaselineCheck();renderMapQa();districtState.ready=true;districtState.loadedOnce=true;updateConstituencyProjection();if(String(districtState.source||'').includes('Bundeswahlleiterin')){const s=document.getElementById('mapSummary');if(s&&!s.querySelector('.map-local-source'))s.insertAdjacentHTML('beforeend','<span class="map-local-source">Base 2025 verificata</span>')}
     if(load)load.classList.add('hidden');
