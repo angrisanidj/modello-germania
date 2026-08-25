@@ -1485,7 +1485,7 @@ function runInternalChecks(){
   const parsed=normalizeResponse({status:'ok',table:{cols,rows:[{c:vals.map(v=>({v}))}]}})[0];
   if(!parsed||parsed.afd!==29||parsed.union!==21||parsed.spd!==12||parsed.gruene!==13||parsed.sourceUrl!=='https://example.com')throw new Error('Autotest parser fallito: associazione colonne/intestazioni non coerente.');
   // 3) Official wide-result parser: test the published kerg.csv structure on a synthetic district.
-  const kh=Array(40).fill(''),kr=Array(40).fill(''),kp=['CDU','CSU','AfD','SPD','GRÜNE'];kp.forEach((x,i)=>kh[20+i*4]=x);kr[0]='1';kr[1]='Testkreis';kr[2]='1';kr[16]='1000';kr[18]='1000';kp.forEach((x,i)=>{kr[20+i*4]=String(100+i*10);kr[22+i*4]=String(120+i*10)});
+  const kh=Array(40).fill(''),kr=Array(40).fill(''),kp=['CDU','CSU','AfD','SPD','GRÜNE'];kp.forEach((x,i)=>kh[20+i*4]=x);kr[0]='001';kr[1]='Testkreis';kr[2]='01';kr[16]='1000';kr[18]='1000';kp.forEach((x,i)=>{kr[20+i*4]=String(100+i*10);kr[22+i*4]=String(120+i*10)});
   const kt=parseOfficialKerg(['copyright','','','','',kh.join(';'),kr.join(';')].join('\n'),1);if(kt.districts.length!==1||Math.abs(kt.districts[0].first.afd-12)>1e-9||Math.abs(kt.districts[0].second.afd-14)>1e-9)throw new Error('Autotest parser kerg.csv fallito.');
   // 4) Coalition matrix: BSW–AfD is a government-coalition veto as of the current audit.
   if(!vetoBetween('bsw','afd'))throw new Error('Autotest veti fallito: manca BSW–AfD.');
