@@ -5,6 +5,17 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <meta name="color-scheme" content="light" />
 <title>Elezioni federali tedesche — Sondaggi e proiezione del Bundestag</title>
+<meta name="description" content="Sondaggi, proiezione dei seggi del Bundestag, simulazione dei collegi uninominali e probabilità di maggioranza per le elezioni federali tedesche." />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
+<meta property="og:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
+<meta property="og:image" content="preview-bundestag.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
+<meta name="twitter:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
+<meta name="twitter:image" content="preview-bundestag.png" />
 <style>
 :root{
   --de-black:#111111; --de-red:#dd0000; --de-gold:#ffcc00;
@@ -408,6 +419,44 @@ button,a,.coal-chip,.coal-option,.switch{-webkit-tap-highlight-color:transparent
 /* --- QA v14: territorial diagnostics and automatic three-constituency rule --- */
 .map-qa{margin:12px 0 2px;padding:9px 10px;border:1px solid #dededb;border-radius:8px;background:#fafaf9;color:#6b6b68;font-size:9.5px;line-height:1.45}.map-qa.ok{border-color:#cfe5d6;background:#f3faf5;color:#21683d}.auto-exception{border-color:#b9ddc5!important;background:#f4faf6!important}.auto-exception-label{color:#19733b;font-size:9px;margin-left:5px;font-weight:700}.switch input:disabled + .slider{cursor:default;opacity:.75}.wk-path:focus{outline:none;stroke:#ffcc00!important;stroke-width:2.2!important;vector-effect:non-scaling-stroke}
 @media(max-width:640px){.auto-exception-label{display:block;margin:3px 0 0 17px;line-height:1.3}.map-qa{font-size:10px}}
+
+/* --- v17 publishing polish --- */
+.utility-card,.readme-card,.ai-card{margin:0 0 14px}
+.utility-card{padding:16px 18px;background:#fff;border:1px solid #dededb;border-radius:13px;box-shadow:var(--shadow)}
+.utility-grid{display:grid;grid-template-columns:1.2fr 1.5fr auto;gap:16px;align-items:center}
+.utility-title{font-size:10px;text-transform:uppercase;letter-spacing:.11em;font-weight:850;color:#555;margin-bottom:8px}
+.pill-row{display:flex;flex-wrap:wrap;gap:8px}.badge-soft{background:#f7f7f5;border-color:#e0e1dd;color:#333}
+.utility-dates{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.date-box{border:1px solid #e3e4e6;border-radius:10px;background:#fbfbfa;padding:10px 11px;min-height:66px}
+.date-box .k{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#777;font-weight:800}
+.date-box strong{display:block;margin-top:4px;font-size:13px;line-height:1.25}
+.date-box span{display:block;margin-top:3px;font-size:10px;color:#757a81}
+.utility-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+.utility-actions button{white-space:nowrap}
+.readme-card{padding:18px 20px;background:#fff}
+.readme-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.readme-item{border:1px solid #e3e4e6;border-radius:10px;background:#fbfbfa;padding:12px}
+.readme-item .n{width:24px;height:24px;border-radius:7px;background:#171717;color:#fff;display:grid;place-items:center;font-weight:800;font-size:11px;margin-bottom:8px}
+.readme-item strong{display:block;font-size:12px;margin-bottom:4px}.readme-item p{margin:0;font-size:10.5px;line-height:1.5;color:#666}
+.data-model-note{margin-top:10px;font-size:10.5px;color:#666}
+.seat-range{font-size:11px;font-weight:700;color:#30343a;margin-top:5px}
+.share-rail{position:fixed;right:14px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;z-index:90}
+.share-btn{width:42px;height:42px;border-radius:12px;border:1px solid #dadcde;background:#fff;box-shadow:0 6px 18px rgba(0,0,0,.06);display:grid;place-items:center;color:#6c6f75;text-decoration:none;cursor:pointer}
+.share-btn:hover{transform:translateY(-1px);border-color:#bbbfc4;color:#171717;text-decoration:none}
+.share-btn svg{width:22px;height:22px;display:block}
+.ai-card{padding:18px 20px;background:#fff}
+.ai-card .intro{font-size:11px;color:#666;line-height:1.55;margin-top:6px}
+.ai-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}
+.ai-btn{display:flex;align-items:center;gap:10px;border:1px solid #e3e4e6;border-radius:12px;background:#fbfbfa;padding:12px;text-decoration:none;color:#171717;cursor:pointer}
+.ai-btn:hover{border-color:#c9ccd0;background:#fff;text-decoration:none}
+.ai-logo{width:28px;height:28px;flex:0 0 auto}
+.ai-btn strong{display:block;font-size:12px}.ai-btn span{display:block;font-size:10px;color:#6b7078;line-height:1.35;margin-top:2px}
+.ai-helper{margin-top:10px;font-size:10px;color:#777}
+.hidden-canvas{position:absolute;left:-9999px;top:-9999px}
+@media(max-width:1100px){.utility-grid{grid-template-columns:1fr}.utility-actions{justify-content:flex-start}.utility-dates{grid-template-columns:repeat(2,minmax(0,1fr))}.ai-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:820px){.readme-grid{grid-template-columns:1fr 1fr}.share-rail{position:static;transform:none;flex-direction:row;flex-wrap:wrap;gap:8px;margin:12px 0 16px}}
+@media(max-width:560px){.utility-dates,.readme-grid,.ai-grid{grid-template-columns:1fr}.share-btn{width:38px;height:38px;border-radius:10px}.utility-card,.readme-card,.ai-card{padding:15px 14px}}
+
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
@@ -431,6 +480,39 @@ button,a,.coal-chip,.coal-option,.switch{-webkit-tap-highlight-color:transparent
       <span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
   </header>
+  <section class="utility-card card">
+    <div class="utility-grid">
+      <div>
+        <div class="utility-title">Dati e modello</div>
+        <div class="pill-row">
+          <span class="badge badge-soft">Dati osservati · media dei sondaggi</span>
+          <span class="badge badge-soft">Modello · proiezione dei seggi</span>
+          <span class="badge badge-soft">Territorio · simulazione dei collegi</span>
+        </div>
+        <div class="data-model-note">La pagina separa sempre i <strong>dati osservati</strong> dalla loro <strong>rielaborazione modellistica</strong>. La media dei sondaggi descrive il quadro attuale; seggi, maggioranze e collegi sono una simulazione coerente con il sistema elettorale vigente.</div>
+      </div>
+      <div class="utility-dates">
+        <div class="date-box"><span class="k">Ultimo sondaggio</span><strong id="dateLatestPoll">—</strong><span>data dell’ultima rilevazione inclusa</span></div>
+        <div class="date-box"><span class="k">Dati caricati</span><strong id="dateDataLoaded">—</strong><span>ultimo contatto con la fonte</span></div>
+        <div class="date-box"><span class="k">Modello aggiornato</span><strong id="dateModelUpdated">—</strong><span>ultima esecuzione del modello</span></div>
+        <div class="date-box"><span class="k">Snapshot giornaliero</span><strong id="dateSnapshot">—</strong><span>JSON ed esportazione locale</span></div>
+      </div>
+      <div class="utility-actions">
+        <button id="downloadSnapshotBtn">Scarica snapshot JSON</button>
+        <button id="downloadPngBtn">Salva anteprima PNG</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card readme-card">
+    <div class="cardhead" style="padding:0"><div><h3>Come leggere il modello</h3><p>Quattro punti rapidi per interpretare correttamente i numeri.</p></div></div>
+    <div class="readme-grid">
+      <div class="readme-item"><div class="n">1</div><strong>La media non è una previsione di seggi</strong><p>La media dei sondaggi riassume i dati più recenti. I seggi sono una trasformazione modellistica basata sul diritto elettorale vigente.</p></div>
+      <div class="readme-item"><div class="n">2</div><strong>L’incertezza è parte del risultato</strong><p>Accanto al numero centrale è sempre riportato un intervallo. Un valore puntuale da solo darebbe un’impressione di precisione eccessiva.</p></div>
+      <div class="readme-item"><div class="n">3</div><strong>I collegi sono simulati</strong><p>La mappa dei Wahlkreise non deriva da 299 sondaggi locali: usa il risultato 2025 come base e vi applica lo swing nazionale corrente.</p></div>
+      <div class="readme-item"><div class="n">4</div><strong>Le incompatibilità non sono divieti giuridici</strong><p>Il costruttore di maggioranze distingue l’aritmetica dei seggi dalle incompatibilità politiche dichiarate dai partiti.</p></div>
+    </div>
+  </section>
   <div id="error" class="errorbox"></div>
 
   <section class="grid kpis">
@@ -631,7 +713,31 @@ button,a,.coal-chip,.coal-option,.switch{-webkit-tap-highlight-color:transparent
     <div class="tablewrap poll-tablewrap"><table><thead><tr><th>Data</th><th>Istituto</th><th>Committente</th><th>Dettagli</th><th>CDU/CSU</th><th>AfD</th><th>SPD</th><th>Verdi</th><th>Linke</th><th>BSW</th><th>FDP</th><th>FW</th><th>Altri</th></tr></thead><tbody id="pollTable"></tbody></table></div>
   </section>
 
-  <footer class="foot editorial-foot">
+  <nav class="share-rail" aria-label="Condividi il modello">
+    <a class="share-btn" href="#" data-share="x" title="Condividi su X" aria-label="Condividi su X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><path d="M4 4l16 16M20 4L9 15M15 20l-3-4"/></svg></a>
+    <a class="share-btn" href="#" data-share="threads" title="Condividi su Threads" aria-label="Condividi su Threads"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M15.7 9.4c-.4-2.4-2.2-3.6-4.7-3.6-3.5 0-5.8 2.3-5.8 6.1 0 4.1 2.6 6.3 6 6.3 3 0 5.2-1.7 5.2-4.5 0-2.1-1.4-3.5-4.1-3.5-2.3 0-3.8 1.1-3.8 2.9 0 1.6 1.1 2.6 2.8 2.6 2.8 0 4.8-1 6.6-2.1 1-.6 1.6-1.6 1.6-2.9 0-2.6-2-4.5-5-4.5"/></svg></a>
+    <a class="share-btn" href="#" data-share="facebook" title="Condividi su Facebook" aria-label="Condividi su Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.2c0-.9.3-1.5 1.6-1.5H16V5c-.4-.1-1.4-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V11H7.5v3h2.4v7h3.6z"/></svg></a>
+    <a class="share-btn" href="#" data-share="linkedin" title="Condividi su LinkedIn" aria-label="Condividi su LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.2 8.4A1.9 1.9 0 1 1 6.2 4.6a1.9 1.9 0 0 1 0 3.8zM4.8 9.8h2.9v9.4H4.8V9.8zm4.8 0h2.8v1.3h.1c.4-.7 1.4-1.6 2.9-1.6 3.1 0 3.7 2 3.7 4.7v5h-2.9v-4.4c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2v4.5H9.6V9.8z"/></svg></a>
+    <a class="share-btn" href="#" data-share="telegram" title="Condividi su Telegram" aria-label="Condividi su Telegram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.6 4.3 3.8 10.8c-1.1.4-1.1 1 .2 1.4l4.3 1.3 1.7 5.2c.2.6.1.8.8.8.5 0 .7-.2 1-.5l2.4-2.3 4.9 3.6c.9.5 1.5.2 1.7-.8l2.9-13.7c.3-1.2-.4-1.8-1.4-1.4Zm-11 8.9-.4 4.1-.9-2.9 8.8-5.6"/></svg></a>
+    <a class="share-btn" href="#" data-share="whatsapp" title="Condividi su WhatsApp" aria-label="Condividi su WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.5 12A8.5 8.5 0 0 1 7.7 19.4L3 20.8l1.5-4.5A8.5 8.5 0 1 1 20.5 12Zm-4.8 2.3c-.3-.1-1.6-.8-1.9-.9-.3-.1-.5-.1-.7.1l-.5.7c-.2.2-.4.2-.7.1-1.8-.9-3-2.6-3.2-2.9-.2-.3 0-.5.1-.7l.3-.4.2-.4c.1-.2 0-.5 0-.7l-.8-1.8c-.2-.5-.4-.4-.7-.4h-.6c-.2 0-.6.1-.9.4-.3.3-1.1 1.1-1.1 2.7s1.1 3.2 1.3 3.4c.2.2 2.2 3.4 5.3 4.6.7.3 1.3.5 1.8.6.8.2 1.5.2 2 .1.6-.1 1.6-.7 1.8-1.4.2-.7.2-1.3.2-1.4 0-.1-.1-.2-.4-.3Z"/></svg></a>
+    <a class="share-btn" href="#" data-share="copy" title="Copia il link" aria-label="Copia il link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 1 0-7l1.5-1.5a5 5 0 0 1 7 7L17 13"/><path d="M14 11a5 5 0 0 1 0 7L12.5 19.5a5 5 0 0 1-7-7L7 11"/></svg></a>
+  </nav>
+
+  <section class="card ai-card">
+    <div class="cardhead" style="padding:0"><div><h3>Discuti il modello con l’IA</h3><p class="intro">Ogni pulsante copia automaticamente un prompt già preparato e apre il servizio scelto in una nuova scheda. Ti basta incollarlo nella chat.</p></div></div>
+    <div class="ai-grid">
+      <a class="ai-btn" href="#" data-ai="perplexity"><svg class="ai-logo" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3l3 5 6 1-4 4 1 6-6-3-6 3 1-6-4-4 6-1 3-5Z"/></svg><div><strong>Perplexity</strong><span>Copia il prompt e apri Perplexity</span></div></a>
+      <a class="ai-btn" href="#" data-ai="claude"><svg class="ai-logo" viewBox="0 0 28 28" fill="currentColor"><path d="M14 4c4.7 0 8.5 3.8 8.5 8.5S18.7 21 14 21 5.5 17.2 5.5 12.5 9.3 4 14 4Zm0 3.2a5.3 5.3 0 1 0 0 10.6 5.3 5.3 0 0 0 0-10.6Z"/></svg><div><strong>Claude</strong><span>Copia il prompt e apri Claude</span></div></a>
+      <a class="ai-btn" href="#" data-ai="openai"><svg class="ai-logo" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.8 19.5 7v6.3L14 16.5 8.5 13.3V7L14 3.8Zm0 8.5 5.5 3.2v6.3L14 25l-5.5-3.2v-6.3L14 12.3Z"/></svg><div><strong>OpenAI</strong><span>Copia il prompt e apri ChatGPT</span></div></a>
+      <a class="ai-btn" href="#" data-ai="gemini"><svg class="ai-logo" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><path d="M14 3v8M14 17v8M3 14h8M17 14h8M6.2 6.2l5.6 5.6M16.2 16.2l5.6 5.6M21.8 6.2l-5.6 5.6M11.8 16.2l-5.6 5.6"/></svg><div><strong>Gemini</strong><span>Copia il prompt e apri Gemini</span></div></a>
+      <a class="ai-btn" href="#" data-ai="copy"><svg class="ai-logo" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="13" height="15" rx="2"/><path d="M6 18H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/></svg><div><strong>Solo prompt</strong><span>Copia il prompt senza aprire alcun servizio</span></div></a>
+    </div>
+    <div class="ai-helper">Prompt suggerito: chiedi all’IA di valutare metodologia, punti deboli, assunzioni sui collegi, trattamento della soglia del 5% e plausibilità delle coalizioni.</div>
+  </section>
+
+  <canvas id="previewCanvas" class="hidden-canvas" width="1200" height="630"></canvas>
+
+<footer class="foot editorial-foot">
     <div class="foot-grid">
       <div class="foot-block">
         <div class="foot-title">Dati</div>
@@ -662,7 +768,8 @@ button,a,.coal-chip,.coal-option,.switch{-webkit-tap-highlight-color:transparent
 <script>
 const SHEET_ID='1aT2f8yc8p9-XjOqFCTQ1nDeP5GEORu9QZDOtUwF8smI';
 const GID='2003908598';
-const CACHE_KEY='de_poll_dashboard_v16_probabilistic';
+const CACHE_KEY='de_poll_dashboard_v17_publish';
+const DAILY_SNAPSHOT_KEY='de_poll_dashboard_daily_snapshot_v17';
 const CACHE_MS=24*60*60*1000;
 const DAY=86400000;
 const TOTAL_SEATS=630, MAJORITY=316, SSW_ASSUMED_SHARE=0.153;
@@ -699,7 +806,7 @@ const DISTRICT_PARTIES={
 const districtState={ready:false,loading:false,loadedOnce:false,geo:null,base:null,projected:[],mode:'winner',selected:null,source:null,pathCache:null,qa:null};
 
 const SEAT_ORDER=['linke','gruene','spd','ssw','union','fdp','fw','bsw','afd'];
-let state={polls:[],window:7,range:180,visible:new Set(),fetchedAt:null,directExceptions:new Set(),autoDirectExceptions:new Set(),coalition:new Set(),lastProjection:null,monteCarlo:null,mcRunning:false,mcFingerprint:null,mcToken:0};
+let state={polls:[],window:7,range:180,visible:new Set(),fetchedAt:null,modelUpdatedAt:null,lastSnapshotAt:null,directExceptions:new Set(),autoDirectExceptions:new Set(),coalition:new Set(),lastProjection:null,monteCarlo:null,mcRunning:false,mcFingerprint:null,mcToken:0};
 
 /* Political coalition vetoes, checked 25 Aug 2026. These are political/party rules, not legal barriers. */
 const COALITION_VETOES=[
@@ -723,6 +830,10 @@ function clearError(){document.getElementById('error').style.display='none'}
 function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function pct(v,d=1){return Number.isFinite(v)?v.toFixed(d).replace('.',',')+'%':'—'}
 function fmtDate(d){return d?new Intl.DateTimeFormat('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'}).format(d):'—'}
+function fmtDateTime(d){return d?new Intl.DateTimeFormat('it-IT',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(d):'—'}
+function downloadBlob(filename,content,type='application/json'){const blob=new Blob([content],{type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=filename;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},120)}
+function snapshotFilename(ext='json'){const d=projectionAverage()?.date||state.fetchedAt||new Date();const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');return `bundestag_snapshot_${y}-${m}-${dd}.${ext}`}
+
 function dayKey(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()}
 function parseDate(v,f){
   if(v instanceof Date&&!isNaN(v))return v;
@@ -896,7 +1007,7 @@ function runMonteCarlo(avg){
 function renderMonteCarlo(){
   const status=document.getElementById('mcStatus'),grid=document.getElementById('mcPartyGrid'),thr=document.getElementById('mcThreshold'),coal=document.getElementById('mcCoalitions');if(!status||!grid||!thr||!coal)return;
   if(state.mcRunning||!state.monteCarlo?.ready){status.className='mc-status running';status.textContent=state.mcRunning?'50.000 simulazioni in corso…':'In attesa dei dati';if(state.mcRunning){grid.innerHTML='<div class="empty-small">Sto propagando l’errore storico attraverso soglia, riparto dei seggi e Sainte-Laguë/Schepers.</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>'}return}
-  const mc=state.monteCarlo,avg=projectionAverage();status.className='mc-status ready';status.textContent=`Pronto · σ ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.`;
+  const mc=state.monteCarlo,avg=projectionAverage();state.modelUpdatedAt=new Date();updateUtilityMeta();saveDailySnapshotMaybe();status.className='mc-status ready';status.textContent=`Pronto · σ ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. · seed ${mc.seed}`;
   const order=['afd','union','spd','gruene','linke','fdp','bsw','fw','ssw'].filter(k=>mc.stats[k]);
   grid.innerHTML=order.map(k=>{const p=partyByKey(k),st=mc.stats[k],vote=k==='ssw'?SSW_ASSUMED_SHARE:avg?.[k];const extra=(k!=='ssw'&&(vote<8||st.entry<.995))?`<div class="mc-party-prob">Ingresso: <strong>${(st.entry*100).toFixed(0)}%</strong>${st.leader>.005?` · primo partito: <strong>${(st.leader*100).toFixed(0)}%</strong>`:''}</div>`:(st.leader>.005?`<div class="mc-party-prob">Primo partito: <strong>${(st.leader*100).toFixed(0)}%</strong></div>`:'');return `<div class="mc-party" style="--c:${p.color}"><div class="mc-party-top"><span class="mc-party-name">${esc(p.label)}</span><span class="mc-party-vote">${pct(vote)}</span></div><div class="mc-party-seats">${st.median}</div><div class="mc-party-range">80% delle simulazioni: <strong>${st.low}–${st.high}</strong> seggi</div>${extra}</div>`}).join('');
   const near=order.filter(k=>k!=='ssw'&&((avg?.[k]??99)<8||mc.stats[k].entry<.995));thr.innerHTML=near.length?near.map(k=>{const p=partyByKey(k),pr=mc.stats[k].entry*100;return `<div class="mc-row"><div class="name" style="--c:${p.color}"><i></i><span>${esc(p.label)}</span></div><strong>${pr.toFixed(0)}%</strong><div class="mc-bar" style="--c:${p.color};--w:${pr.toFixed(1)}%"><span></span></div><div class="mc-sub">quota media ${pct(avg?.[k])} · probabilità di ottenere almeno un seggio</div></div>`}).join(''):'<div class="empty-small">Nessun partito presenta un rischio significativo di esclusione.</div>';
@@ -995,11 +1106,11 @@ function renderParliament(){
   const raw=projectSeats(),el=document.getElementById('parliament'),strip=document.getElementById('seatStrip');if(!raw){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}
   const pr=mcDisplayProjection(raw),ranked=Object.entries(pr.seats).map(([key,seats])=>({p:partyByKey(key),seats})).sort((a,b)=>b.seats-a.seats),top=ranked[0];
   document.getElementById('projectionTitle').textContent=`${top.p.label}: ${top.seats} seggi${pr.mc?' nello scenario centrale':''}`;
-  document.getElementById('projectionSubtitle').textContent=pr.mc?`50.000 simulazioni · media ponderata al ${fmtDate(raw.avg.date)} · ${raw.avg.count} istituti · scenario coerente da ${TOTAL_SEATS} seggi`:`Media ponderata al ${fmtDate(raw.avg.date)} · ${raw.avg.count} istituti · simulazione probabilistica in preparazione`;
+  document.getElementById('projectionSubtitle').textContent=pr.mc?`50.000 simulazioni riproducibili · media ponderata al ${fmtDate(raw.avg.date)} · ${raw.avg.count} istituti · scenario coerente da ${TOTAL_SEATS} seggi`:`Media ponderata al ${fmtDate(raw.avg.date)} · ${raw.avg.count} istituti · simulazione probabilistica in preparazione`;
   document.getElementById('projInstitutes').textContent=raw.avg.count;document.getElementById('projExcluded').textContent=pct(raw.excludedShare);
   const seatQueue=[];for(const key of SEAT_ORDER){for(let i=0;i<(pr.seats[key]||0);i++)seatQueue.push(key)}while(seatQueue.length<TOTAL_SEATS)seatQueue.push('other');
   const pts=hemicyclePoints();let svg='<svg class="parliament-svg" viewBox="0 0 600 290" role="img" aria-label="Proiezione dei seggi del Bundestag">';for(let i=0;i<pts.length;i++){const pt=pts[i],p=partyByKey(seatQueue[i])||{color:'#666'};svg+=`<circle cx="${pt.x.toFixed(2)}" cy="${pt.y.toFixed(2)}" r="4.15" fill="${p.color}" opacity=".96"><title>${p.label}</title></circle>`}svg+=`<path d="M300 270 L300 35" stroke="#b38f00" stroke-width="1" stroke-dasharray="4 6" opacity=".35"/><text x="300" y="25" text-anchor="middle" fill="#b8aa6c" font-size="11" font-weight="700">316</text></svg><div class="majority-label"><strong>316 seggi</strong> per la maggioranza assoluta${pr.mc?' · scenario centrale probabilistico':''}</div>`;el.innerHTML=svg;
-  const cardOrder=['union','afd','spd','gruene','linke','bsw','fdp','fw','ssw'];strip.innerHTML=cardOrder.map(k=>{const p=partyByKey(k),s=pr.seats[k]||0,v=k==='ssw'?null:raw.avg[k],diff=s-(p.actual||0),diffText=diff===0?'±0':(diff>0?`+${diff}`:`${diff}`),cls=diff>0?'plus':diff<0?'minus':'',st=state.monteCarlo?.stats?.[k],range=st?` · 80% ${st.low}–${st.high}`:'';return `<div class="seat-tile" style="--c:${p.color}"><div class="seat-name">${esc(p.label)}${v!==null?` · ${pct(v)}`:''}</div><div class="seat-number">${s}</div><div class="seat-sub">2025 <span class="${cls}">${diffText}</span>${range}</div></div>`}).join('');
+  const cardOrder=['union','afd','spd','gruene','linke','bsw','fdp','fw','ssw'];strip.innerHTML=cardOrder.map(k=>{const p=partyByKey(k),s=pr.seats[k]||0,v=k==='ssw'?null:raw.avg[k],diff=s-(p.actual||0),diffText=diff===0?'±0':(diff>0?`+${diff}`:`${diff}`),cls=diff>0?'plus':diff<0?'minus':'',st=state.monteCarlo?.stats?.[k],range=st?`${st.low}–${st.high}`:'';return `<div class="seat-tile" style="--c:${p.color}"><div class="seat-name">${esc(p.label)}${v!==null?` · ${pct(v)}`:''}</div><div class="seat-number">${s}</div>${range?`<div class="seat-range">Intervallo 80%: ${range}</div>`:''}<div class="seat-sub">Scarto sul 2025 <span class="${cls}">${diffText}</span></div></div>`}).join('');
   renderExceptions(raw);renderCoalition(pr);
 }
 function renderExceptions(pr){const el=document.getElementById('exceptions'),below=PARTIES.filter(p=>p.key!=='other'&&Number.isFinite(pr.avg[p.key])&&pr.avg[p.key]<5);if(!below.length){el.innerHTML='<div class="empty-small">Nessun partito rilevato al di sotto del 5%.</div>';return}const directCounts={};if(districtState.ready)for(const d of districtState.projected){const mk=DISTRICT_PARTIES[d.winner]?.model;if(mk)directCounts[mk]=(directCounts[mk]||0)+1}el.innerHTML=below.map(p=>{const n=directCounts[p.key],auto=state.autoDirectExceptions.has(p.key),manual=state.directExceptions.has(p.key);let hint='';if(Number.isFinite(n))hint=auto?`<span class="auto-exception-label">· ${n} collegi · eccezione applicata automaticamente</span>`:`<span style="color:#85827b;font-size:9px;margin-left:5px">· mappa: ${n} collegi</span>`;return`<div class="exception-row ${auto?'auto-exception':''}"><div class="exception-party"><span class="party-dot" style="--c:${p.color}"></span>${p.label} <span style="color:#85827b;font-size:10px">${pct(pr.avg[p.key])}</span>${hint}</div><label class="switch" title="${auto?'Il modello prevede almeno tre primi posti nei collegi: eccezione applicata automaticamente':'Ipotizza manualmente almeno tre primi posti nei collegi'}"><input type="checkbox" data-exception="${p.key}" ${(auto||manual)?'checked':''} ${auto?'disabled':''}><span class="slider"></span></label></div>`}).join('');el.querySelectorAll('input[data-exception]:not(:disabled)').forEach(i=>i.addEventListener('change',()=>{i.checked?state.directExceptions.add(i.dataset.exception):state.directExceptions.delete(i.dataset.exception);renderParliament();scheduleMonteCarlo(true);if(districtState.ready)updateConstituencyProjection()}))}
@@ -1058,7 +1169,94 @@ function renderLegend(){const cur=currentAvg();if(!cur)return;if(!state.visible.
 function renderLineChart(){
   const data=historySeries(),el=document.getElementById('lineChart');if(data.length<2){el.innerHTML='<div class="empty">Dati insufficienti per la serie storica</div>';return}const isMobile=innerWidth<=600,w=Math.max(isMobile?340:700,el.clientWidth||(isMobile?360:900)),h=Math.max(300,el.clientHeight||(isMobile?310:400)),m=isMobile?{l:34,r:10,t:12,b:32}:{l:42,r:14,t:14,b:34},iw=w-m.l-m.r,ih=h-m.t-m.b,vis=PARTIES.filter(p=>state.visible.has(p.key)),values=[];data.forEach(d=>vis.forEach(p=>{if(Number.isFinite(d[p.key]))values.push(d[p.key])}));if(!values.length){el.innerHTML='<div class="empty">Seleziona almeno un partito</div>';return}const ymin=Math.max(0,Math.floor((Math.min(...values)-2)/5)*5),ymax=Math.ceil((Math.max(...values)+2)/5)*5,t0=data[0].date.getTime(),t1=data[data.length-1].date.getTime()||t0+1,X=d=>m.l+(d.getTime()-t0)/(t1-t0)*iw,Y=v=>m.t+(ymax-v)/(ymax-ymin)*ih,yTicks=[];for(let y=ymin;y<=ymax;y+=5)yTicks.push(y);const xTicks=[],count=isMobile?3:(w<820?4:7);for(let i=0;i<count;i++)xTicks.push(new Date(t0+(t1-t0)*i/(count-1)));let svg=`<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="Serie storica dei sondaggi">`;yTicks.forEach(y=>{const yy=Y(y);svg+=`<line x1="${m.l}" y1="${yy}" x2="${w-m.r}" y2="${yy}" stroke="#e4e6e9" stroke-width="1"/><text x="${m.l-8}" y="${yy+4}" fill="#70757d" font-size="10" text-anchor="end">${y}%</text>`});xTicks.forEach(d=>svg+=`<text x="${X(d)}" y="${h-10}" fill="#70757d" font-size="10" text-anchor="middle">${new Intl.DateTimeFormat('it-IT',{month:'short',year:'2-digit'}).format(d)}</text>`);for(const p of vis){let path='',started=false;data.forEach(d=>{const v=d[p.key];if(!Number.isFinite(v)){started=false;return}path+=(started?'L':'M')+X(d.date).toFixed(1)+','+Y(v).toFixed(1);started=true});svg+=`<path d="${path}" fill="none" stroke="${p.color}" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round" opacity=".97"/>`}svg+=`<rect id="hoverRect" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}" fill="transparent"/><line id="cross" x1="0" x2="0" y1="${m.t}" y2="${h-m.b}" stroke="#b38f00" stroke-width="1" opacity="0" stroke-dasharray="3 4"/></svg>`;el.innerHTML=svg;const rect=el.querySelector('#hoverRect'),cross=el.querySelector('#cross'),tip=document.getElementById('tooltip');rect.addEventListener('pointermove',ev=>{const r=rect.getBoundingClientRect(),mx=(ev.clientX-r.left)/r.width*iw+m.l,ts=t0+((mx-m.l)/iw)*(t1-t0);let best=data[0];for(const d of data)if(Math.abs(d.date.getTime()-ts)<Math.abs(best.date.getTime()-ts))best=d;const xx=X(best.date);cross.setAttribute('x1',xx);cross.setAttribute('x2',xx);cross.setAttribute('opacity','1');const lines=vis.map(p=>({p,v:best[p.key]})).filter(x=>Number.isFinite(x.v)).sort((a,b)=>b.v-a.v).map(x=>`<div class="line"><span><span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:${x.p.color};margin-right:5px"></span>${x.p.label}</span><strong>${pct(x.v)}</strong></div>`).join('');tip.innerHTML=`<div class="date">${fmtDate(best.date)} · media ${state.window} giorni</div>${lines}`;tip.style.display='block';tip.style.left=Math.max(8,Math.min(innerWidth-258,ev.clientX+14))+'px';tip.style.top=Math.max(8,Math.min(innerHeight-190,ev.clientY+14))+'px'});rect.addEventListener('pointerleave',()=>{cross.setAttribute('opacity','0');tip.style.display='none'})
 }
-function renderAll(){renderKPIs();renderParliament();renderSnapshot();renderMomentum();renderThreshold();renderPollsters();renderTable();renderLegend();renderLineChart();if(districtState.ready)updateConstituencyProjection();scheduleMonteCarlo()}
+function renderAll(){renderKPIs();renderParliament();renderSnapshot();renderMomentum();renderThreshold();renderPollsters();renderTable();renderLegend();renderLineChart();state.modelUpdatedAt=new Date();updateUtilityMeta();if(districtState.ready)updateConstituencyProjection();scheduleMonteCarlo()}
+
+function updateUtilityMeta(){
+  const avg=projectionAverage();
+  const latest=state.polls.length?state.polls[state.polls.length-1].date:null;
+  const latestEl=document.getElementById('dateLatestPoll'); if(latestEl) latestEl.textContent=fmtDate(latest);
+  const loadedEl=document.getElementById('dateDataLoaded'); if(loadedEl) loadedEl.textContent=fmtDateTime(state.fetchedAt);
+  const modelEl=document.getElementById('dateModelUpdated'); if(modelEl) modelEl.textContent=fmtDateTime(state.modelUpdatedAt);
+  const snapEl=document.getElementById('dateSnapshot'); if(snapEl) snapEl.textContent=fmtDateTime(state.lastSnapshotAt);
+}
+function buildCurrentSnapshot(){
+  const pr=projectSeats(),avg=projectionAverage(),mc=state.monteCarlo;
+  const districtSummary=districtState.ready?districtState.projected.reduce((acc,d)=>{acc.total=(acc.total||0)+1;acc.byWinner[d.winner]=(acc.byWinner[d.winner]||0)+1;if(d.margin<3)acc.close=(acc.close||0)+1;if(d.covered===false)acc.uncovered=(acc.uncovered||0)+1;return acc},{byWinner:{},close:0,uncovered:0,total:0}):null;
+  return {
+    exportedAt:new Date().toISOString(),
+    latestPollDate:avg?.date?avg.date.toISOString():null,
+    sourceLoadedAt:state.fetchedAt?state.fetchedAt.toISOString():null,
+    modelUpdatedAt:state.modelUpdatedAt?state.modelUpdatedAt.toISOString():null,
+    monteCarloSeed:mc?.seed??null,
+    monteCarloSimulations:mc?.n??MC_SIMS,
+    pollingAverage:avg?Object.fromEntries(PARTIES.map(p=>[p.key,avg[p.key]])):null,
+    seatProjection:pr?pr.seats:null,
+    seatProjectionUnionSplit:pr?.unionSplit||null,
+    probabilistic:mc?.ready?Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,mc.stats[k]])):null,
+    constituencies:districtSummary,
+    directExceptionParties:[...state.directExceptions],
+    automaticExceptionParties:[...state.autoDirectExceptions],
+    source:'Wahlen in Deutschland — Sonntagsfrage Bundestagswahl'
+  };
+}
+function saveDailySnapshotMaybe(){
+  const avg=projectionAverage(); if(!avg||!state.monteCarlo?.ready) return;
+  const key=avg.date.toISOString().slice(0,10), existingRaw=localStorage.getItem(DAILY_SNAPSHOT_KEY);
+  let existing=null; try{existing=existingRaw?JSON.parse(existingRaw):null}catch{}
+  if(existing?.key===key && existing?.fingerprint===state.mcFingerprint){ state.lastSnapshotAt=existing.savedAt?new Date(existing.savedAt):state.lastSnapshotAt; updateUtilityMeta(); return; }
+  const payload=buildCurrentSnapshot(); const wrapper={key,fingerprint:state.mcFingerprint,savedAt:new Date().toISOString(),payload};
+  try{localStorage.setItem(DAILY_SNAPSHOT_KEY,JSON.stringify(wrapper))}catch{}
+  state.lastSnapshotAt=new Date(wrapper.savedAt); updateUtilityMeta();
+}
+function drawPreviewCard(){
+  const canvas=document.getElementById('previewCanvas'); if(!canvas) return null; const ctx=canvas.getContext('2d');
+  const w=canvas.width,h=canvas.height; ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#f5f5f2'; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='#111111'; ctx.fillRect(0,0,w,24); ctx.fillStyle='#dd0000'; ctx.fillRect(0,24,w,24); ctx.fillStyle='#ffcc00'; ctx.fillRect(0,48,w,24);
+  ctx.fillStyle='#171717'; ctx.font='700 20px sans-serif'; ctx.fillText('Elezioni federali tedesche',60,120);
+  ctx.font='900 46px sans-serif'; ctx.fillText('Proiezione del Bundestag',60,178);
+  ctx.font='400 20px sans-serif'; ctx.fillStyle='#4f5358'; ctx.fillText('Media dei sondaggi, seggi probabilistici e collegi simulati',60,214);
+  const raw=projectSeats(), mc=state.monteCarlo, order=['afd','union','spd','gruene','linke'];
+  let y=290; order.forEach((k,idx)=>{const p=partyByKey(k), seats=(mc?.centralSeats?.[k] ?? raw?.seats?.[k] ?? 0), range=mc?.stats?.[k]?`${mc.stats[k].low}–${mc.stats[k].high}`:'—'; const vote=(k==='ssw'?SSW_ASSUMED_SHARE:raw?.avg?.[k]);
+    ctx.fillStyle=p.color; ctx.fillRect(60,y-18,14,14); ctx.fillStyle='#171717'; ctx.font='800 26px sans-serif'; ctx.fillText(p.label,90,y-4);
+    ctx.font='400 18px sans-serif'; ctx.fillStyle='#555'; ctx.fillText(`${pct(vote)} · mediana ${seats} seggi · intervallo 80% ${range}`,320,y-4); y+=56;});
+  const leader=(PARTIES.map(p=>({label:p.label,val:raw?.avg?.[p.key]||0})).sort((a,b)=>b.val-a.val)[0]||{});
+  ctx.fillStyle='#fff'; ctx.strokeStyle='#d9d9d6'; ctx.lineWidth=2; ctx.roundRect?.(760,110,360,170,18); ctx.fill(); ctx.stroke();
+  ctx.fillStyle='#171717'; ctx.font='700 18px sans-serif'; ctx.fillText('Quadro sintetico',790,150);
+  ctx.font='900 44px sans-serif'; ctx.fillText(leader.label||'—',790,208);
+  ctx.font='400 18px sans-serif'; ctx.fillStyle='#555'; ctx.fillText(`Partito in testa · ${pct(leader.val||0)}`,790,236);
+  ctx.fillText(`Ultimo sondaggio: ${fmtDate(raw?.avg?.date)}`,790,260);
+  ctx.fillStyle='#444'; ctx.font='400 16px sans-serif'; ctx.fillText('Fonte: Wahlen in Deutschland',60,585); ctx.fillText('Modello: Daniele Angrisani · @putino',420,585);
+  return canvas;
+}
+function downloadPreviewPng(){ const canvas=drawPreviewCard(); if(!canvas) return; canvas.toBlob(blob=>{ if(!blob) return; const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=snapshotFilename('png'); document.body.appendChild(a); a.click(); setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},120); },'image/png'); }
+function downloadSnapshotJson(){ const data=buildCurrentSnapshot(); downloadBlob(snapshotFilename('json'), JSON.stringify(data,null,2), 'application/json'); }
+function pageShareData(){return {url:location.href,title:document.title,text:'Sondaggi e proiezione del Bundestag: media dei sondaggi, seggi probabilistici e collegi simulati.'}}
+function openShare(kind){ const s=pageShareData(), u=encodeURIComponent(s.url), t=encodeURIComponent(s.title), txt=encodeURIComponent(s.text+' '+s.url); let url='';
+  if(kind==='x') url=`https://x.com/intent/post?text=${txt}`;
+  else if(kind==='threads') url=`https://www.threads.net/intent/post?text=${txt}`;
+  else if(kind==='facebook') url=`https://www.facebook.com/sharer/sharer.php?u=${u}`;
+  else if(kind==='linkedin') url=`https://www.linkedin.com/sharing/share-offsite/?url=${u}`;
+  else if(kind==='telegram') url=`https://t.me/share/url?url=${u}&text=${encodeURIComponent(s.title)}`;
+  else if(kind==='whatsapp') url=`https://api.whatsapp.com/send?text=${txt}`;
+  else if(kind==='copy'){ navigator.clipboard?.writeText(location.href); setStatus('ok','Link copiato negli appunti'); return; }
+  if(url) window.open(url,'_blank','noopener');
+}
+function aiPrompt(){
+  const avg=projectionAverage(), pr=projectSeats(), mc=state.monteCarlo; const url=location.href;
+  const lines=[
+    'Analizza criticamente questo modello sulle elezioni federali tedesche.',
+    `URL: ${url}`,
+    avg?`Ultimo sondaggio incluso: ${fmtDate(avg.date)}.`:'',
+    avg?`Media dei sondaggi: CDU/CSU ${pct(avg.union)}, AfD ${pct(avg.afd)}, SPD ${pct(avg.spd)}, Verdi ${pct(avg.gruene)}, Linke ${pct(avg.linke)}, FDP ${pct(avg.fdp)}, BSW ${pct(avg.bsw)}.`:'',
+    pr?`Scenario centrale dei seggi: CDU/CSU ${pr.seats.union}, AfD ${pr.seats.afd}, SPD ${pr.seats.spd}, Verdi ${pr.seats.gruene}, Linke ${pr.seats.linke}, FDP ${pr.seats.fdp}, BSW ${pr.seats.bsw}, SSW ${pr.seats.ssw}.`: '',
+    mc?.ready?`Monte Carlo: ${mc.n.toLocaleString('it-IT')} simulazioni, sigma storica ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., seed ${mc.seed}.`: '',
+    'Valuta metodologia, assunzioni, punti deboli, gestione della soglia del 5%, eccezione dei tre collegi, mappa degli uninominali e plausibilità delle coalizioni. Distingui errori tecnici, rischi statistici e suggerimenti editoriali.'
+  ].filter(Boolean);
+  return lines.join('\n');
+}
+function openAi(kind){ const prompt=aiPrompt(); navigator.clipboard?.writeText(prompt); if(kind==='copy'){ setStatus('ok','Prompt copiato negli appunti'); return; } const urls={perplexity:'https://www.perplexity.ai/', claude:'https://claude.ai/new', openai:'https://chat.openai.com/', gemini:'https://gemini.google.com/app'}; if(urls[kind]) window.open(urls[kind],'_blank','noopener'); setStatus('ok',`Prompt copiato · apri ${kind[0].toUpperCase()+kind.slice(1)}`); }
+
 
 function runInternalChecks(){
   // 1) Seat allocator: official 2025 second votes must reproduce the official aggregate seat totals.
@@ -1079,17 +1277,26 @@ function runInternalChecks(){
   // 5) Constituency model helpers.
   if(districtPartyKey('BÜNDNIS 90/DIE GRÜNEN')!=='gruene'||districtPartyKey('CSU')!=='csu'||districtPartyKey('Alternative für Deutschland')!=='afd')throw new Error('Autotest collegi fallito: normalizzazione partiti.');
   const csvTest=parseDelimited('id,name,wahl,partei,gueltige,stimmen\n1,Kiel,Erststimme,SPD,100,30',',');if(csvTest.length!==2||csvTest[1][5]!=='30')throw new Error('Autotest collegi fallito: parser CSV.');
+  // 6) Soglia del 5%: senza eccezione un partito sotto soglia resta fuori; con eccezione entra.
+  const thresholdProject=(vote,withException=false)=>{const w={cdu:25,csu:6,afd:24,spd:14,gruene:12,linke:10}; if(vote>=5||withException)w.fdp=vote; w.ssw=SSW_ASSUMED_SHARE; return sainteLague(w,630).fdp||0;};
+  if(thresholdProject(4.99,false)!==0)throw new Error('Autotest soglia fallito: un partito al 4,99% senza eccezione non deve entrare.');
+  if(thresholdProject(5.01,false)<=0)throw new Error('Autotest soglia fallito: un partito al 5,01% deve entrare.');
+  if(thresholdProject(4.8,true)<=0)throw new Error('Autotest soglia fallito: l’eccezione dei tre collegi non viene applicata correttamente.');
   return true;
 }
 
 try{runInternalChecks()}catch(e){console.error(e);showError('Verifica interna non superata: '+e.message);setStatus('error','Errore nella verifica interna');throw e}
 
 document.getElementById('refreshBtn').addEventListener('click',()=>fetchData(true));
+document.getElementById('downloadSnapshotBtn')?.addEventListener('click',downloadSnapshotJson);
+document.getElementById('downloadPngBtn')?.addEventListener('click',downloadPreviewPng);
+document.querySelectorAll('[data-share]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openShare(el.dataset.share)}));
+document.querySelectorAll('[data-ai]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openAi(el.dataset.ai)}));
 document.querySelectorAll('#windowControls button').forEach(b=>b.addEventListener('click',()=>{state.window=+b.dataset.win;document.querySelectorAll('#windowControls button').forEach(x=>x.classList.toggle('active',x===b));renderKPIs();renderSnapshot();renderMomentum();renderThreshold();renderLegend();renderLineChart()}));
 document.querySelectorAll('#rangeControls button').forEach(b=>b.addEventListener('click',()=>{state.range=b.dataset.range==='all'?'all':+b.dataset.range;document.querySelectorAll('#rangeControls button').forEach(x=>x.classList.toggle('active',x===b));renderLineChart()}));
 let resizeTimer;addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>state.polls.length&&renderLineChart(),160)});
 initConstituencyUI();fetchData(false);setInterval(()=>fetchData(false),60*60*1000);
 </script>
-<!-- QA v16 probabilistic: 25-08-2026 -->
+<!-- QA v17 publish-ready: 25-08-2026 -->
 </body>
 </html>
