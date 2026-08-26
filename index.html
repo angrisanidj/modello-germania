@@ -1238,7 +1238,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.3</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">v22.4</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
   </header>
   <section class="editorial-meta" aria-label="Stato del modello">
@@ -1294,7 +1294,7 @@ body.sticky-nowcast-offset{padding-top:0}
           <div class="method-row"><div class="method-num">1</div><div><strong>Finestra di 14 giorni</strong><span>Considera soltanto i sondaggi pubblicati nelle ultime due settimane.</span></div></div>
           <div class="method-row"><div class="method-num">2</div><div><strong>Un sondaggio per istituto</strong><span>Per ciascun istituto considera soltanto la rilevazione più recente, evitando che chi pubblica più spesso pesi eccessivamente sulla media.</span></div></div>
           <div class="method-row"><div class="method-num">3</div><div><strong>Ponderazione temporale e storica</strong><span>Il peso si dimezza ogni sette giorni. In più, l’affidabilità dell’istituto è stimata soltanto sulle elezioni precedenti, fortemente regolarizzata verso 1 e limitata a ±20%.</span></div></div>
-          <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con shock nazionale iniziale centrato a zero e σ = 1,3 punti percentuali, seguito da vincolo di positività e rinormalizzazione delle quote al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
+          <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con shock nazionale centrato a zero e σ-base = 1,3 punti percentuali. La dispersione assoluta viene modulata in modo molto lieve in funzione della quota del partito (esponente 0,10, cap 0,75–1,25) soltanto se il promotion gate probabilistico supera il backtest; seguono positività e rinormalizzazione al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
         </div>
         <div class="proj-stats">
           <div class="proj-stat"><div class="l">Istituti inclusi</div><div id="projInstitutes" class="v">—</div><div class="s">nella proiezione</div></div>
@@ -1315,7 +1315,7 @@ body.sticky-nowcast-offset{padding-top:0}
     <div class="card mc-card">
       <div class="mc-head"><div><h3>Distribuzione dei seggi</h3><p>Qui l’obiettivo non è ripetere lo scenario rappresentativo già mostrato sopra, ma rendere visibile l’incertezza: per ciascun partito sono evidenziati l’intervallo all’80% e la mediana marginale. Lo scenario rappresentativo resta indicato in piccolo, come riferimento rispetto all’emiciclo.</p></div><span id="mcStatus" class="mc-status">In attesa dei dati</span></div>
       <div id="mcPartyGrid" class="mc-party-grid"><div class="empty-small">La simulazione partirà dopo il caricamento dei sondaggi.</div></div>
-      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: il centro resta la media dei sondaggi. Il Monte Carlo nazionale parte da uno shock con σ = 1,3 p.p.; dopo il vincolo di positività e la rinormalizzazione, la dispersione marginale finale può differire leggermente, soprattutto per i partiti più piccoli. Il modello non tratta tutti gli errori come indipendenti: una componente comune di ciclo viene stimata dagli errori pre-elettorali storici e fortemente regolarizzata, mentre la parte residua dell’errore resta specifica del partito. Sul territorio si aggiungono poi uno scostamento condiviso a livello di Land e uno specifico di Wahlkreis. Lo scenario rappresentativo è scelto tra le 50.000 simulazioni minimizzando la distanza dalle mediane dei partiti, normalizzata per l’ampiezza del rispettivo intervallo 80%, così che le forze con maggiore volatilità non pesino artificialmente quanto quelle con distribuzioni molto più strette. Il calcolo viene eseguito una sola volta per ogni nuovo quadro dei sondaggi, in 50 blocchi asincroni da 1.000, e poi salvato nella cache locale.<span id="mcErrorStructure" class="mc-coal-inline"></span></div>
+      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: il centro resta la media dei sondaggi. Il Monte Carlo nazionale parte da una σ-base di 1,3 p.p. La v22.4 testa una modulazione eteroschedastica molto prudente: la σ assoluta cresce debolmente con la quota del partito e viene limitata fra il 75% e il 125% della base. La modulazione viene usata soltanto se migliora simultaneamente proper score nazionali e dei seggi nel backtest; dopo positività e rinormalizzazione la dispersione marginale finale può comunque differire leggermente. Il modello non tratta tutti gli errori come indipendenti: una componente comune di ciclo viene stimata dagli errori pre-elettorali storici e fortemente regolarizzata, mentre la parte residua dell’errore resta specifica del partito. Sul territorio si aggiungono poi uno scostamento condiviso a livello di Land e uno specifico di Wahlkreis. Lo scenario rappresentativo è scelto tra le 50.000 simulazioni minimizzando la distanza dalle mediane dei partiti, normalizzata per l’ampiezza del rispettivo intervallo 80%, così che le forze con maggiore volatilità non pesino artificialmente quanto quelle con distribuzioni molto più strette. Il calcolo viene eseguito una sola volta per ogni nuovo quadro dei sondaggi, in 50 blocchi asincroni da 1.000, e poi salvato nella cache locale.<span id="mcErrorStructure" class="mc-coal-inline"></span></div>
     </div>
     <aside class="card mc-side">
       <div class="mc-section"><h3>Probabilità di ingresso nel riparto</h3><p>Probabilità che il partito entri nel riparto e ottenga almeno un seggio. In ogni simulazione i 299 collegi risentono dello scostamento nazionale del partito, di uno scostamento comune al Land e di una componente locale specifica del Wahlkreis. Un partito sotto il 5% entra nel riparto soltanto se in quella specifica simulazione arriva primo in almeno tre collegi. Gli scenari manuali modificano soltanto la proiezione esplorativa e non fanno ripartire il Monte Carlo di base.</p><div id="mcThreshold" class="mc-list"><div class="empty-small">Calcolo in corso…</div></div></div>
@@ -1335,7 +1335,7 @@ body.sticky-nowcast-offset{padding-top:0}
       <div class="forecast-main"><div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px"><div><strong style="font-size:15px">Distribuzione dei seggi</strong><div style="font-size:10px;color:#777c83;margin-top:3px">50.000 simulazioni, eseguite soltanto su richiesta e riutilizzate per la stessa istantanea dei dati e lo stesso orizzonte.</div></div><span id="forecastStatus" class="forecast-status">Non calcolato</span></div><div id="forecastPartyGrid" class="mc-party-grid"><div class="empty-small">Seleziona l'orizzonte e avvia il forecast. Il nowcast sopra non viene modificato.</div></div></div>
       <aside class="forecast-side"><div><h4>Rischio soglia</h4><p>Probabilità di ingresso con l'incertezza temporale aggiuntiva.</p><div id="forecastThreshold" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div><div><h4>Maggioranze</h4><p>Probabilità aritmetica di almeno 316 seggi; le incompatibilità politiche restano separate.</p><div id="forecastCoalitions" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div></aside>
     </div>
-    <div class="forecast-note"><strong>Interpretazione.</strong> È un forecast condizionale, non una previsione della data delle prossime elezioni. Il modello non tenta di anticipare quali partiti saliranno o scenderanno: il valore centrale resta la media corrente e cambia soltanto la dispersione. La componente nazionale incorpora la deriva storica dei consensi; la geografia conserva il modello gerarchico Land/Wahlkreis e ne aumenta gradualmente la dispersione con l’orizzonte. Anche con un massimo di sei cicli la calibrazione resta prudenziale: AfD dispone di meno storia e BSW non ha ancora abbastanza elezioni per stimare una dipendenza propria. Gli scostamenti nazionali restano gaussiani e additivi in punti percentuali; vengono poi limitati a valori positivi e rinormalizzati: per partiti molto piccoli e orizzonti lunghi questa trasformazione può introdurre asimmetria, motivo per cui il forecast va letto come sperimentale.</div>
+    <div class="forecast-note"><strong>Interpretazione.</strong> È un forecast condizionale, non una previsione della data delle prossime elezioni. Il modello non tenta di anticipare quali partiti saliranno o scenderanno: il valore centrale resta la media corrente e cambia soltanto la dispersione. La componente nazionale incorpora la deriva storica dei consensi; la modulazione share-aware riguarda soltanto la componente nowcast validata, mentre la deriva temporale aggiuntiva resta comune in punti percentuali. La geografia conserva il modello gerarchico Land/Wahlkreis e ne aumenta gradualmente la dispersione con l’orizzonte. Anche con un massimo di sei cicli la calibrazione resta prudenziale: AfD dispone di meno storia e BSW non ha ancora abbastanza elezioni per stimare una dipendenza propria. Gli scostamenti nazionali restano gaussiani e additivi in punti percentuali; vengono poi limitati a valori positivi e rinormalizzati: per partiti molto piccoli e orizzonti lunghi questa trasformazione può introdurre asimmetria, motivo per cui il forecast va letto come sperimentale.</div>
   </section>
 
 
@@ -1442,6 +1442,7 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="bt-metric"><div class="n" id="btSeatError">—</div><div class="l">Errore seggi 2025 · somma assoluta</div></div>
       </div>
       <div class="calib-verdict" id="btVerdict"><strong>Calcolo in corso.</strong></div>
+      <div class="calib-verdict" id="mcBtVerdict"><strong>Backtest probabilistico dei seggi in corso.</strong></div>
       <div class="bt-note" id="btNote">Il backtest nazionale sarà disponibile appena l’archivio storico è stato caricato.</div>
     </div>
     <div class="card bt-table calibration-table">
@@ -1561,8 +1562,8 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A8:Z`,
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
-const APP_VERSION='22.3';
-const SHARE_CARD_VERSION='20260826v22_3';
+const APP_VERSION='22.4';
+const SHARE_CARD_VERSION='20260826v22_4';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
 const POLL_REFRESH_JITTER_MS=60*60*1000;
@@ -1572,12 +1573,14 @@ const CACHE_MS=24*60*60*1000;
 const DAY=86400000;
 const TOTAL_SEATS=630, MAJORITY=316, SSW_ASSUMED_SHARE=0.153;
 const MC_SIMS=50000, MC_BATCH=1000, MC_SIGMA=1.30, MC_QLOW=0.10, MC_QHIGH=0.90;
+const MC_SHARE_SIGMA_ALPHA_CANDIDATE=0.10, MC_SHARE_SIGMA_REFERENCE=15, MC_SHARE_SIGMA_MIN=0.75, MC_SHARE_SIGMA_MAX=1.25;
+const MC_PROB_BACKTEST_SIMS=20000;
 const TERRITORIAL_BASE_ELECTION=new Date(2025,1,23), TERRITORIAL_REFERENCE_MONTHS=41;
 const TERRITORIAL_LAND_CAP=0.28, TERRITORIAL_DISTRICT_CAP=0.42, TERRITORIAL_MIN_SHARE=0.20;
-const MC_ENGINE_VERSION='v22.3-gated-calibration';
-const MC_CACHE_KEY='de_bundestag_mc_v22_3_gatedcal';
-const FORECAST_ENGINE_VERSION='v22.3-forecast-gated-calibration';
-const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_3_gatedcal';
+const MC_ENGINE_VERSION='v22.4-share-aware-gated';
+const MC_CACHE_KEY='de_bundestag_mc_v22_4_shareaware';
+const FORECAST_ENGINE_VERSION='v22.4-forecast-shareaware-gated';
+const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_4_shareaware';
 const FORECAST_HORIZONS=[1,3,6,12,24,36];
 const FORECAST_ELECTIONS=[
   {date:new Date(2005,8,18),label:'2005',result:{union:35.2,spd:34.2,gruene:8.1,fdp:9.8,linke:8.7}},
@@ -1865,7 +1868,7 @@ function historicalNowcastErrorRows(){
   const rows=[];for(const e of FORECAST_ELECTIONS){const cutoff=new Date(e.date.getTime()-DAY),avg=projectionAverageAt(cutoff);if(!avg||avg.count<2)continue;const errors={};for(const [k,actual] of Object.entries(e.result)){const est=avg[k];if(Number.isFinite(est)&&Number.isFinite(actual))errors[k]=est-actual}rows.push({cycle:e.label,date:e.date,avgCount:avg.count,errors})}return rows
 }
 const NATIONAL_BACKTEST_SIMS=50000;
-const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v3-gated-calibration';
+const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v4-probabilistic-seat-gate';
 
 /*
   Dataset storico dedicato al backtest nazionale.
@@ -1967,6 +1970,94 @@ const NATIONAL_SEAT_BACKTEST_REFERENCE={seatAbs:40,seatMae:6.6666666667,seatRmse
 function backtestPartyLabel(k){return partyByKey(k)?.label||k}
 function backtestQuantile(arr,q){const a=Float32Array.from(arr);a.sort();const i=Math.max(0,Math.min(a.length-1,Math.round((a.length-1)*q)));return a[i]}
 
+
+/* ===== v22.4 probabilistic promotion gate: share-aware national uncertainty =====
+   Candidate: sigma_k = sigma_base * (share_k / 15)^0.10, clipped to 0.75–1.25.
+   This changes dispersion only; point estimates are untouched. The candidate is activated only if:
+   - national CRPS and 80% interval score improve on the dedicated 2017/2021/2025 snapshots;
+   - 2025 national->threshold->seat CRPS and interval score improve;
+   - coverage does not move farther away from the nominal 80%;
+   - no election cycle shows a material CRPS/WIS regression.
+   The 2025 seat test intentionally excludes the territorial three-direct-mandate rescue from the
+   promotion decision: territorial dispersion is already validated separately with nested spatial CV,
+   while only one election exists under the present seat law.
+*/
+let MC_PROB_BACKTEST_CACHE=null;
+function mcShareSigmaScale(share,alpha=MC_SHARE_SIGMA_ALPHA_CANDIDATE){
+  if(!(alpha>0))return 1;
+  const p=Math.max(.1,Number(share)||0),m=Math.pow(p/MC_SHARE_SIGMA_REFERENCE,alpha);
+  return Math.max(MC_SHARE_SIGMA_MIN,Math.min(MC_SHARE_SIGMA_MAX,m));
+}
+function mcSigmaForShare(share,totalSigma=MC_SIGMA,alpha=MC_SHARE_SIGMA_ALPHA_CANDIDATE){
+  const total=Math.max(0,Number(totalSigma)||0);if(!(alpha>0))return total;
+  const now=MC_SIGMA*mcShareSigmaScale(share,alpha),drift2=Math.max(0,total*total-MC_SIGMA*MC_SIGMA);
+  return Math.sqrt(now*now+drift2);
+}
+function backtestGaussian(seed){
+  const rng=mulberry32(seed);let spare=null;
+  return()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
+}
+function empiricalCrps(arr,y){
+  const a=Float64Array.from(arr);a.sort();const n=a.length;if(!n)return null;let abs=0,pair=0;
+  for(let i=0;i<n;i++){abs+=Math.abs(a[i]-y);pair+=(2*(i+1)-n-1)*a[i]}
+  return abs/n-pair/(n*n);
+}
+function intervalScore80(arr,y){
+  const lo=backtestQuantile(arr,MC_QLOW),hi=backtestQuantile(arr,MC_QHIGH),penalty=y<lo?lo-y:y>hi?y-hi:0;
+  return{low:lo,high:hi,covered:y>=lo&&y<=hi,score:(hi-lo)+(2/(1-(MC_QHIGH-MC_QLOW)))*penalty};
+}
+function probabilisticNationalBacktestForAlpha(alpha){
+  const cycles=[];let totalN=0,totalCovered=0,totalCrps=0,totalWis=0;
+  for(const cycle of NATIONAL_BACKTEST_DATA){
+    const avg=dedicatedBacktestAverage(cycle),keys=Object.keys(cycle.result),n=MC_PROB_BACKTEST_SIMS,
+          samples=Object.fromEntries(keys.map(k=>[k,new Float32Array(n)])),residual=Math.max(.01,100-keys.reduce((a,k)=>a+(Number(avg[k])||0),0)),
+          gauss=backtestGaussian(hashString(`${NATIONAL_BACKTEST_DATA_VERSION}|prob-national|${cycle.cycle}`));
+    for(let i=0;i<n;i++){
+      const raw={},otherSigma=mcSigmaForShare(residual,MC_SIGMA,alpha),other=Math.max(.01,residual+otherSigma*gauss());let total=other;
+      for(const k of keys){const base=Number(avg[k])||0,x=Math.max(.01,base+mcSigmaForShare(base,MC_SIGMA,alpha)*gauss());raw[k]=x;total+=x}
+      const scale=100/total;for(const k of keys)samples[k][i]=raw[k]*scale;
+    }
+    let covered=0,crps=0,wis=0;
+    for(const k of keys){const y=cycle.result[k],is=intervalScore80(samples[k],y),cs=empiricalCrps(samples[k],y);covered+=is.covered?1:0;crps+=cs;wis+=is.score}
+    const row={cycle:cycle.cycle,n:keys.length,coverage:covered/keys.length,crps:crps/keys.length,wis:wis/keys.length};cycles.push(row);
+    totalN+=keys.length;totalCovered+=covered;totalCrps+=crps;totalWis+=wis;
+  }
+  return{n:totalN,coverage:totalCovered/totalN,crps:totalCrps/totalN,wis:totalWis/totalN,cycles};
+}
+function probabilisticSeatBacktestForAlpha(alpha){
+  const cycle=NATIONAL_BACKTEST_DATA.find(c=>c.cycle==='2025');if(!cycle)return null;
+  const avg=dedicatedBacktestAverage(cycle),n=MC_PROB_BACKTEST_SIMS,scoreKeys=['union','afd','spd','gruene','linke','bsw','fdp'],
+        actual={union:208,afd:152,spd:120,gruene:85,linke:64,bsw:0,fdp:0},samples=Object.fromEntries(scoreKeys.map(k=>[k,new Uint16Array(n)])),
+        residual=Math.max(.01,100-Object.keys(cycle.result).reduce((a,k)=>a+(Number(avg[k])||0),0)),base={};
+  for(const k of MC_KEYS)base[k]=Number(avg[k])||0;base.fw=0;base.other=Math.max(.01,residual-SSW_ASSUMED_SHARE);
+  const gauss=backtestGaussian(hashString(`${NATIONAL_BACKTEST_DATA_VERSION}|prob-seat|2025`)),target=100-SSW_ASSUMED_SHARE;
+  for(let i=0;i<n;i++){
+    const v={};let total=0;
+    for(const k of MC_KEYS){const b=base[k],x=Math.max(.01,b+mcSigmaForShare(b,MC_SIGMA,alpha)*gauss());v[k]=x;total+=x}
+    const scale=target/total;for(const k of MC_KEYS)v[k]*=scale;
+    const w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE;
+    if(cduVote>=5)w.cdu=cduVote;if(csuVote>=5)w.csu=csuVote;
+    for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw'])if(v[k]>=5)w[k]=v[k];
+    w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0};
+    for(const k of scoreKeys)samples[k][i]=sv[k]||0;
+  }
+  let covered=0,crps=0,wis=0;const bands={};
+  for(const k of scoreKeys){const y=actual[k],is=intervalScore80(samples[k],y),cs=empiricalCrps(samples[k],y);covered+=is.covered?1:0;crps+=cs;wis+=is.score;bands[k]={low:is.low,median:backtestQuantile(samples[k],.5),high:is.high,actual:y}}
+  return{n:scoreKeys.length,coverage:covered/scoreKeys.length,crps:crps/scoreKeys.length,wis:wis/scoreKeys.length,bands};
+}
+function probabilisticSeatPromotionGate(){
+  if(MC_PROB_BACKTEST_CACHE)return MC_PROB_BACKTEST_CACHE;
+  const baseNational=probabilisticNationalBacktestForAlpha(0),candidateNational=probabilisticNationalBacktestForAlpha(MC_SHARE_SIGMA_ALPHA_CANDIDATE),
+        baseSeat=probabilisticSeatBacktestForAlpha(0),candidateSeat=probabilisticSeatBacktestForAlpha(MC_SHARE_SIGMA_ALPHA_CANDIDATE),tol=1e-9;
+  const cyclesOk=candidateNational.cycles.every((c,i)=>{const b=baseNational.cycles[i];return c.wis<=b.wis+.02&&c.crps<=b.crps+.001});
+  const coverageOk=Math.abs(candidateNational.coverage-.8)<=Math.abs(baseNational.coverage-.8)+.001&&Math.abs(candidateSeat.coverage-.8)<=Math.abs(baseSeat.coverage-.8)+.001;
+  const pass=candidateNational.crps<baseNational.crps-.0005&&candidateNational.wis<baseNational.wis-.02&&candidateSeat.crps<baseSeat.crps-.05&&candidateSeat.wis<baseSeat.wis-.25&&coverageOk&&cyclesOk;
+  MC_PROB_BACKTEST_CACHE={pass,alpha:pass?MC_SHARE_SIGMA_ALPHA_CANDIDATE:0,baseNational,candidateNational,baseSeat,candidateSeat,cyclesOk,coverageOk,
+    detail:pass?'CRPS e WIS migliorano sia sulle quote nazionali sia sui seggi 2025; copertura non peggiora e nessun ciclo mostra una regressione materiale.':'Il candidato share-aware non supera tutti i vincoli del promotion gate; viene mantenuta la σ costante della v22.3.'};
+  return MC_PROB_BACKTEST_CACHE;
+}
+function activeMcShareSigmaAlpha(){return probabilisticSeatPromotionGate().alpha}
+
 function dedicatedBacktestAverage(cycle){
   const cutoff=new Date(cycle.election.getTime()-DAY),end=dayKey(cutoff),start=end-13*DAY,byInst=new Map();
   for(const p of cycle.polls){
@@ -1996,14 +2087,14 @@ function dedicatedBacktestAverage(cycle){
   non la struttura di dipendenza tra partiti.
 */
 function dedicatedBacktestBands(avg,cycle,keys){
-  const n=NATIONAL_BACKTEST_SIMS,seed=hashString(`${NATIONAL_BACKTEST_DATA_VERSION}|${cycle}|${MC_SIGMA}`),
+  const alpha=activeMcShareSigmaAlpha(),n=NATIONAL_BACKTEST_SIMS,seed=hashString(`${NATIONAL_BACKTEST_DATA_VERSION}|${cycle}|${MC_SIGMA}|a${alpha}`),
         rng=mulberry32(seed),samples=Object.fromEntries(keys.map(k=>[k,new Float32Array(n)])),
         residual=Math.max(.01,100-keys.reduce((a,k)=>a+(Number(avg[k])||0),0));
   let spare=null;
   const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
   for(let i=0;i<n;i++){
-    const raw={},other=Math.max(.01,residual+MC_SIGMA*gauss());let total=other;
-    for(const k of keys){const x=Math.max(.01,(Number(avg[k])||0)+MC_SIGMA*gauss());raw[k]=x;total+=x}
+    const raw={},other=Math.max(.01,residual+mcSigmaForShare(residual,MC_SIGMA,alpha)*gauss());let total=other;
+    for(const k of keys){const base=Number(avg[k])||0,x=Math.max(.01,base+mcSigmaForShare(base,MC_SIGMA,alpha)*gauss());raw[k]=x;total+=x}
     const scale=100/total;for(const k of keys)samples[k][i]=raw[k]*scale;
   }
   const bands={};for(const k of keys)bands[k]={low:backtestQuantile(samples[k],MC_QLOW),high:backtestQuantile(samples[k],MC_QHIGH)};
@@ -2037,7 +2128,8 @@ function nationalBacktestRegressionCheck(bt){
   const sb=bt.seat2025;if(!sb)return{ok:false,detail:'backtest seggi 2025 non disponibile'};
   if(Math.abs(sb.seatAbs-NATIONAL_SEAT_BACKTEST_REFERENCE.seatAbs)>seatTol||Math.abs(sb.seatMae-NATIONAL_SEAT_BACKTEST_REFERENCE.seatMae)>seatTol||Math.abs(sb.seatRmse-NATIONAL_SEAT_BACKTEST_REFERENCE.seatRmse)>seatTol)return{ok:false,detail:'backtest seggi 2025 fuori regressione'};
   if(sb.seatAbs>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatAbs+seatTol||sb.seatMae>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatMae+seatTol||sb.seatRmse>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatRmse+seatTol)return{ok:false,detail:'il candidato peggiora il backtest dei seggi 2025 rispetto alla v22.2'};
-  return{ok:true,detail:'19 osservazioni · MAE/RMSE migliori della v22.2 · nessun ciclo peggiora · errore seggi 2025 invariato a 40'};
+  const pg=probabilisticSeatPromotionGate();
+  return{ok:true,detail:`19 osservazioni · MAE/RMSE migliori della v22.2 · nessun ciclo peggiora · errore seggi 2025 invariato a 40 · gate probabilistico ${pg.pass?'superato':'respinto con fallback v22.3'}`};
 }
 
 function nationalBacktest(){
@@ -2086,9 +2178,9 @@ function backtestCycleIndication(row){
 function renderNationalBacktest(){
   const badge=document.getElementById('btBadge'),title=document.getElementById('btTitle'),intro=document.getElementById('btIntro'),
         maeEl=document.getElementById('btMae'),rmseEl=document.getElementById('btRmse'),covEl=document.getElementById('btCoverage'),seatEl=document.getElementById('btSeatError'),
-        verdict=document.getElementById('btVerdict'),note=document.getElementById('btNote'),tbody=document.getElementById('btTableBody'),
+        verdict=document.getElementById('btVerdict'),mcVerdict=document.getElementById('mcBtVerdict'),note=document.getElementById('btNote'),tbody=document.getElementById('btTableBody'),
         mobile=document.getElementById('btMobileCards');
-  if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!seatEl||!verdict||!note||!tbody||!mobile)return;
+  if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!seatEl||!verdict||!mcVerdict||!note||!tbody||!mobile)return;
   const bt=nationalBacktest(),pp=x=>Number.isFinite(x)?x.toFixed(2).replace('.',','):'—',pc=x=>Number.isFinite(x)?Math.round(x*100)+'%':'—';
 
   if(!bt.n){
@@ -2104,9 +2196,12 @@ function renderNationalBacktest(){
   covEl.classList.toggle('bt-good',Number.isFinite(bt.coverage)&&Math.abs(bt.coverage-.8)<=.10);
 
   const sb=bt.seat2025,seatVector=sb?NATIONAL_SEAT_BACKTEST_KEYS.map(k=>`${backtestPartyLabel(k)} ${sb.seats[k]}`).join(' · '):'—';
-  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli sono ricalcolati con shock iniziale σ = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., positività e rinormalizzazione. <strong>Backtest seggi 2025:</strong> errore assoluto complessivo ${sb?.seatAbs??'—'} seggi (v22.2: 40), MAE ${Number.isFinite(sb?.seatMae)?sb.seatMae.toFixed(2).replace('.',','):'—'}; proiezione ${esc(seatVector)}. CDU e CSU sono trattate come partiti separati, esattamente come nel motore di riparto. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
+  const pg=probabilisticSeatPromotionGate(),alpha=pg.alpha,shareTxt=alpha>0?`modulazione share-aware attiva · α ${alpha.toFixed(2).replace('.',',')}`:'σ costante v22.3';
+  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli partono da σ-base = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. e usano ${shareTxt}, seguiti da positività e rinormalizzazione. <strong>Backtest seggi 2025:</strong> errore assoluto complessivo ${sb?.seatAbs??'—'} seggi (v22.2: 40), MAE ${Number.isFinite(sb?.seatMae)?sb.seatMae.toFixed(2).replace('.',','):'—'}; proiezione ${esc(seatVector)}. CDU e CSU sono trattate come partiti separati, esattamente come nel motore di riparto. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
+  const f=x=>Number.isFinite(x)?x.toFixed(3).replace('.',','):'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—';
+  mcVerdict.innerHTML=`<strong>Promotion gate probabilistico v22.4: ${pg.pass?'<span class="bt-good">SUPERATO</span>':'RESPINTO'}.</strong> Quote nazionali 2017–2025: CRPS ${f(pg.baseNational.crps)} → <strong>${f(pg.candidateNational.crps)}</strong>, WIS80 ${f(pg.baseNational.wis)} → <strong>${f(pg.candidateNational.wis)}</strong>, copertura ${pc1(pg.baseNational.coverage)} → <strong>${pc1(pg.candidateNational.coverage)}</strong>. Seggi 2025 (7 gruppi con distribuzione non degenere): CRPS ${f(pg.baseSeat.crps)} → <strong>${f(pg.candidateSeat.crps)}</strong>, WIS80 ${f(pg.baseSeat.wis)} → <strong>${f(pg.candidateSeat.wis)}</strong>, copertura ${pc1(pg.baseSeat.coverage)} → <strong>${pc1(pg.candidateSeat.coverage)}</strong>. ${esc(pg.detail)}`;
 
-  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward soltanto sui cicli precedenti (shrink verso 1; cap 0,925–1,20). <strong>Seggi:</strong> il 2025 è l’unica elezione realmente comparabile con la legge attuale; il test usa le quote finali stimate, soglia del 5%, esenzione SSW e Sainte-Laguë. Non viene presentato come backtest probabilistico territoriale completo, perché prima del 2025 non esiste una transizione con la stessa legge e una calibrazione territoriale pregressa indipendente.`;
+  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward soltanto sui cicli precedenti (shrink verso 1; cap 0,925–1,20). <strong>Backtest probabilistico:</strong> il candidato eteroschedastico modifica soltanto la dispersione, non il centro. CRPS e WIS sono proper scoring rules: valori più bassi sono migliori. Il test dei seggi 2025 propaga l’incertezza nazionale attraverso soglia del 5% e Sainte-Laguë; non usa la componente territoriale per decidere la promozione, perché la calibrazione Land/Wahlkreis utilizza già la transizione 2021→2025 e non esiste una seconda elezione indipendente con la stessa legge. La parte territoriale resta quindi soggetta al gate nested separato qui sotto.`;
 
   tbody.innerHTML=bt.rows.map(r=>`<tr><td class="inst">${r.cycle}</td><td class="num">${pp(r.mae)} p.p.</td><td class="num">${r.covered}/${r.n} · ${pc(r.covered/r.n)}</td><td>${esc(backtestCycleIndication(r))}</td></tr>`).join('');
   mobile.innerHTML=bt.rows.map(r=>`<div class="bt-mobile-row"><div class="bt-mobile-party">${r.cycle}</div><div><span>MAE</span><strong>${pp(r.mae)} p.p.</strong></div><div><span>Copertura 80%</span><strong>${r.covered}/${r.n} · ${pc(r.covered/r.n)}</strong></div></div>`).join('');
@@ -2227,7 +2322,7 @@ function fmtCount(v){const n=Math.trunc(Number(v)||0),sign=n<0?'-':'',digits=Str
 function compactStatusMode(){return window.matchMedia?.('(max-width:760px)')?.matches===true}
 function mcReadyStatusText(mc){
   if(compactStatusMode())return `Pronto · ${fmtCount(MC_SIMS)} × 299 collegi`;
-  return `Pronto${mc.cached?' · cache locale':state.mcCachePersisted===false?' · cache del browser non disponibile':''} · ${fmtCount(MC_SIMS)} × 299 collegi · fattore ciclo + gerarchia Land/Wahlkreis · σ nazionale ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. · seed ${mc.seed}`;
+  return `Pronto${mc.cached?' · cache locale':state.mcCachePersisted===false?' · cache del browser non disponibile':''} · ${fmtCount(MC_SIMS)} × 299 collegi · fattore ciclo + gerarchia Land/Wahlkreis · σ-base ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.${activeMcShareSigmaAlpha()>0?' · share-aware α '+activeMcShareSigmaAlpha().toFixed(2).replace('.',','):''} · seed ${mc.seed}`;
 }
 function forecastRunningStatusText(done){return `${fmtCount(done)} / ${fmtCount(MC_SIMS)}`}
 function forecastReadyStatusText(fc){
@@ -2307,7 +2402,7 @@ function simulateDirectWinnerCounts(v,cache,sim,seed,winnerTally=null){
   return counts;
 }
 function simulatedLandSecondWeights(cache){const out={};for(let p=0;p<cache.P;p++){const k=cache.partyKeys[p];if(k==='other')continue;const by={};for(let l=0;l<cache.L;l++){const v=cache.landSecondBase[p*cache.L+l]*cache.landMult[p*cache.L+l];if(v>0)by[cache.landCodes[l]]=v}out[k]=by}return out}
-function drawNationalVoteVector(avg,rngState,sigma=MC_SIGMA){const {rng}=rngState;let {spare}=rngState;const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};const es=rngState.errorStructure||nationalErrorStructure(),common=gauss(),v={},target=100-SSW_ASSUMED_SHARE;let total=0;for(const k of MC_KEYS){const observed=Number(avg[k]),base=k==='other'?Math.max(.01,(Number.isFinite(observed)?observed:0)-SSW_ASSUMED_SHARE):(Number.isFinite(observed)?observed:0),r=Math.max(0,Math.min(.95,Number(es.rho?.[k])||0)),sg=(es.sign?.[k]||1),z=r>0?sg*Math.sqrt(r)*common+Math.sqrt(1-r)*gauss():gauss(),x=Math.max(.01,base+sigma*z);v[k]=x;total+=x}const scale=target/total;for(const k of MC_KEYS)v[k]*=scale;rngState.spare=spare;rngState.errorStructure=es;return v}
+function drawNationalVoteVector(avg,rngState,sigma=MC_SIGMA){const {rng}=rngState;let {spare}=rngState;const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};const es=rngState.errorStructure||nationalErrorStructure(),common=gauss(),v={},target=100-SSW_ASSUMED_SHARE,alpha=activeMcShareSigmaAlpha();let total=0;for(const k of MC_KEYS){const observed=Number(avg[k]),base=k==='other'?Math.max(.01,(Number.isFinite(observed)?observed:0)-SSW_ASSUMED_SHARE):(Number.isFinite(observed)?observed:0),r=Math.max(0,Math.min(.95,Number(es.rho?.[k])||0)),sg=(es.sign?.[k]||1),z=r>0?sg*Math.sqrt(r)*common+Math.sqrt(1-r)*gauss():gauss(),partySigma=mcSigmaForShare(base,sigma,alpha),x=Math.max(.01,base+partySigma*z);v[k]=x;total+=x}const scale=target/total;for(const k of MC_KEYS)v[k]*=scale;rngState.spare=spare;rngState.errorStructure=es;return v}
 function voteVectorAtSimulation(avg,seed,targetIndex,sigma=MC_SIGMA){const state={rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()};let v=null;for(let i=0;i<=targetIndex;i++)v=drawNationalVoteVector(avg,state,sigma);return v}
 function allocationForVote(v,directWins,cache){const w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE,cduThree=directWins[cache.index.cdu]>=3,csuThree=directWins[cache.index.csu]>=3;if(cduVote>=5||cduThree)w.cdu=cduVote;if(csuVote>=5||csuThree)w.csu=csuVote;for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw']){const hasThree=directWins[cache.index[k]]>=3;if(v[k]>=5||hasThree)w[k]=v[k]}w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0,fw:a.fw||0,ssw:a.ssw||0};return{alloc:a,seats:sv,unionSplit:{cdu:a.cdu||0,csu:a.csu||0}}}
 function buildRepresentativeTerritory(avg,mc){
@@ -3019,7 +3114,7 @@ function aiPrompt(){
     avg?`Media dei sondaggi: CDU/CSU ${pct(avg.union)}, AfD ${pct(avg.afd)}, SPD ${pct(avg.spd)}, Verdi ${pct(avg.gruene)}, Linke ${pct(avg.linke)}, FDP ${pct(avg.fdp)}, BSW ${pct(avg.bsw)}.`:'',
     pr?`Scenario alla media dei sondaggi: CDU/CSU ${pr.seats.union}, AfD ${pr.seats.afd}, SPD ${pr.seats.spd}, Verdi ${pr.seats.gruene}, Linke ${pr.seats.linke}, FDP ${pr.seats.fdp}, BSW ${pr.seats.bsw}, SSW ${pr.seats.ssw}.`: '',
     mc?.ready?`Scenario rappresentativo Monte Carlo: CDU/CSU ${mc.centralSeats.union}, AfD ${mc.centralSeats.afd}, SPD ${mc.centralSeats.spd}, Verdi ${mc.centralSeats.gruene}, Linke ${mc.centralSeats.linke}, FDP ${mc.centralSeats.fdp}, BSW ${mc.centralSeats.bsw}, SSW ${mc.centralSeats.ssw}.`: '',
-    mc?.ready?`Nowcast Monte Carlo: ${mc.n.toLocaleString('it-IT')} simulazioni; in ciascuna vengono ricalcolati i 299 collegi; sigma nazionale ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.; seed ${mc.seed}.`: '',
+    mc?.ready?`Nowcast Monte Carlo: ${mc.n.toLocaleString('it-IT')} simulazioni; in ciascuna vengono ricalcolati i 299 collegi; sigma-base nazionale ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.${activeMcShareSigmaAlpha()>0?', modulazione share-aware α '+activeMcShareSigmaAlpha().toFixed(2).replace('.',','):''}; seed ${mc.seed}.`: '',
     state.forecast?.ready?`Forecast condizionale: orizzonte ${state.forecast.horizon} mesi dal voto; sigma nazionale totale ${state.forecast.sigma.toFixed(2).replace('.',',')} p.p., di cui deriva temporale ${state.forecast.drift.toFixed(2).replace('.',',')} p.p.`:'',
     'Valuta metodologia, assunzioni, punti deboli, gestione della soglia del 5%, eccezione dei tre collegi, mappa degli uninominali e plausibilità delle coalizioni. Distingui errori tecnici, rischi statistici e suggerimenti editoriali.'
   ].filter(Boolean);
@@ -3057,6 +3152,8 @@ function runInternalChecks(){
   if(thresholdProject(4.99,false)!==0)throw new Error('Autotest soglia fallito: un partito al 4,99% senza eccezione non deve entrare.');
   if(thresholdProject(5.01,false)<=0)throw new Error('Autotest soglia fallito: un partito al 5,01% deve entrare.');
   if(thresholdProject(4.8,true)<=0)throw new Error('Autotest soglia fallito: l’eccezione dei tre collegi non viene applicata correttamente.');
+  // 8) v22.4 probabilistic promotion gate: the share-aware candidate must beat the v22.3 constant-sigma baseline.
+  const pg=probabilisticSeatPromotionGate(),expectedAlpha=pg.pass?MC_SHARE_SIGMA_ALPHA_CANDIDATE:0;if(Math.abs(activeMcShareSigmaAlpha()-expectedAlpha)>1e-12)throw new Error('Autotest probabilistico v22.4 fallito: il fallback del promotion gate non è coerente.');
   return true;
 }
 
@@ -3085,6 +3182,6 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.3 · stricter national promotion gate + nested spatial uncertainty gate · 26-08-2026 -->
+<!-- v22.4 · probabilistic seat backtest + share-aware uncertainty promotion gate · 26-08-2026 -->
 </body>
 </html>
