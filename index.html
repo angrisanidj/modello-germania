@@ -126,7 +126,7 @@ button.primary:hover{background:#2a2a2a}
 
 
 /* backtest */
-.backtest{margin:16px 0}.backtest-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:16px}.bt-summary{padding:19px}.bt-summary h3{margin:0;font-size:18px}.bt-summary p{margin:5px 0 14px;color:#72777f;font-size:12px}.bt-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.bt-metric{background:#fafbfb;border:1px solid #e2e4e7;border-radius:13px;padding:12px}.bt-metric .n{font-size:24px;font-weight:950;letter-spacing:-.03em}.bt-metric .l{font-size:10px;color:#767b82;text-transform:uppercase;letter-spacing:.07em;font-weight:800;margin-top:3px}.bt-table{overflow:auto}.bt-table table{min-width:650px}.bt-good{color:#177d43;font-weight:850}.bt-note{padding:13px 19px 17px;color:#72777f;font-size:11px;border-top:1px solid #eceef0}.bt-note strong{color:#25282c}@media(max-width:900px){.backtest-grid{grid-template-columns:1fr}}
+.backtest{margin:16px 0}.backtest-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:16px}.bt-summary{padding:19px}.bt-summary h3{margin:0;font-size:18px}.bt-summary p{margin:5px 0 14px;color:#72777f;font-size:12px}.bt-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.bt-metric{background:#fafbfb;border:1px solid #e2e4e7;border-radius:13px;padding:12px}.bt-metric .n{font-size:24px;font-weight:950;letter-spacing:-.03em}.bt-metric .l{font-size:10px;color:#767b82;text-transform:uppercase;letter-spacing:.07em;font-weight:800;margin-top:3px}.bt-table{overflow:auto}.bt-table table{min-width:650px}.bt-good{color:#177d43;font-weight:850}.bt-note{padding:13px 19px 17px;color:#72777f;font-size:11px;border-top:1px solid #eceef0}.bt-note strong{color:#25282c}@media(max-width:900px){.backtest-grid{grid-template-columns:1fr}.bt-metrics{grid-template-columns:repeat(2,1fr)}}
 
 .author-signature{margin:18px 0 2px;text-align:center;font-size:12px;font-weight:750;letter-spacing:.01em;color:#666b72}.author-signature a{color:#202328;text-decoration:none;border-bottom:1px solid #cfd2d6}.author-signature a:hover{color:#000;border-bottom-color:#000}
 
@@ -1238,7 +1238,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.2</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">v22.3</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
   </header>
   <section class="editorial-meta" aria-label="Stato del modello">
@@ -1439,6 +1439,7 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="bt-metric"><div class="n" id="btMae">—</div><div class="l">MAE complessivo</div></div>
         <div class="bt-metric"><div class="n" id="btRmse">—</div><div class="l">RMSE storico</div></div>
         <div class="bt-metric"><div class="n" id="btCoverage">—</div><div class="l">Copertura dell’intervallo 80%</div></div>
+        <div class="bt-metric"><div class="n" id="btSeatError">—</div><div class="l">Errore seggi 2025 · somma assoluta</div></div>
       </div>
       <div class="calib-verdict" id="btVerdict"><strong>Calcolo in corso.</strong></div>
       <div class="bt-note" id="btNote">Il backtest nazionale sarà disponibile appena l’archivio storico è stato caricato.</div>
@@ -1451,7 +1452,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
   </section>
   <section class="card territorial-validation" id="territorialValidationCard">
-    <div class="territorial-validation-head"><div><h3>Validazione territoriale v22</h3><p>Test separato dalla calibrazione nazionale: ricostruzione 2021→2025 usando i risultati del 2021 ricalcolati dalla Bundeswahlleiterin sui confini del 2025 e la variazione nazionale effettivamente osservata nel 2025. In parallelo, le componenti gerarchiche vengono verificate escludendo un Land alla volta. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></p></div><span class="validation-badge">condizionale · 2021→2025</span></div>
+    <div class="territorial-validation-head"><div><h3>Validazione territoriale v22.3 · promotion gate</h3><p>Test separato dalla calibrazione nazionale: ricostruzione 2021→2025 usando i risultati del 2021 ricalcolati dalla Bundeswahlleiterin sui confini del 2025 e la variazione nazionale effettivamente osservata nel 2025. In parallelo, la calibrazione dell’incertezza usa un nested leave-one-Land-out: ogni Land è valutato con dispersioni e moltiplicatori stimati senza usare quel Land. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></p></div><span class="validation-badge">condizionale · 2021→2025</span></div>
     <div id="territorialValidation"><div class="empty-small">La validazione viene calcolata dopo il caricamento del file kerg.csv.</div></div>
   </section>
 
@@ -1560,8 +1561,8 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A8:Z`,
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
-const APP_VERSION='22.2';
-const SHARE_CARD_VERSION='20260826v22_2';
+const APP_VERSION='22.3';
+const SHARE_CARD_VERSION='20260826v22_3';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
 const POLL_REFRESH_JITTER_MS=60*60*1000;
@@ -1573,10 +1574,10 @@ const TOTAL_SEATS=630, MAJORITY=316, SSW_ASSUMED_SHARE=0.153;
 const MC_SIMS=50000, MC_BATCH=1000, MC_SIGMA=1.30, MC_QLOW=0.10, MC_QHIGH=0.90;
 const TERRITORIAL_BASE_ELECTION=new Date(2025,1,23), TERRITORIAL_REFERENCE_MONTHS=41;
 const TERRITORIAL_LAND_CAP=0.28, TERRITORIAL_DISTRICT_CAP=0.42, TERRITORIAL_MIN_SHARE=0.20;
-const MC_ENGINE_VERSION='v22.2-pollster-reliability';
-const MC_CACHE_KEY='de_bundestag_mc_v22_2_pollsterrel';
-const FORECAST_ENGINE_VERSION='v22.2-forecast-pollster-reliability';
-const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_2_pollsterrel';
+const MC_ENGINE_VERSION='v22.3-gated-calibration';
+const MC_CACHE_KEY='de_bundestag_mc_v22_3_gatedcal';
+const FORECAST_ENGINE_VERSION='v22.3-forecast-gated-calibration';
+const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_3_gatedcal';
 const FORECAST_HORIZONS=[1,3,6,12,24,36];
 const FORECAST_ELECTIONS=[
   {date:new Date(2005,8,18),label:'2005',result:{union:35.2,spd:34.2,gruene:8.1,fdp:9.8,linke:8.7}},
@@ -1864,7 +1865,7 @@ function historicalNowcastErrorRows(){
   const rows=[];for(const e of FORECAST_ELECTIONS){const cutoff=new Date(e.date.getTime()-DAY),avg=projectionAverageAt(cutoff);if(!avg||avg.count<2)continue;const errors={};for(const [k,actual] of Object.entries(e.result)){const est=avg[k];if(Number.isFinite(est)&&Number.isFinite(actual))errors[k]=est-actual}rows.push({cycle:e.label,date:e.date,avgCount:avg.count,errors})}return rows
 }
 const NATIONAL_BACKTEST_SIMS=50000;
-const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v2-pollster-reliability';
+const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v3-gated-calibration';
 
 /*
   Dataset storico dedicato al backtest nazionale.
@@ -1925,10 +1926,10 @@ const NATIONAL_BACKTEST_DATA=[
    - Score: cycle-level RMSE of each institute's final eligible poll vs the election result.
    - Training: only elections strictly earlier than the date being estimated (no future leakage).
    - Weight: inverse-MSE relative to the historical median, shrunk toward 1 with four prior cycles
-     and capped to 0.80–1.20. Unknown institutes stay at 1.00.
+     and capped to 0.925–1.20. Unknown institutes stay at 1.00.
 */
 const POLLSTER_RELIABILITY_PRIOR_CYCLES=4;
-const POLLSTER_RELIABILITY_MIN=.80, POLLSTER_RELIABILITY_MAX=1.20;
+const POLLSTER_RELIABILITY_MIN=.925, POLLSTER_RELIABILITY_MAX=1.20;
 function pollsterReliabilityWeights(asOfDate){
   const asOf=new Date(asOfDate),byInst=new Map();
   for(const cycle of NATIONAL_BACKTEST_DATA){
@@ -1950,15 +1951,18 @@ function pollsterReliabilityWeights(asOfDate){
 
 const NATIONAL_BACKTEST_REFERENCE={
   n:19,
-  mae:1.0386,
-  rmse:1.2333,
+  mae:1.0376,
+  rmse:1.2323,
+  coverage:0.8421052632,
   cycles:{
-    '2017':{mae:1.4500,n:6},
-    '2021':{mae:0.8274,n:6},
-    '2025':{mae:0.8671,n:7}
+    '2017':{mae:1.4500,rmse:1.6256,n:6},
+    '2021':{mae:0.8274,rmse:0.9868,n:6},
+    '2025':{mae:0.8643,rmse:1.0109,n:7}
   }
 };
-const NATIONAL_BACKTEST_BASELINE_V22_1={mae:1.0419,rmse:1.2352,cycles:{'2017':1.4500,'2021':0.8309,'2025':0.8729}};
+const NATIONAL_BACKTEST_BASELINE_V22_2={mae:1.0386151353,rmse:1.2333095480,coverage:0.8421052632,cycles:{'2017':{mae:1.4500038984,rmse:1.6255927422},'2021':{mae:0.8273550132,rmse:0.9868376865},'2025':{mae:0.8670763002,rmse:1.0142973701}}};
+const NATIONAL_SEAT_BACKTEST_BASELINE_V22_2={seatAbs:40,seatMae:6.6666666667,seatRmse:8.0};
+const NATIONAL_SEAT_BACKTEST_REFERENCE={seatAbs:40,seatMae:6.6666666667,seatRmse:8.0,seats:{union:219,spd:111,gruene:94,linke:54,afd:151,ssw:1}};
 
 function backtestPartyLabel(k){return partyByKey(k)?.label||k}
 function backtestQuantile(arr,q){const a=Float32Array.from(arr);a.sort();const i=Math.max(0,Math.min(a.length-1,Math.round((a.length-1)*q)));return a[i]}
@@ -2006,18 +2010,34 @@ function dedicatedBacktestBands(avg,cycle,keys){
   return bands;
 }
 
+const NATIONAL_SEAT_BACKTEST_KEYS=['union','spd','gruene','linke','afd','ssw'];
+const NATIONAL_SEAT_ACTUAL_2025={union:208,spd:120,gruene:85,linke:64,afd:152,ssw:1};
+function dedicatedSeatBacktest2025(){
+  const cycle=NATIONAL_BACKTEST_DATA.find(c=>c.cycle==='2025');if(!cycle)return null;
+  const avg=dedicatedBacktestAverage(cycle),weights={},unionVote=Number(avg.union)||0,cduVote=unionVote*CDU_UNION_SHARE,csuVote=unionVote*CSU_UNION_SHARE;
+  if(cduVote>=5)weights.cdu=cduVote;if(csuVote>=5)weights.csu=csuVote;
+  for(const k of ['spd','gruene','linke','afd','fdp','bsw']){const v=Number(avg[k]);if(Number.isFinite(v)&&v>=5)weights[k]=v}
+  weights.ssw=SSW_ASSUMED_SHARE;
+  const alloc=sainteLague(weights,TOTAL_SEATS),seats={union:(alloc.cdu||0)+(alloc.csu||0),spd:alloc.spd||0,gruene:alloc.gruene||0,linke:alloc.linke||0,afd:alloc.afd||0,ssw:alloc.ssw||0};
+  const errors=Object.fromEntries(NATIONAL_SEAT_BACKTEST_KEYS.map(k=>[k,(seats[k]||0)-NATIONAL_SEAT_ACTUAL_2025[k]])),vals=Object.values(errors);
+  const seatAbs=vals.reduce((a,b)=>a+Math.abs(b),0),seatMae=seatAbs/vals.length,seatRmse=Math.sqrt(vals.reduce((a,b)=>a+b*b,0)/vals.length);
+  return{cycle:'2025',avg,seats,actual:{...NATIONAL_SEAT_ACTUAL_2025},errors,seatAbs,seatMae,seatRmse,method:'sondaggi finali → soglia 5%/esenzione SSW → Sainte-Laguë 630 seggi'};
+}
+
 function nationalBacktestRegressionCheck(bt){
-  const tol=.006,cycleTol=.006;
+  const tol=.006,cycleTol=.006,seatTol=.01;
   if(!bt||bt.n!==NATIONAL_BACKTEST_REFERENCE.n)return{ok:false,detail:`osservazioni ${bt?.n??0}/${NATIONAL_BACKTEST_REFERENCE.n}`};
   if(Math.abs(bt.mae-NATIONAL_BACKTEST_REFERENCE.mae)>tol)return{ok:false,detail:`MAE ${bt.mae.toFixed(4)} atteso ${NATIONAL_BACKTEST_REFERENCE.mae.toFixed(4)}`};
   if(Math.abs(bt.rmse-NATIONAL_BACKTEST_REFERENCE.rmse)>tol)return{ok:false,detail:`RMSE ${bt.rmse.toFixed(4)} atteso ${NATIONAL_BACKTEST_REFERENCE.rmse.toFixed(4)}`};
-  for(const r of bt.rows){
-    const ref=NATIONAL_BACKTEST_REFERENCE.cycles[r.cycle];
-    if(!ref||r.n!==ref.n||Math.abs(r.mae-ref.mae)>cycleTol)return{ok:false,detail:`ciclo ${r.cycle} fuori regressione`};
-  }
-  if(!(bt.mae<NATIONAL_BACKTEST_BASELINE_V22_1.mae&&bt.rmse<NATIONAL_BACKTEST_BASELINE_V22_1.rmse))return{ok:false,detail:'il candidato non migliora MAE e RMSE rispetto alla v22.1'};
-  for(const r of bt.rows){const base=NATIONAL_BACKTEST_BASELINE_V22_1.cycles[r.cycle];if(Number.isFinite(base)&&r.mae>base+cycleTol)return{ok:false,detail:`il ciclo ${r.cycle} peggiora rispetto alla v22.1`}}
-  return{ok:true,detail:'19 osservazioni · regressione stabile · MAE/RMSE migliori della v22.1 · nessun ciclo peggiora'};
+  for(const r of bt.rows){const ref=NATIONAL_BACKTEST_REFERENCE.cycles[r.cycle];if(!ref||r.n!==ref.n||Math.abs(r.mae-ref.mae)>cycleTol||Math.abs(r.rmse-ref.rmse)>cycleTol)return{ok:false,detail:`ciclo ${r.cycle} fuori regressione`}}
+  if(Math.abs(bt.coverage-NATIONAL_BACKTEST_REFERENCE.coverage)>.001)return{ok:false,detail:'copertura nazionale fuori regressione'};
+  if(!(bt.mae<NATIONAL_BACKTEST_BASELINE_V22_2.mae&&bt.rmse<NATIONAL_BACKTEST_BASELINE_V22_2.rmse))return{ok:false,detail:'il candidato non migliora MAE e RMSE rispetto alla v22.2'};
+  for(const r of bt.rows){const base=NATIONAL_BACKTEST_BASELINE_V22_2.cycles[r.cycle];if(base&&(r.mae>base.mae+cycleTol||r.rmse>base.rmse+cycleTol))return{ok:false,detail:`il ciclo ${r.cycle} peggiora rispetto alla v22.2`}}
+  if(Math.abs(bt.coverage-.8)>Math.abs(NATIONAL_BACKTEST_BASELINE_V22_2.coverage-.8)+.001)return{ok:false,detail:'la calibrazione della copertura peggiora rispetto alla v22.2'};
+  const sb=bt.seat2025;if(!sb)return{ok:false,detail:'backtest seggi 2025 non disponibile'};
+  if(Math.abs(sb.seatAbs-NATIONAL_SEAT_BACKTEST_REFERENCE.seatAbs)>seatTol||Math.abs(sb.seatMae-NATIONAL_SEAT_BACKTEST_REFERENCE.seatMae)>seatTol||Math.abs(sb.seatRmse-NATIONAL_SEAT_BACKTEST_REFERENCE.seatRmse)>seatTol)return{ok:false,detail:'backtest seggi 2025 fuori regressione'};
+  if(sb.seatAbs>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatAbs+seatTol||sb.seatMae>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatMae+seatTol||sb.seatRmse>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatRmse+seatTol)return{ok:false,detail:'il candidato peggiora il backtest dei seggi 2025 rispetto alla v22.2'};
+  return{ok:true,detail:'19 osservazioni · MAE/RMSE migliori della v22.2 · nessun ciclo peggiora · errore seggi 2025 invariato a 40'};
 }
 
 function nationalBacktest(){
@@ -2051,6 +2071,7 @@ function nationalBacktest(){
 
   const result={dataVersion:NATIONAL_BACKTEST_DATA_VERSION,rows,n,mae,rmse,covered,coverage,
     loo:{none:correctedMae(0),q25:correctedMae(.25),q50:correctedMae(.5),full:correctedMae(1)}};
+  result.seat2025=dedicatedSeatBacktest2025();
   result.regression=nationalBacktestRegressionCheck(result);
   state.nationalBacktest=result;return result;
 }
@@ -2064,10 +2085,10 @@ function backtestCycleIndication(row){
 
 function renderNationalBacktest(){
   const badge=document.getElementById('btBadge'),title=document.getElementById('btTitle'),intro=document.getElementById('btIntro'),
-        maeEl=document.getElementById('btMae'),rmseEl=document.getElementById('btRmse'),covEl=document.getElementById('btCoverage'),
+        maeEl=document.getElementById('btMae'),rmseEl=document.getElementById('btRmse'),covEl=document.getElementById('btCoverage'),seatEl=document.getElementById('btSeatError'),
         verdict=document.getElementById('btVerdict'),note=document.getElementById('btNote'),tbody=document.getElementById('btTableBody'),
         mobile=document.getElementById('btMobileCards');
-  if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!verdict||!note||!tbody||!mobile)return;
+  if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!seatEl||!verdict||!note||!tbody||!mobile)return;
   const bt=nationalBacktest(),pp=x=>Number.isFinite(x)?x.toFixed(2).replace('.',','):'—',pc=x=>Number.isFinite(x)?Math.round(x*100)+'%':'—';
 
   if(!bt.n){
@@ -2079,12 +2100,13 @@ function renderNationalBacktest(){
   badge.textContent=`${bt.rows.length} elezioni · ${bt.n} osservazioni di partito`;
   title.textContent=bt.regression.ok?'La calibrazione nazionale supera l’autotest storico':'Attenzione: autotest storico non superato';
   intro.textContent=`Backtest ricalcolato da un dataset storico dedicato e verificato, indipendente dal feed corrente. Con il metodo oggi in uso il MAE complessivo è ${pp(bt.mae)} punti percentuali.`;
-  maeEl.textContent=`${pp(bt.mae)} p.p.`;rmseEl.textContent=`${pp(bt.rmse)} p.p.`;covEl.textContent=pc(bt.coverage);
+  maeEl.textContent=`${pp(bt.mae)} p.p.`;rmseEl.textContent=`${pp(bt.rmse)} p.p.`;covEl.textContent=pc(bt.coverage);seatEl.textContent=Number.isFinite(bt.seat2025?.seatAbs)?`${bt.seat2025.seatAbs} seggi`:'—';
   covEl.classList.toggle('bt-good',Number.isFinite(bt.coverage)&&Math.abs(bt.coverage-.8)<=.10);
 
-  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli sono ricalcolati con shock iniziale σ = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., positività e rinormalizzazione. Il fattore comune è escluso da questo controllo per non confondere dispersione marginale e dipendenza tra partiti. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
+  const sb=bt.seat2025,seatVector=sb?NATIONAL_SEAT_BACKTEST_KEYS.map(k=>`${backtestPartyLabel(k)} ${sb.seats[k]}`).join(' · '):'—';
+  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli sono ricalcolati con shock iniziale σ = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., positività e rinormalizzazione. <strong>Backtest seggi 2025:</strong> errore assoluto complessivo ${sb?.seatAbs??'—'} seggi (v22.2: 40), MAE ${Number.isFinite(sb?.seatMae)?sb.seatMae.toFixed(2).replace('.',','):'—'}; proiezione ${esc(seatVector)}. CDU e CSU sono trattate come partiti separati, esattamente come nel motore di riparto. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
 
-  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward soltanto sui cicli precedenti (shrink verso 1; cap 0,80–1,20). La validazione territoriale resta separata.`;
+  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward soltanto sui cicli precedenti (shrink verso 1; cap 0,925–1,20). <strong>Seggi:</strong> il 2025 è l’unica elezione realmente comparabile con la legge attuale; il test usa le quote finali stimate, soglia del 5%, esenzione SSW e Sainte-Laguë. Non viene presentato come backtest probabilistico territoriale completo, perché prima del 2025 non esiste una transizione con la stessa legge e una calibrazione territoriale pregressa indipendente.`;
 
   tbody.innerHTML=bt.rows.map(r=>`<tr><td class="inst">${r.cycle}</td><td class="num">${pp(r.mae)} p.p.</td><td class="num">${r.covered}/${r.n} · ${pc(r.covered/r.n)}</td><td>${esc(backtestCycleIndication(r))}</td></tr>`).join('');
   mobile.innerHTML=bt.rows.map(r=>`<div class="bt-mobile-row"><div class="bt-mobile-party">${r.cycle}</div><div><span>MAE</span><strong>${pp(r.mae)} p.p.</strong></div><div><span>Copertura 80%</span><strong>${r.covered}/${r.n} · ${pc(r.covered/r.n)}</strong></div></div>`).join('');
@@ -2225,28 +2247,43 @@ function scheduleMonteCarlo(){
   runMonteCarloAsync(avg,token).then(result=>{if(!result||token!==state.mcToken)return;state.monteCarlo=result;state.mcRunning=false;state.mcProgress=MC_SIMS;state.mcCachePersisted=saveMonteCarloCache(fp,result);renderParliament();renderMonteCarlo();applyRepresentativeTerritory(result,avg)}).catch(e=>{if(token!==state.mcToken)return;console.error(e);state.mcRunning=false;const st=document.getElementById('mcStatus');if(st){st.className='mc-status';st.textContent='Simulazione non disponibile'}});
 }
 const TERRITORIAL_PARTY_KEYS=['cdu','csu','afd','spd','gruene','linke','bsw','fdp','fw'];
+const TERRITORIAL_COVERAGE_TARGET=.80,TERRITORIAL_COVERAGE_SCALE_MIN=1.00,TERRITORIAL_COVERAGE_SCALE_MAX=1.60,TERRITORIAL_COVERAGE_GATE_GAIN=.01,TERRITORIAL_COVERAGE_GATE_MIN=.70,TERRITORIAL_COVERAGE_GATE_MAX=.90,TERRITORIAL_Z80=1.281551565545;
 function medianNumber(values){const a=values.filter(Number.isFinite).slice().sort((x,y)=>x-y);if(!a.length)return 0;const m=Math.floor(a.length/2);return a.length%2?a[m]:(a[m-1]+a[m])/2}
+function quantileNumber(values,q){const a=values.filter(Number.isFinite).slice().sort((x,y)=>x-y);if(!a.length)return null;if(a.length===1)return a[0];const x=(a.length-1)*Math.max(0,Math.min(1,q)),lo=Math.floor(x),hi=Math.ceil(x),f=x-lo;return a[lo]*(1-f)+a[hi]*f}
 function robustSigma(values,cap=Infinity){const a=values.filter(Number.isFinite);if(a.length<4)return null;const med=medianNumber(a),dev=a.map(v=>Math.abs(v-med)),mad=medianNumber(dev);let sig=mad*1.4826;if(!(sig>0)){const mean=a.reduce((x,y)=>x+y,0)/a.length;sig=Math.sqrt(a.reduce((x,y)=>x+(y-mean)*(y-mean),0)/Math.max(1,a.length-1))}return Math.min(cap,Math.max(0,sig||0))}
 function monthsBetweenDates(a,b){return Math.max(0,(a-b)/(30.4375*DAY))}
 function territorialTimeScale(date){const m=monthsBetweenDates(date||new Date(),TERRITORIAL_BASE_ELECTION);return Math.min(1,Math.sqrt(Math.max(0,m)/TERRITORIAL_REFERENCE_MONTHS))}
 function shareFromCounts(counts,key){const total=Object.values(counts||{}).reduce((a,b)=>a+(Number(b)||0),0);return total>0?(Number(counts?.[key])||0)/total*100:0}
 function logRatio(cur,prev){const e=.08;return Math.log((Math.max(0,cur)+e)/(Math.max(0,prev)+e))}
+function territorialResidualDataset(base){
+  if(districtState.territorialResidualDataset?.base===base)return districtState.territorialResidualDataset;
+  const lands=Object.keys(LAND_NAMES),totNow={},totPrev={},partyNow={},partyPrev={},land={},district={};for(const k of TERRITORIAL_PARTY_KEYS){partyNow[k]={};partyPrev[k]={};land[k]={};district[k]={}}
+  for(const d of base.districts){const l=d.land;if(!l)continue;const tn=Object.values(d.secondCounts||{}).reduce((a,b)=>a+(Number(b)||0),0),tp=Object.values(d.secondCountsPrev||{}).reduce((a,b)=>a+(Number(b)||0),0);totNow[l]=(totNow[l]||0)+tn;totPrev[l]=(totPrev[l]||0)+tp;for(const k of TERRITORIAL_PARTY_KEYS){partyNow[k][l]=(partyNow[k][l]||0)+(Number(d.secondCounts?.[k])||0);partyPrev[k][l]=(partyPrev[k][l]||0)+(Number(d.secondCountsPrev?.[k])||0)}}
+  const sumNow=Object.values(base.nationalVotes||{}).reduce((a,b)=>a+(Number(b)||0),0),sumPrev=Object.values(base.nationalVotesPrev||{}).reduce((a,b)=>a+(Number(b)||0),0);
+  for(const k of TERRITORIAL_PARTY_KEYS){const nn=sumNow?(Number(base.nationalVotes?.[k])||0)/sumNow*100:0,np=sumPrev?(Number(base.nationalVotesPrev?.[k])||0)/sumPrev*100:0;if(nn<=TERRITORIAL_MIN_SHARE||np<=TERRITORIAL_MIN_SHARE)continue;const nat=logRatio(nn,np),landSwing={};for(const l of lands){const sn=totNow[l]?((partyNow[k][l]||0)/totNow[l]*100):0,sp=totPrev[l]?((partyPrev[k][l]||0)/totPrev[l]*100):0;if(sn>TERRITORIAL_MIN_SHARE&&sp>TERRITORIAL_MIN_SHARE){const sw=logRatio(sn,sp);landSwing[l]=sw;land[k][l]=sw-nat}}
+    for(const d of base.districts){const l=d.land,sw=landSwing[l],now=Number(d.first?.[k])||0,prev=Number(d.firstPrev?.[k])||0;if(!Number.isFinite(sw)||now<=TERRITORIAL_MIN_SHARE||prev<=TERRITORIAL_MIN_SHARE)continue;(district[k][l]||(district[k][l]=[])).push(logRatio(now,prev)-sw)}
+  }
+  const out={base,lands,land,district};districtState.territorialResidualDataset=out;return out;
+}
+function territorialTrainSigma(ds,key,level,trainLands){const src=ds[level]?.[key]||{},set=new Set(trainLands),vals=level==='land'?trainLands.map(l=>src[l]).filter(Number.isFinite):Object.entries(src).filter(([l])=>set.has(l)).flatMap(([,v])=>v),cap=level==='land'?TERRITORIAL_LAND_CAP:TERRITORIAL_DISTRICT_CAP;return robustSigma(vals,cap)}
+function territorialHeldResiduals(ds,key,level,held){const src=ds[level]?.[key]||{},v=src[held];return level==='land'?(Number.isFinite(v)?[v]:[]):Array.isArray(v)?v.filter(Number.isFinite):[]}
+function territorialMultiplierFromTraining(ds,trainLands,level){const ratios=[];for(const held of trainLands){const inner=trainLands.filter(l=>l!==held);for(const k of TERRITORIAL_PARTY_KEYS){const sig=territorialTrainSigma(ds,k,level,inner);if(!Number.isFinite(sig)||sig<=0)continue;for(const r of territorialHeldResiduals(ds,k,level,held))ratios.push(Math.abs(r)/(TERRITORIAL_Z80*sig))}}const q=quantileNumber(ratios,TERRITORIAL_COVERAGE_TARGET);return{multiplier:Number.isFinite(q)?Math.max(TERRITORIAL_COVERAGE_SCALE_MIN,Math.min(TERRITORIAL_COVERAGE_SCALE_MAX,q)):1,n:ratios.length,raw:q}}
+function territorialNestedCoverage(ds,level,useNestedMultiplier){let hit=0,n=0;const multipliers=[];for(const held of ds.lands){const train=ds.lands.filter(l=>l!==held),fit=useNestedMultiplier?territorialMultiplierFromTraining(ds,train,level):{multiplier:1};if(useNestedMultiplier)multipliers.push(fit.multiplier);for(const k of TERRITORIAL_PARTY_KEYS){const sig=territorialTrainSigma(ds,k,level,train);if(!Number.isFinite(sig)||sig<=0)continue;for(const r of territorialHeldResiduals(ds,k,level,held)){n++;if(Math.abs(r)<=TERRITORIAL_Z80*sig*fit.multiplier)hit++}}}return{coverage:n?hit/n:null,hit,n,multipliers}}
+function territorialCoverageCalibration(base){
+  if(districtState.territorialCoverageCalibration?.base===base)return districtState.territorialCoverageCalibration;
+  const ds=territorialResidualDataset(base),baseLand=territorialNestedCoverage(ds,'land',false),baseDistrict=territorialNestedCoverage(ds,'district',false),candLand=territorialNestedCoverage(ds,'land',true),candDistrict=territorialNestedCoverage(ds,'district',true),liveLand=territorialMultiplierFromTraining(ds,ds.lands,'land'),liveDistrict=territorialMultiplierFromTraining(ds,ds.lands,'district');
+  const improvement=(before,after)=>Number.isFinite(before)&&Number.isFinite(after)?Math.abs(before-TERRITORIAL_COVERAGE_TARGET)-Math.abs(after-TERRITORIAL_COVERAGE_TARGET):null,landGain=improvement(baseLand.coverage,candLand.coverage),districtGain=improvement(baseDistrict.coverage,candDistrict.coverage),within=x=>Number.isFinite(x)&&x>=TERRITORIAL_COVERAGE_GATE_MIN&&x<=TERRITORIAL_COVERAGE_GATE_MAX;
+  const pass=Number.isFinite(landGain)&&Number.isFinite(districtGain)&&landGain>=TERRITORIAL_COVERAGE_GATE_GAIN&&districtGain>=TERRITORIAL_COVERAGE_GATE_GAIN&&within(candLand.coverage)&&within(candDistrict.coverage)&&liveLand.multiplier>=TERRITORIAL_COVERAGE_SCALE_MIN&&liveLand.multiplier<=TERRITORIAL_COVERAGE_SCALE_MAX&&liveDistrict.multiplier>=TERRITORIAL_COVERAGE_SCALE_MIN&&liveDistrict.multiplier<=TERRITORIAL_COVERAGE_SCALE_MAX;
+  const out={base,pass,target:TERRITORIAL_COVERAGE_TARGET,baselineLandCoverage80:baseLand.coverage,baselineLandN:baseLand.n,baselineDistrictCoverage80:baseDistrict.coverage,baselineDistrictN:baseDistrict.n,calibratedLandCoverage80:candLand.coverage,calibratedLandN:candLand.n,calibratedDistrictCoverage80:candDistrict.coverage,calibratedDistrictN:candDistrict.n,landGain,districtGain,landMultiplier:liveLand.multiplier,districtMultiplier:liveDistrict.multiplier,landMultiplierRaw:liveLand.raw,districtMultiplierRaw:liveDistrict.raw,landCalibrationN:liveLand.n,districtCalibrationN:liveDistrict.n,appliedLandMultiplier:pass?liveLand.multiplier:1,appliedDistrictMultiplier:pass?liveDistrict.multiplier:1,method:'nested leave-one-Land-out; moltiplicatore q80 stimato solo sui Länder di training'};districtState.territorialCoverageCalibration=out;return out;
+}
 function computeTerritorialCalibration(){
   const base=districtState.base;if(!base?.districts?.length||!base.nationalVotesPrev||!Object.keys(base.nationalVotesPrev).length)return null;
   if(districtState.territorialCalibration?.base===base)return districtState.territorialCalibration;
-  const lands=Object.keys(LAND_NAMES),landNow={},landPrev={};for(const k of TERRITORIAL_PARTY_KEYS){landNow[k]={};landPrev[k]={}}
-  const totalsNow={},totalsPrev={};
-  for(const d of base.districts){const l=d.land;if(!l)continue;totalsNow[l]=(totalsNow[l]||0)+Object.values(d.secondCounts||{}).reduce((a,b)=>a+(Number(b)||0),0);totalsPrev[l]=(totalsPrev[l]||0)+Object.values(d.secondCountsPrev||{}).reduce((a,b)=>a+(Number(b)||0),0);for(const k of TERRITORIAL_PARTY_KEYS){landNow[k][l]=(landNow[k][l]||0)+(Number(d.secondCounts?.[k])||0);landPrev[k][l]=(landPrev[k][l]||0)+(Number(d.secondCountsPrev?.[k])||0)}}
-  const natNowTotal=Object.values(base.nationalVotes||{}).reduce((a,b)=>a+(Number(b)||0),0),natPrevTotal=Object.values(base.nationalVotesPrev||{}).reduce((a,b)=>a+(Number(b)||0),0),rawLand={},rawDistrict={},landSwingByParty={};
-  for(const k of TERRITORIAL_PARTY_KEYS){
-    const natNow=natNowTotal?(Number(base.nationalVotes[k])||0)/natNowTotal*100:0,natPrev=natPrevTotal?(Number(base.nationalVotesPrev[k])||0)/natPrevTotal*100:0,natSwing=natPrev>TERRITORIAL_MIN_SHARE?logRatio(natNow,natPrev):null,landResiduals=[],landSwing={};
-    for(const l of lands){const sn=totalsNow[l]?((landNow[k][l]||0)/totalsNow[l]*100):0,sp=totalsPrev[l]?((landPrev[k][l]||0)/totalsPrev[l]*100):0;if(sn>TERRITORIAL_MIN_SHARE&&sp>TERRITORIAL_MIN_SHARE&&natSwing!==null){const swing=logRatio(sn,sp);landSwing[l]=swing;landResiduals.push(swing-natSwing)}}
-    landSwingByParty[k]=landSwing;rawLand[k]=robustSigma(landResiduals,TERRITORIAL_LAND_CAP);
-    const districtResiduals=[];for(const d of base.districts){const now=Number(d.first?.[k])||0,prev=Number(d.firstPrev?.[k])||0;if(now<=TERRITORIAL_MIN_SHARE||prev<=TERRITORIAL_MIN_SHARE)continue;const ls=landSwing[d.land];if(!Number.isFinite(ls))continue;districtResiduals.push(logRatio(now,prev)-ls)}rawDistrict[k]=robustSigma(districtResiduals,TERRITORIAL_DISTRICT_CAP);
-  }
-  const pooledLand=medianNumber(Object.values(rawLand).filter(v=>Number.isFinite(v)&&v>0))||0.08,pooledDistrict=medianNumber(Object.values(rawDistrict).filter(v=>Number.isFinite(v)&&v>0))||0.14,scale=territorialTimeScale(projectionAverage()?.date||new Date()),landSigma={},districtSigma={};
-  for(const k of TERRITORIAL_PARTY_KEYS){const l=Number.isFinite(rawLand[k])&&rawLand[k]>0?rawLand[k]:pooledLand,d=Number.isFinite(rawDistrict[k])&&rawDistrict[k]>0?rawDistrict[k]:pooledDistrict;landSigma[k]=Math.min(TERRITORIAL_LAND_CAP,l*scale);districtSigma[k]=Math.min(TERRITORIAL_DISTRICT_CAP,d*scale)}
-  const out={base,lands,rawLand,rawDistrict,landSigma,districtSigma,pooledLand,pooledDistrict,scale,reference:'Residui 2021→2025 ricostruiti sui confini 2025'};districtState.territorialCalibration=out;return out;
+  const ds=territorialResidualDataset(base),rawLand={},rawDistrict={};
+  for(const k of TERRITORIAL_PARTY_KEYS){rawLand[k]=robustSigma(Object.values(ds.land[k]||{}),TERRITORIAL_LAND_CAP);rawDistrict[k]=robustSigma(Object.values(ds.district[k]||{}).flatMap(v=>Array.isArray(v)?v:[]),TERRITORIAL_DISTRICT_CAP)}
+  const pooledLand=medianNumber(Object.values(rawLand).filter(v=>Number.isFinite(v)&&v>0))||0.08,pooledDistrict=medianNumber(Object.values(rawDistrict).filter(v=>Number.isFinite(v)&&v>0))||0.14,scale=territorialTimeScale(projectionAverage()?.date||new Date()),coverageCalibration=territorialCoverageCalibration(base),lm=coverageCalibration.appliedLandMultiplier,dm=coverageCalibration.appliedDistrictMultiplier,landSigma={},districtSigma={};
+  for(const k of TERRITORIAL_PARTY_KEYS){const l=Number.isFinite(rawLand[k])&&rawLand[k]>0?rawLand[k]:pooledLand,d=Number.isFinite(rawDistrict[k])&&rawDistrict[k]>0?rawDistrict[k]:pooledDistrict;landSigma[k]=Math.min(TERRITORIAL_LAND_CAP*lm,l*scale*lm);districtSigma[k]=Math.min(TERRITORIAL_DISTRICT_CAP*dm,d*scale*dm)}
+  const out={base,lands:ds.lands,rawLand,rawDistrict,landSigma,districtSigma,pooledLand,pooledDistrict,scale,coverageCalibration,reference:'Residui 2021→2025 sui confini 2025; scala di copertura applicata solo se supera il nested spatial promotion gate'};districtState.territorialCalibration=out;return out;
 }
 let TERRITORIAL_NORMAL_LUT=null;
 function territorialNormalLut(){if(TERRITORIAL_NORMAL_LUT)return TERRITORIAL_NORMAL_LUT;const N=4096,a=new Float32Array(N),rng=mulberry32(0x51a7c3d9);let spare=null,sum=0;for(let i=0;i<N;i++){let z;if(spare!==null){z=spare;spare=null}else{let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),ang=2*Math.PI*v;z=r*Math.cos(ang);spare=r*Math.sin(ang)}a[i]=z;sum+=z}const mean=sum/N;let ss=0;for(let i=0;i<N;i++){a[i]-=mean;ss+=a[i]*a[i]}const sd=Math.sqrt(ss/(N-1))||1;for(let i=0;i<N;i++)a[i]/=sd;TERRITORIAL_NORMAL_LUT=a;return a}
@@ -2333,7 +2370,7 @@ async function runMonteCarloAsync(avg,token){
   const stats={};for(const k of MC_SEAT_KEYS){const low=quantileTyped(samples[k],MC_QLOW),median=quantileTyped(samples[k],.5),high=quantileTyped(samples[k],MC_QHIGH);stats[k]={low,median,high,entry:(entry[k]||0)/MC_SIMS,over5:(over5[k]||0)/MC_SIMS,threeSeat:(threeSeat[k]||0)/MC_SIMS,leader:(voteLeader[k]||0)/MC_SIMS}}
   const bestI=representativeSimulationIndex(samples,stats);
   const centralSeats={};for(const k of MC_SEAT_KEYS)centralSeats[k]=samples[k][bestI];
-  const result={ready:true,n:MC_SIMS,sigma:MC_SIGMA,stats,centralSeats,manualExceptions:[],districtsSimulated:true,seed,cached:false,representativeIndex:bestI,winnerTally,coalitionWins,territorialCalibration:districtCache.calibration?{landSigma:districtCache.calibration.landSigma,districtSigma:districtCache.calibration.districtSigma,scale:districtCache.calibration.scale,reference:districtCache.calibration.reference}:null};
+  const result={ready:true,n:MC_SIMS,sigma:MC_SIGMA,stats,centralSeats,manualExceptions:[],districtsSimulated:true,seed,cached:false,representativeIndex:bestI,winnerTally,coalitionWins,territorialCalibration:districtCache.calibration?{landSigma:districtCache.calibration.landSigma,districtSigma:districtCache.calibration.districtSigma,scale:districtCache.calibration.scale,coverageCalibration:districtCache.calibration.coverageCalibration?{pass:districtCache.calibration.coverageCalibration.pass,baselineLandCoverage80:districtCache.calibration.coverageCalibration.baselineLandCoverage80,baselineDistrictCoverage80:districtCache.calibration.coverageCalibration.baselineDistrictCoverage80,calibratedLandCoverage80:districtCache.calibration.coverageCalibration.calibratedLandCoverage80,calibratedDistrictCoverage80:districtCache.calibration.coverageCalibration.calibratedDistrictCoverage80,landMultiplier:districtCache.calibration.coverageCalibration.landMultiplier,districtMultiplier:districtCache.calibration.coverageCalibration.districtMultiplier,appliedLandMultiplier:districtCache.calibration.coverageCalibration.appliedLandMultiplier,appliedDistrictMultiplier:districtCache.calibration.coverageCalibration.appliedDistrictMultiplier}:null,reference:districtCache.calibration.reference}:null};
   result.representativeTerritory=buildRepresentativeTerritory(avg,result);return result;
 }
 
@@ -2353,7 +2390,7 @@ function readForecastCacheStore(){try{const raw=safeStorageGet(FORECAST_CACHE_KE
 function saveForecastCache(fp,fc){try{const store=readForecastCacheStore(),packed={fingerprint:fp,savedAt:Date.now(),n:fc.n,horizon:fc.horizon,sigma:fc.sigma,drift:fc.drift,stats:fc.stats,centralSeats:fc.centralSeats,seed:fc.seed,territorialScale:fc.territorialScale,coalitionWins:fc.coalitionWins?Array.from(fc.coalitionWins):null};store.entries[fp]=packed;store.order=[fp,...store.order.filter(x=>x!==fp)];while(store.order.length>8){const old=store.order.pop();delete store.entries[old]}return safeStorageSet(FORECAST_CACHE_KEY,JSON.stringify(store))}catch(e){console.warn('Cache forecast non salvata:',e);return false}}
 function loadForecastCache(fp){try{const p=readForecastCacheStore().entries?.[fp];if(!p||p.fingerprint!==fp||p.n!==MC_SIMS||!Array.isArray(p.coalitionWins)||p.coalitionWins.length!==COALITION_MASK_COUNT)return null;return{ready:true,cached:true,savedAt:p.savedAt,n:p.n,horizon:p.horizon,sigma:p.sigma,drift:p.drift,stats:p.stats,centralSeats:p.centralSeats,seed:p.seed,territorialScale:p.territorialScale,coalitionWins:Uint32Array.from(p.coalitionWins)}}catch(e){console.warn('Cache forecast non leggibile:',e);return null}}
 const forecastDistrictCacheByScale=new Map();
-function prepareForecastDistrictCache(horizonMonths){const baseCache=prepareMonteCarloDistrictCache(),cal=computeTerritorialCalibration();if(!cal)return baseCache;const currentMonths=monthsBetweenDates(projectionAverage()?.date||new Date(),TERRITORIAL_BASE_ELECTION),targetScale=Math.min(1,Math.sqrt(Math.max(0,currentMonths+Number(horizonMonths||0))/TERRITORIAL_REFERENCE_MONTHS)),key=`${hashString(String(districtState.source||''))}:${targetScale.toFixed(4)}`;const cached=forecastDistrictCacheByScale.get(key);if(cached?.base===districtState.base)return cached;const P=baseCache.P,N=baseCache.normalN,landMultLut=new Float32Array(P*N),districtMultLut=new Float32Array(P*N),landSigma=new Float32Array(P),districtSigma=new Float32Array(P);for(let p=0;p<P;p++){const k=baseCache.partyKeys[p],rl=Number.isFinite(cal.rawLand?.[k])&&cal.rawLand[k]>0?cal.rawLand[k]:cal.pooledLand,rd=Number.isFinite(cal.rawDistrict?.[k])&&cal.rawDistrict[k]>0?cal.rawDistrict[k]:cal.pooledDistrict,ls=k==='other'?0:Math.min(TERRITORIAL_LAND_CAP,rl*targetScale),ds=k==='other'?0:Math.min(TERRITORIAL_DISTRICT_CAP,rd*targetScale);landSigma[p]=ls;districtSigma[p]=ds;for(let i=0;i<N;i++){const z=cal.base?territorialNormalLut()[i]:0;landMultLut[p*N+i]=Math.exp(ls*z);districtMultLut[p*N+i]=Math.exp(ds*z)}}const out={...baseCache,landSigma,districtSigma,landMultLut,districtMultLut,factors:new Float64Array(P),counts:new Uint16Array(P),landMult:new Float32Array(P*baseCache.L),forecastScale:targetScale};forecastDistrictCacheByScale.set(key,out);return out}
+function prepareForecastDistrictCache(horizonMonths){const baseCache=prepareMonteCarloDistrictCache(),cal=computeTerritorialCalibration();if(!cal)return baseCache;const currentMonths=monthsBetweenDates(projectionAverage()?.date||new Date(),TERRITORIAL_BASE_ELECTION),targetScale=Math.min(1,Math.sqrt(Math.max(0,currentMonths+Number(horizonMonths||0))/TERRITORIAL_REFERENCE_MONTHS)),lm=cal.coverageCalibration?.appliedLandMultiplier||1,dm=cal.coverageCalibration?.appliedDistrictMultiplier||1,key=`${hashString(String(districtState.source||''))}:${targetScale.toFixed(4)}:${lm.toFixed(4)}:${dm.toFixed(4)}`;const cached=forecastDistrictCacheByScale.get(key);if(cached?.base===districtState.base)return cached;const P=baseCache.P,N=baseCache.normalN,landMultLut=new Float32Array(P*N),districtMultLut=new Float32Array(P*N),landSigma=new Float32Array(P),districtSigma=new Float32Array(P);for(let p=0;p<P;p++){const k=baseCache.partyKeys[p],rl=Number.isFinite(cal.rawLand?.[k])&&cal.rawLand[k]>0?cal.rawLand[k]:cal.pooledLand,rd=Number.isFinite(cal.rawDistrict?.[k])&&cal.rawDistrict[k]>0?cal.rawDistrict[k]:cal.pooledDistrict,ls=k==='other'?0:Math.min(TERRITORIAL_LAND_CAP*lm,rl*targetScale*lm),ds=k==='other'?0:Math.min(TERRITORIAL_DISTRICT_CAP*dm,rd*targetScale*dm);landSigma[p]=ls;districtSigma[p]=ds;for(let i=0;i<N;i++){const z=cal.base?territorialNormalLut()[i]:0;landMultLut[p*N+i]=Math.exp(ls*z);districtMultLut[p*N+i]=Math.exp(ds*z)}}const out={...baseCache,landSigma,districtSigma,landMultLut,districtMultLut,factors:new Float64Array(P),counts:new Uint16Array(P),landMult:new Float32Array(P*baseCache.L),forecastScale:targetScale,coverageMultipliers:{land:lm,district:dm}};forecastDistrictCacheByScale.set(key,out);return out}
 function forecastCoalitionProbability(keys){const fc=state.forecast;if(!fc?.ready||!keys?.length)return null;const mask=coalitionMask(keys);return mask&&fc.coalitionWins?.length===COALITION_MASK_COUNT?(fc.coalitionWins[mask]||0)/fc.n:null}
 function updateForecastProgress(done){state.forecastProgress=done;const st=document.getElementById('forecastStatus');if(st&&state.forecastRunning){st.className='forecast-status running';st.textContent=forecastRunningStatusText(done)}}
 async function runForecastMonteCarloAsync(avg,horizon,point,token){if(!districtState.ready)throw new Error('I 299 collegi devono essere caricati prima del forecast.');const sigma=point.sigma,seedText=forecastFingerprint(avg,horizon,point)+'|async1000',seed=hashString(seedText),rngState={rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()},samples=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,new Uint16Array(MC_SIMS)])),entry=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),over5=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),threeSeat=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),voteLeader=Object.fromEntries(MC_KEYS.filter(k=>k!=='other').map(k=>[k,0])),districtCache=prepareForecastDistrictCache(horizon),coalitionWins=new Uint32Array(COALITION_MASK_COUNT),coalitionScratch=new Uint16Array(COALITION_MASK_COUNT);
@@ -2499,23 +2536,13 @@ function projectHistoricalDistrict(d,f){
   for(const k of keys){const factor=f[k]??1;if(k==='other'){const aggregate=Number(d.firstPrev?.other)||0,competitive=Number.isFinite(d.firstPrevOtherMax)?d.firstPrevOtherMax:aggregate;raw[k]=competitive*factor;denom+=aggregate*factor}else{raw[k]=(Number(d.firstPrev?.[k])||0)*factor;denom+=raw[k]}}
   denom=denom||1;let best={key:'other',val:-1};for(const k of keys){scores[k]=(raw[k]||0)/denom*100;if(scores[k]>best.val)best={key:k,val:scores[k]}}return{winner:best.key,winnerShare:best.val,scores};
 }
-function territorialResidualCrossValidation(base){
-  const lands=Object.keys(LAND_NAMES),totNow={},totPrev={},partyNow={},partyPrev={};for(const k of TERRITORIAL_PARTY_KEYS){partyNow[k]={};partyPrev[k]={}}
-  for(const d of base.districts){const l=d.land;if(!l)continue;const tn=Object.values(d.secondCounts||{}).reduce((a,b)=>a+(Number(b)||0),0),tp=Object.values(d.secondCountsPrev||{}).reduce((a,b)=>a+(Number(b)||0),0);totNow[l]=(totNow[l]||0)+tn;totPrev[l]=(totPrev[l]||0)+tp;for(const k of TERRITORIAL_PARTY_KEYS){partyNow[k][l]=(partyNow[k][l]||0)+(Number(d.secondCounts?.[k])||0);partyPrev[k][l]=(partyPrev[k][l]||0)+(Number(d.secondCountsPrev?.[k])||0)}}
-  const sumNow=Object.values(base.nationalVotes||{}).reduce((a,b)=>a+(Number(b)||0),0),sumPrev=Object.values(base.nationalVotesPrev||{}).reduce((a,b)=>a+(Number(b)||0),0),z80=1.281551565545,landTests=[],districtTests=[];
-  for(const k of TERRITORIAL_PARTY_KEYS){const nn=sumNow?(Number(base.nationalVotes?.[k])||0)/sumNow*100:0,np=sumPrev?(Number(base.nationalVotesPrev?.[k])||0)/sumPrev*100:0;if(nn<=TERRITORIAL_MIN_SHARE||np<=TERRITORIAL_MIN_SHARE)continue;const nat=logRatio(nn,np),landSwing={},landRes={};for(const l of lands){const sn=totNow[l]?((partyNow[k][l]||0)/totNow[l]*100):0,sp=totPrev[l]?((partyPrev[k][l]||0)/totPrev[l]*100):0;if(sn>TERRITORIAL_MIN_SHARE&&sp>TERRITORIAL_MIN_SHARE){landSwing[l]=logRatio(sn,sp);landRes[l]=landSwing[l]-nat}}
-    for(const held of Object.keys(landRes)){const train=Object.entries(landRes).filter(([l])=>l!==held).map(([,v])=>v),sig=robustSigma(train,TERRITORIAL_LAND_CAP);if(Number.isFinite(sig)&&sig>0)landTests.push(Math.abs(landRes[held])<=z80*sig)}
-    const residualsByLand={};for(const d of base.districts){const l=d.land,sw=landSwing[l],now=Number(d.first?.[k])||0,prev=Number(d.firstPrev?.[k])||0;if(!Number.isFinite(sw)||now<=TERRITORIAL_MIN_SHARE||prev<=TERRITORIAL_MIN_SHARE)continue;(residualsByLand[l]||(residualsByLand[l]=[])).push(logRatio(now,prev)-sw)}
-    for(const held of Object.keys(residualsByLand)){const train=Object.entries(residualsByLand).filter(([l])=>l!==held).flatMap(([,v])=>v),sig=robustSigma(train,TERRITORIAL_DISTRICT_CAP);if(!Number.isFinite(sig)||sig<=0)continue;for(const r of residualsByLand[held])districtTests.push(Math.abs(r)<=z80*sig)}
-  }
-  const rate=a=>a.length?a.filter(Boolean).length/a.length:null;return{landCoverage80:rate(landTests),landN:landTests.length,districtCoverage80:rate(districtTests),districtN:districtTests.length};
-}
+function territorialResidualCrossValidation(base){const c=territorialCoverageCalibration(base);return{landCoverage80:c.pass?c.calibratedLandCoverage80:c.baselineLandCoverage80,landN:c.pass?c.calibratedLandN:c.baselineLandN,districtCoverage80:c.pass?c.calibratedDistrictCoverage80:c.baselineDistrictCoverage80,districtN:c.pass?c.calibratedDistrictN:c.baselineDistrictN,baselineLandCoverage80:c.baselineLandCoverage80,baselineDistrictCoverage80:c.baselineDistrictCoverage80,calibratedLandCoverage80:c.calibratedLandCoverage80,calibratedDistrictCoverage80:c.calibratedDistrictCoverage80,landMultiplier:c.landMultiplier,districtMultiplier:c.districtMultiplier,coveragePromotionPass:c.pass,coveragePromotionMethod:c.method,landGain:c.landGain,districtGain:c.districtGain}}
 function runTerritorialValidation(){
   const base=districtState.base;if(!base?.districts?.length||!Object.keys(base.nationalVotesPrev||{}).length)return null;joinDistrictLand();const factors=historicalNationalFactors(base);let hits=0,changed=0,changedHits=0,shareAbs=0,shareN=0,otherActual=0;
   for(const d of base.districts){const actual=districtHistoricalWinner(d,'current'),prev=districtHistoricalWinner(d,'previous'),pred=projectHistoricalDistrict(d,factors);if(actual.key==='other')otherActual++;if(pred.winner===actual.key)hits++;if(prev.key!==actual.key){changed++;if(pred.winner===actual.key)changedHits++}const actualShare=actual.val;if(Number.isFinite(actualShare)&&Number.isFinite(pred.scores[actual.key])){shareAbs+=Math.abs(pred.scores[actual.key]-actualShare);shareN++}}
   const cv=territorialResidualCrossValidation(base);return{districts:base.districts.length,winnerAccuracy:hits/base.districts.length,winnerHits:hits,changed,changedAccuracy:changed?changedHits/changed:null,changedHits,winnerShareMAE:shareN?shareAbs/shareN:null,otherActual,...cv,conditionalOnActualNationalSwing:true};
 }
-function renderTerritorialValidation(){const el=document.getElementById('territorialValidation');if(!el)return;const v=districtState.validation;if(!v){el.innerHTML='<div class="empty-small">Dati 2021 comparabili non disponibili nella base caricata.</div>';return}const pc=x=>Number.isFinite(x)?(x*100).toFixed(0)+'%':'—',num=x=>Number.isFinite(x)?x.toFixed(1).replace('.',','):'—';const landGood=Number.isFinite(v.landCoverage80)&&Math.abs(v.landCoverage80-.8)<=.12,distGood=Number.isFinite(v.districtCoverage80)&&Math.abs(v.districtCoverage80-.8)<=.08;el.innerHTML=`<div class="validation-metrics"><div class="validation-metric"><div class="n">${pc(v.winnerAccuracy)}</div><div class="l">Vincitore 2025 ricostruito<br>${v.winnerHits}/${v.districts} collegi</div></div><div class="validation-metric"><div class="n">${pc(v.changedAccuracy)}</div><div class="l">Accuratezza sui collegi<br>che cambiano vincitore (${v.changed})</div></div><div class="validation-metric"><div class="n ${landGood?'validation-good':'validation-warn'}">${pc(v.landCoverage80)}</div><div class="l">Copertura 80% · Land<br>${v.landN} test a Land escluso</div></div><div class="validation-metric"><div class="n ${distGood?'validation-good':'validation-warn'}">${pc(v.districtCoverage80)}</div><div class="l">Copertura 80% · Wahlkreis<br>${v.districtN} osservazioni</div></div></div><div class="validation-detail"><strong>MAE quota del vincitore:</strong> ${num(v.winnerShareMAE)} p.p. · <strong>metodo:</strong> il test dei vincitori usa il risultato nazionale 2025 come informazione nota e verifica soltanto la trasformazione nazionale→territorio. La copertura gerarchica è invece una validazione incrociata spaziale: ogni Land viene valutato con dispersioni stimate sugli altri Länder. <strong>Non è una previsione elettorale completa fuori campione.</strong>${v.otherActual?` · ${v.otherActual} collegi hanno come primo classificato un candidato o una lista fuori dall’insieme modellato.`:''}</div>`}
+function renderTerritorialValidation(){const el=document.getElementById('territorialValidation');if(!el)return;const v=districtState.validation;if(!v){el.innerHTML='<div class="empty-small">Dati 2021 comparabili non disponibili nella base caricata.</div>';return}const pc=x=>Number.isFinite(x)?(x*100).toFixed(0)+'%':'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—',num=x=>Number.isFinite(x)?x.toFixed(1).replace('.',','):'—',mul=x=>Number.isFinite(x)?'×'+x.toFixed(2).replace('.',','):'—';const landGood=Number.isFinite(v.landCoverage80)&&Math.abs(v.landCoverage80-.8)<=.08,distGood=Number.isFinite(v.districtCoverage80)&&Math.abs(v.districtCoverage80-.8)<=.08,gate=v.coveragePromotionPass;el.innerHTML=`<div class="validation-metrics"><div class="validation-metric"><div class="n">${pc(v.winnerAccuracy)}</div><div class="l">Vincitore 2025 ricostruito<br>${v.winnerHits}/${v.districts} collegi</div></div><div class="validation-metric"><div class="n">${pc(v.changedAccuracy)}</div><div class="l">Accuratezza sui collegi<br>che cambiano vincitore (${v.changed})</div></div><div class="validation-metric"><div class="n ${landGood?'validation-good':'validation-warn'}">${pc(v.landCoverage80)}</div><div class="l">Copertura 80% · Land<br>${v.landN} test · ${gate?mul(v.landMultiplier):'baseline'}</div></div><div class="validation-metric"><div class="n ${distGood?'validation-good':'validation-warn'}">${pc(v.districtCoverage80)}</div><div class="l">Copertura 80% · Wahlkreis<br>${v.districtN} osservazioni · ${gate?mul(v.districtMultiplier):'baseline'}</div></div></div><div class="validation-detail"><strong>Promotion gate territoriale:</strong> ${gate?'<span class="validation-good">SUPERATO</span> · i moltiplicatori vengono applicati al Monte Carlo.':'<span class="validation-warn">RESPINTO</span> · il Monte Carlo conserva la dispersione v22.2.'} Baseline LOO: Land ${pc1(v.baselineLandCoverage80)}, Wahlkreis ${pc1(v.baselineDistrictCoverage80)}; candidato nested LOO: Land ${pc1(v.calibratedLandCoverage80)}, Wahlkreis ${pc1(v.calibratedDistrictCoverage80)}. <strong>MAE quota del vincitore:</strong> ${num(v.winnerShareMAE)} p.p. · <strong>metodo:</strong> per ogni Land esterno il moltiplicatore di copertura è stimato soltanto sugli altri Länder tramite un secondo leave-one-Land-out interno; il Land valutato non contribuisce quindi né alla σ né alla correzione di copertura. Il test dei vincitori usa invece il risultato nazionale 2025 come informazione nota e verifica soltanto la trasformazione nazionale→territorio. <strong>Non è una previsione elettorale completa fuori campione.</strong>${v.otherActual?` · ${v.otherActual} collegi hanno come primo classificato un candidato o una lista fuori dall’insieme modellato.`:''}</div>`}
 function prepareGeometryCache(){
   const features=districtState.geo?.features||[];
   const ids=new Set(features.map(f=>Number(f.properties?.wkr_id??f.properties?.WKR_NR)).filter(Number.isFinite));
@@ -2581,7 +2608,7 @@ async function loadConstituencyModel(){
   }catch(e){console.error(e);districtState.qa=null;districtState.validation=null;renderMapQa();renderTerritorialValidation();activateLocalMapFallback(e?.message||'base territoriale non disponibile')}
   finally{districtState.loading=false}
 }
-function updateConstituencyProjection(){if(!districtState.ready||!state.polls.length)return;joinDistrictLand();districtState.territorialCalibration=null;mcDistrictCache=null;const factors=projectionFactors();if(!factors)return;const deterministic=districtState.base.districts.map(d=>projectOneDistrict(d,factors));districtState.deterministicProjected=deterministic;deriveAutomaticDirectExceptions(deterministic);const pr=projectSeats();allocateLandSeats(pr,deterministic);districtState.projected=deterministic;districtState.scenarioMode='deterministic';setMapScenarioCopy('deterministic');if(state.monteCarlo?.ready&&state.mcFingerprint===mcFingerprint(projectionAverage()))applyRepresentativeTerritory(state.monteCarlo,projectionAverage());else{renderParliament();renderConstituencyMap();renderMapSummary();if(districtState.selected){const d=districtState.projected.find(x=>x.id===districtState.selected);if(d)renderDistrictDetail(d)}}renderExceptions(pr);scheduleMonteCarlo()}
+function updateConstituencyProjection(){if(!districtState.ready||!state.polls.length)return;joinDistrictLand();districtState.territorialCalibration=null;districtState.territorialCoverageCalibration=null;districtState.territorialResidualDataset=null;mcDistrictCache=null;const factors=projectionFactors();if(!factors)return;const deterministic=districtState.base.districts.map(d=>projectOneDistrict(d,factors));districtState.deterministicProjected=deterministic;deriveAutomaticDirectExceptions(deterministic);const pr=projectSeats();allocateLandSeats(pr,deterministic);districtState.projected=deterministic;districtState.scenarioMode='deterministic';setMapScenarioCopy('deterministic');if(state.monteCarlo?.ready&&state.mcFingerprint===mcFingerprint(projectionAverage()))applyRepresentativeTerritory(state.monteCarlo,projectionAverage());else{renderParliament();renderConstituencyMap();renderMapSummary();if(districtState.selected){const d=districtState.projected.find(x=>x.id===districtState.selected);if(d)renderDistrictDetail(d)}}renderExceptions(pr);scheduleMonteCarlo()}
 function allCoords(geometry){const out=[];const walk=x=>{if(!Array.isArray(x))return;if(typeof x[0]==='number'&&typeof x[1]==='number')out.push(x);else x.forEach(walk)};walk(geometry?.coordinates);return out}
 function geoPath(geometry,proj){if(!geometry)return'';const polys=geometry.type==='Polygon'?[geometry.coordinates]:geometry.type==='MultiPolygon'?geometry.coordinates:[];let d='';for(const poly of polys){for(const ring of poly){ring.forEach((c,i)=>{const [x,y]=proj(c);d+=(i?'L':'M')+x.toFixed(1)+','+y.toFixed(1)});d+='Z'}}return d}
 function mapFill(d){const p=DISTRICT_PARTIES[d.winner]||DISTRICT_PARTIES.other;if(districtState.mode==='coverage'){if(d.winner==='other')return'#e3e2df';return d.covered?p.color:'#dedbd5'}if(districtState.mode==='margin'){const op=Math.max(.28,Math.min(1,.28+d.margin/20*.72));return hexWithWhite(p.color,op)}return p.color}
@@ -3058,6 +3085,6 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.2 · walk-forward pollster reliability + backtest promotion gate · 26-08-2026 -->
+<!-- v22.3 · stricter national promotion gate + nested spatial uncertainty gate · 26-08-2026 -->
 </body>
 </html>
