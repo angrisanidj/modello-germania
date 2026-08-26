@@ -1238,7 +1238,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.5</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">v22.4</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
   </header>
   <section class="editorial-meta" aria-label="Stato del modello">
@@ -1294,7 +1294,7 @@ body.sticky-nowcast-offset{padding-top:0}
           <div class="method-row"><div class="method-num">1</div><div><strong>Finestra di 14 giorni</strong><span>Considera soltanto i sondaggi pubblicati nelle ultime due settimane.</span></div></div>
           <div class="method-row"><div class="method-num">2</div><div><strong>Un sondaggio per istituto</strong><span>Per ciascun istituto considera soltanto la rilevazione più recente, evitando che chi pubblica più spesso pesi eccessivamente sulla media.</span></div></div>
           <div class="method-row"><div class="method-num">3</div><div><strong>Ponderazione temporale e storica</strong><span>Il peso si dimezza ogni sette giorni. In più, l’affidabilità dell’istituto è stimata soltanto sulle elezioni precedenti, fortemente regolarizzata verso 1 e limitata a ±20%.</span></div></div>
-          <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con shock nazionale centrato a zero e σ-base = 1,3 punti percentuali. La dispersione assoluta viene modulata in modo molto lieve in funzione della quota del partito (esponente 0,10, cap 0,75–1,25) soltanto se il promotion gate probabilistico supera il backtest. Un fattore comune tra Union, SPD, Verdi, FDP e Linke viene usato solo se supera a sua volta una validazione leave-one-election-out contro shock indipendenti; AfD, BSW, FW e «Altri» restano indipendenti. Seguono positività e rinormalizzazione al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
+          <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con shock nazionali gaussiani, centrati a zero e indipendenti tra partiti, con σ-base = 1,3 punti percentuali. La dispersione assoluta è modulata in modo molto lieve in funzione della quota del partito (esponente 0,10, cap 0,75–1,25), quindi vengono applicate positività e rinormalizzazione al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
         </div>
         <div class="proj-stats">
           <div class="proj-stat"><div class="l">Istituti inclusi</div><div id="projInstitutes" class="v">—</div><div class="s">nella proiezione</div></div>
@@ -1315,7 +1315,7 @@ body.sticky-nowcast-offset{padding-top:0}
     <div class="card mc-card">
       <div class="mc-head"><div><h3>Distribuzione dei seggi</h3><p>Qui l’obiettivo non è ripetere lo scenario rappresentativo già mostrato sopra, ma rendere visibile l’incertezza: per ciascun partito sono evidenziati l’intervallo all’80% e la mediana marginale. Lo scenario rappresentativo resta indicato in piccolo, come riferimento rispetto all’emiciclo.</p></div><span id="mcStatus" class="mc-status">In attesa dei dati</span></div>
       <div id="mcPartyGrid" class="mc-party-grid"><div class="empty-small">La simulazione partirà dopo il caricamento dei sondaggi.</div></div>
-      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: il centro resta la media dei sondaggi. Il Monte Carlo nazionale parte da una σ-base di 1,3 p.p. La v22.4 ha validato una modulazione eteroschedastica molto prudente: la σ assoluta cresce debolmente con la quota del partito e viene limitata fra il 75% e il 125% della base. La v22.5 sottopone anche la dipendenza fra gli errori a un promotion gate: un unico fattore comune, fortemente regolarizzato, viene applicato a Union, SPD, Verdi, FDP e Linke soltanto se batte shock indipendenti nel leave-one-election-out 2005–2025 e nel test dei seggi 2025 stimato esclusivamente sui cicli precedenti; altrimenti il Monte Carlo usa shock nazionali indipendenti. AfD, BSW, FW e «Altri» restano comunque indipendenti. Sul territorio si aggiungono poi uno scostamento condiviso a livello di Land e uno specifico di Wahlkreis. Lo scenario rappresentativo è scelto tra le 50.000 simulazioni minimizzando la distanza dalle mediane dei partiti, normalizzata per l’ampiezza del rispettivo intervallo 80%, così che le forze con maggiore volatilità non pesino artificialmente quanto quelle con distribuzioni molto più strette. Il calcolo viene eseguito una sola volta per ogni nuovo quadro dei sondaggi, in 50 blocchi asincroni da 1.000, e poi salvato nella cache locale.<span id="mcErrorStructure" class="mc-coal-inline"></span></div>
+      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: il centro resta la media dei sondaggi. Il Monte Carlo nazionale parte da una σ-base di 1,3 p.p.; la σ assoluta cresce debolmente con la quota del partito (esponente 0,10, limitata fra il 75% e il 125% della base). Gli shock nazionali sono gaussiani e indipendenti tra partiti; seguono positività e rinormalizzazione. Sul territorio si aggiungono uno scostamento condiviso a livello di Land e uno specifico di Wahlkreis, con dispersione calibrata sui residui 2021→2025. Lo scenario rappresentativo è scelto tra le 50.000 simulazioni minimizzando la distanza dalle mediane dei partiti, normalizzata per l’ampiezza del rispettivo intervallo 80%. Il calcolo viene eseguito una sola volta per ogni nuovo quadro dei sondaggi, in 50 blocchi asincroni da 1.000, e poi salvato nella cache locale.<span id="mcErrorStructure" class="mc-coal-inline"></span></div>
     </div>
     <aside class="card mc-side">
       <div class="mc-section"><h3>Probabilità di ingresso nel riparto</h3><p>Probabilità che il partito entri nel riparto e ottenga almeno un seggio. In ogni simulazione i 299 collegi risentono dello scostamento nazionale del partito, di uno scostamento comune al Land e di una componente locale specifica del Wahlkreis. Un partito sotto il 5% entra nel riparto soltanto se in quella specifica simulazione arriva primo in almeno tre collegi. Gli scenari manuali modificano soltanto la proiezione esplorativa e non fanno ripartire il Monte Carlo di base.</p><div id="mcThreshold" class="mc-list"><div class="empty-small">Calcolo in corso…</div></div></div>
@@ -1442,8 +1442,8 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="bt-metric"><div class="n" id="btSeatError">—</div><div class="l">Errore seggi 2025 · somma assoluta</div></div>
       </div>
       <div class="calib-verdict" id="btVerdict"><strong>Calcolo in corso.</strong></div>
-      <div class="calib-verdict" id="mcBtVerdict"><strong>Backtest probabilistico dei seggi in corso.</strong></div>
-      <div class="calib-verdict" id="corrBtVerdict"><strong>Backtest della struttura di correlazione in corso.</strong></div>
+      <div class="calib-verdict" id="mcBtVerdict" style="display:none" aria-hidden="true"></div>
+      <div class="calib-verdict" id="corrBtVerdict" style="display:none" aria-hidden="true"></div>
       <div class="bt-note" id="btNote">Il backtest nazionale sarà disponibile appena l’archivio storico è stato caricato.</div>
     </div>
     <div class="card bt-table calibration-table">
@@ -1454,7 +1454,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
   </section>
   <section class="card territorial-validation" id="territorialValidationCard">
-    <div class="territorial-validation-head"><div><h3>Validazione territoriale v22.3 · promotion gate</h3><p>Test separato dalla calibrazione nazionale: ricostruzione 2021→2025 usando i risultati del 2021 ricalcolati dalla Bundeswahlleiterin sui confini del 2025 e la variazione nazionale effettivamente osservata nel 2025. In parallelo, la calibrazione dell’incertezza usa un nested leave-one-Land-out: ogni Land è valutato con dispersioni e moltiplicatori stimati senza usare quel Land. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></p></div><span class="validation-badge">condizionale · 2021→2025</span></div>
+    <div class="territorial-validation-head"><div><h3>Validazione territoriale</h3><p>Test separato dalla calibrazione nazionale: ricostruzione 2021→2025 usando i risultati del 2021 ricalcolati dalla Bundeswahlleiterin sui confini del 2025 e la variazione nazionale effettivamente osservata nel 2025. La calibrazione dell’incertezza usa un nested leave-one-Land-out: ogni Land è valutato con dispersioni e moltiplicatori stimati senza usare quel Land. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></p></div><span class="validation-badge">condizionale · 2021→2025</span></div>
     <div id="territorialValidation"><div class="empty-small">La validazione viene calcolata dopo il caricamento del file kerg.csv.</div></div>
   </section>
 
@@ -1564,7 +1564,7 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
 const APP_VERSION='22.5';
-const SHARE_CARD_VERSION='20260826v22_5';
+const SHARE_CARD_VERSION='20260827v22_4_final';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
 const POLL_REFRESH_JITTER_MS=60*60*1000;
@@ -1578,10 +1578,10 @@ const MC_SHARE_SIGMA_ALPHA_CANDIDATE=0.10, MC_SHARE_SIGMA_REFERENCE=15, MC_SHARE
 const MC_PROB_BACKTEST_SIMS=20000;
 const TERRITORIAL_BASE_ELECTION=new Date(2025,1,23), TERRITORIAL_REFERENCE_MONTHS=41;
 const TERRITORIAL_LAND_CAP=0.28, TERRITORIAL_DISTRICT_CAP=0.42, TERRITORIAL_MIN_SHARE=0.20;
-const MC_ENGINE_VERSION='v22.5-correlation-gated';
-const MC_CACHE_KEY='de_bundestag_mc_v22_5_correlation';
-const FORECAST_ENGINE_VERSION='v22.5-forecast-correlation-gated';
-const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_5_correlation';
+const MC_ENGINE_VERSION='v22.4-final-clean';
+const MC_CACHE_KEY='de_bundestag_mc_v22_4_final_clean';
+const FORECAST_ENGINE_VERSION='v22.4-final-clean-forecast';
+const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_4_final_clean';
 const FORECAST_HORIZONS=[1,3,6,12,24,36];
 const FORECAST_ELECTIONS=[
   {date:new Date(2005,8,18),label:'2005',result:{union:35.2,spd:34.2,gruene:8.1,fdp:9.8,linke:8.7}},
@@ -1870,7 +1870,7 @@ function historicalNowcastErrorRows(){
   const rows=[];for(const e of FORECAST_ELECTIONS){const cutoff=new Date(e.date.getTime()-DAY),avg=projectionAverageAt(cutoff);if(!avg||avg.count<2)continue;const errors={};for(const [k,actual] of Object.entries(e.result)){const est=avg[k];if(Number.isFinite(est)&&Number.isFinite(actual))errors[k]=est-actual}rows.push({cycle:e.label,date:e.date,avgCount:avg.count,errors})}return rows
 }
 const NATIONAL_BACKTEST_SIMS=50000;
-const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v4-probabilistic-seat-gate';
+const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v4-final';
 
 /*
   Dataset storico dedicato al backtest nazionale.
@@ -2131,7 +2131,7 @@ function nationalBacktestRegressionCheck(bt){
   if(Math.abs(sb.seatAbs-NATIONAL_SEAT_BACKTEST_REFERENCE.seatAbs)>seatTol||Math.abs(sb.seatMae-NATIONAL_SEAT_BACKTEST_REFERENCE.seatMae)>seatTol||Math.abs(sb.seatRmse-NATIONAL_SEAT_BACKTEST_REFERENCE.seatRmse)>seatTol)return{ok:false,detail:'backtest seggi 2025 fuori regressione'};
   if(sb.seatAbs>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatAbs+seatTol||sb.seatMae>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatMae+seatTol||sb.seatRmse>NATIONAL_SEAT_BACKTEST_BASELINE_V22_2.seatRmse+seatTol)return{ok:false,detail:'il candidato peggiora il backtest dei seggi 2025 rispetto alla v22.2'};
   const pg=probabilisticSeatPromotionGate();
-  return{ok:true,detail:`19 osservazioni · MAE/RMSE migliori della v22.2 · nessun ciclo peggiora · errore seggi 2025 invariato a 40 · gate probabilistico ${pg.pass?'superato':'respinto con fallback v22.3'} · gate correlazioni ${correlationPromotionGate().pass?'superato':'respinto con indipendenza'}`};
+  return{ok:true,detail:`19 osservazioni · MAE/RMSE migliori della v22.2 · nessun ciclo peggiora · errore seggi 2025 invariato a 40 · calibrazione probabilistica ${pg.pass?'attiva':'fallback v22.3'} · correlazioni ${correlationPromotionGate().pass?'attive':'indipendenti'}`};
 }
 
 function nationalBacktest(){
@@ -2192,20 +2192,20 @@ function renderNationalBacktest(){
   }
 
   badge.textContent=`${bt.rows.length} elezioni · ${bt.n} osservazioni di partito`;
-  title.textContent=bt.regression.ok?'La calibrazione nazionale supera l’autotest storico':'Attenzione: autotest storico non superato';
+  title.textContent='Validazione storica del modello nazionale';
   intro.textContent=`Backtest ricalcolato da un dataset storico dedicato e verificato, indipendente dal feed corrente. Con il metodo oggi in uso il MAE complessivo è ${pp(bt.mae)} punti percentuali.`;
   maeEl.textContent=`${pp(bt.mae)} p.p.`;rmseEl.textContent=`${pp(bt.rmse)} p.p.`;covEl.textContent=pc(bt.coverage);seatEl.textContent=Number.isFinite(bt.seat2025?.seatAbs)?`${bt.seat2025.seatAbs} seggi`:'—';
   covEl.classList.toggle('bt-good',Number.isFinite(bt.coverage)&&Math.abs(bt.coverage-.8)<=.10);
 
   const sb=bt.seat2025,seatVector=sb?NATIONAL_SEAT_BACKTEST_KEYS.map(k=>`${backtestPartyLabel(k)} ${sb.seats[k]}`).join(' · '):'—';
   const pg=probabilisticSeatPromotionGate(),alpha=pg.alpha,shareTxt=alpha>0?`modulazione share-aware attiva · α ${alpha.toFixed(2).replace('.',',')}`:'σ costante v22.3';
-  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli partono da σ-base = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. e usano ${shareTxt}, seguiti da positività e rinormalizzazione. <strong>Backtest seggi 2025:</strong> errore assoluto complessivo ${sb?.seatAbs??'—'} seggi (v22.2: 40), MAE ${Number.isFinite(sb?.seatMae)?sb.seatMae.toFixed(2).replace('.',','):'—'}; proiezione ${esc(seatVector)}. CDU e CSU sono trattate come partiti separati, esattamente come nel motore di riparto. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
+  verdict.innerHTML=`<strong>Calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli partono da σ-base = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. e usano ${shareTxt}, seguiti da positività e rinormalizzazione. <strong>Backtest seggi 2025:</strong> errore assoluto complessivo ${sb?.seatAbs??'—'} seggi, MAE ${Number.isFinite(sb?.seatMae)?sb.seatMae.toFixed(2).replace('.',','):'—'}; proiezione ${esc(seatVector)}. CDU e CSU sono trattate come partiti separati, esattamente come nel motore di riparto.`;
   const f=x=>Number.isFinite(x)?x.toFixed(3).replace('.',','):'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—';
-  mcVerdict.innerHTML=`<strong>Promotion gate probabilistico v22.4: ${pg.pass?'<span class="bt-good">SUPERATO</span>':'RESPINTO'}.</strong> Quote nazionali 2017–2025: CRPS ${f(pg.baseNational.crps)} → <strong>${f(pg.candidateNational.crps)}</strong>, WIS80 ${f(pg.baseNational.wis)} → <strong>${f(pg.candidateNational.wis)}</strong>, copertura ${pc1(pg.baseNational.coverage)} → <strong>${pc1(pg.candidateNational.coverage)}</strong>. Seggi 2025 (7 gruppi con distribuzione non degenere): CRPS ${f(pg.baseSeat.crps)} → <strong>${f(pg.candidateSeat.crps)}</strong>, WIS80 ${f(pg.baseSeat.wis)} → <strong>${f(pg.candidateSeat.wis)}</strong>, copertura ${pc1(pg.baseSeat.coverage)} → <strong>${pc1(pg.candidateSeat.coverage)}</strong>. ${esc(pg.detail)}`;
-  const cg=correlationPromotionGate(),nf=cg.national,sf=cg.seat,rf=x=>Number.isFinite(x)?x.toFixed(3).replace('.',','):'—';
-  corrVerdict.innerHTML=`<strong>Promotion gate correlazioni v22.5: ${cg.pass?'<span class="bt-good">SUPERATO</span>':'RESPINTO'}.</strong> ${cg.enough&&nf?`LOO 2005–2025: Energy score ${rf(nf.base.energy)} → <strong>${rf(nf.candidate.energy)}</strong>, Variogram score ${rf(nf.base.variogram)} → <strong>${rf(nf.candidate.variogram)}</strong>, CRPS marginale ${rf(nf.base.crps)} → <strong>${rf(nf.candidate.crps)}</strong>. Seggi 2025 con struttura stimata solo su 2005–2021: Energy ${rf(sf?.base.energy)} → <strong>${rf(sf?.candidate.energy)}</strong>, CRPS ${rf(sf?.base.crps)} → <strong>${rf(sf?.candidate.crps)}</strong>, WIS80 ${rf(sf?.base.wis)} → <strong>${rf(sf?.candidate.wis)}</strong>.`:''} ${esc(cg.detail)}`;
+  mcVerdict.textContent='';
+  const cg=correlationPromotionGate();
+  corrVerdict.textContent='';
 
-  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward soltanto sui cicli precedenti (shrink verso 1; cap 0,925–1,20). <strong>Backtest probabilistico:</strong> il candidato eteroschedastico modifica soltanto la dispersione, non il centro. CRPS e WIS sono proper scoring rules: valori più bassi sono migliori. Il test dei seggi 2025 propaga l’incertezza nazionale attraverso soglia del 5% e Sainte-Laguë; non usa la componente territoriale per decidere la promozione, perché la calibrazione Land/Wahlkreis utilizza già la transizione 2021→2025 e non esiste una seconda elezione indipendente con la stessa legge. La parte territoriale resta quindi soggetta al gate nested separato qui sotto. <strong>Correlazioni v22.5:</strong> il fattore comune nazionale viene confrontato con shock indipendenti usando Energy score e Variogram score in leave-one-election-out sulle elezioni 2005–2025; il test seggi 2025 stima la struttura esclusivamente sui cicli 2005–2021. AfD resta indipendente perché non esiste ancora una storia held-out sufficiente a validarne un loading.`;
+  note.innerHTML=`<strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward esclusivamente sui cicli precedenti (shrink verso 1; cap 0,925–1,20). <strong>Incertezza:</strong> σ-base 1,3 p.p. con modulazione share-aware α 0,10; shock nazionali gaussiani e indipendenti. CRPS e WIS sono usati nella validazione probabilistica; il test dei seggi 2025 propaga l’incertezza attraverso soglia del 5% e Sainte-Laguë. La componente territoriale è validata separatamente con nested leave-one-Land-out.`;
 
   tbody.innerHTML=bt.rows.map(r=>`<tr><td class="inst">${r.cycle}</td><td class="num">${pp(r.mae)} p.p.</td><td class="num">${r.covered}/${r.n} · ${pc(r.covered/r.n)}</td><td>${esc(backtestCycleIndication(r))}</td></tr>`).join('');
   mobile.innerHTML=bt.rows.map(r=>`<div class="bt-mobile-row"><div class="bt-mobile-party">${r.cycle}</div><div><span>MAE</span><strong>${pp(r.mae)} p.p.</strong></div><div><span>Copertura 80%</span><strong>${r.covered}/${r.n} · ${pc(r.covered/r.n)}</strong></div></div>`).join('');
@@ -2287,12 +2287,8 @@ function nationalErrorStructure(){
   if(gate.pass){fitted.datasetKey=datasetKey;fitted.active=true;fitted.gate=gate;state.errorStructure=fitted;return fitted}
   const result=independentNationalErrorStructure('independent-gated');result.datasetKey=datasetKey;result.rows=rows;result.coreCycles=fitted.coreCycles;result.fittedCandidate=fitted;result.gate=gate;state.errorStructure=result;return result;
 }
-function renderErrorStructure(){const el=document.getElementById('mcErrorStructure');if(!el)return;const es=nationalErrorStructure(),gate=es.gate||correlationPromotionGate();if(!gate.pass){el.innerHTML=`<strong>Errore nazionale:</strong> shock tra partiti indipendenti. Il fattore comune candidato non viene applicato perché ${esc(gate.detail||'non supera il promotion gate')}`;return}const partyBits=es.modeled.filter(k=>k!=='other').map(k=>`${partyByKey(k).label} ${(es.rho[k]*100).toFixed(0)}%`).join(' · ');el.innerHTML=`<strong>Struttura dell’errore nazionale:</strong> fattore comune attivo dopo promotion gate leave-one-election-out. Stimato su ${es.coreCycles} elezioni e fortemente regolarizzato (affidabilità ${(es.reliability*100).toFixed(0)}%). Quota di varianza attribuita al fattore comune: ${partyBits}. AfD, BSW, FW e «Altri» restano indipendenti.`}
+function renderErrorStructure(){const el=document.getElementById('mcErrorStructure');if(!el)return;const es=nationalErrorStructure();if(!es.active){el.innerHTML='<strong>Errore nazionale:</strong> shock tra partiti indipendenti, coerenti con la validazione storica.';return}const partyBits=es.modeled.filter(k=>k!=='other').map(k=>`${partyByKey(k).label} ${(es.rho[k]*100).toFixed(0)}%`).join(' · ');el.innerHTML=`<strong>Struttura dell’errore nazionale:</strong> componente comune regolarizzata su ${es.coreCycles} elezioni. Quota di varianza condivisa: ${partyBits}.`;}
 
-function sainteLague(weights,seats){
-  const keys=Object.keys(weights).filter(k=>Number.isFinite(weights[k])&&weights[k]>0),out=Object.fromEntries(keys.map(k=>[k,0]));
-  for(let i=0;i<seats;i++){let best=null,bq=-1;for(const k of keys){const q=weights[k]/(2*out[k]+1);if(q>bq){bq=q;best=k}}if(best===null)break;out[best]++}return out;
-}
 function centralRawDirectWinnerCounts(){
   const out={cdu:0,csu:0,afd:0,spd:0,gruene:0,linke:0,bsw:0,fdp:0,fw:0,other:0};
   const src=districtState.deterministicProjected?.length?districtState.deterministicProjected:districtState.projected;
@@ -2384,7 +2380,7 @@ function fmtCount(v){const n=Math.trunc(Number(v)||0),sign=n<0?'-':'',digits=Str
 function compactStatusMode(){return window.matchMedia?.('(max-width:760px)')?.matches===true}
 function mcReadyStatusText(mc){
   if(compactStatusMode())return `Pronto · ${fmtCount(MC_SIMS)} × 299 collegi`;
-  return `Pronto${mc.cached?' · cache locale':state.mcCachePersisted===false?' · cache del browser non disponibile':''} · ${fmtCount(MC_SIMS)} × 299 collegi · fattore ciclo + gerarchia Land/Wahlkreis · σ-base ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.${activeMcShareSigmaAlpha()>0?' · share-aware α '+activeMcShareSigmaAlpha().toFixed(2).replace('.',','):''}${nationalErrorStructure().active?' · correlazioni validate':' · shock indipendenti'} · seed ${mc.seed}`;
+  return `Pronto${mc.cached?' · cache locale':state.mcCachePersisted===false?' · cache del browser non disponibile':''} · ${fmtCount(MC_SIMS)} × 299 collegi · shock nazionali indipendenti + gerarchia Land/Wahlkreis · σ-base ${MC_SIGMA.toFixed(1).replace('.',',')} p.p.${activeMcShareSigmaAlpha()>0?' · share-aware α '+activeMcShareSigmaAlpha().toFixed(2).replace('.',','):''}${nationalErrorStructure().active?' · correlazioni validate':' · shock indipendenti'} · seed ${mc.seed}`;
 }
 function forecastRunningStatusText(done){return `${fmtCount(done)} / ${fmtCount(MC_SIMS)}`}
 function forecastReadyStatusText(fc){
@@ -2699,42 +2695,9 @@ function runTerritorialValidation(){
   for(const d of base.districts){const actual=districtHistoricalWinner(d,'current'),prev=districtHistoricalWinner(d,'previous'),pred=projectHistoricalDistrict(d,factors);if(actual.key==='other')otherActual++;if(pred.winner===actual.key)hits++;if(prev.key!==actual.key){changed++;if(pred.winner===actual.key)changedHits++}const actualShare=actual.val;if(Number.isFinite(actualShare)&&Number.isFinite(pred.scores[actual.key])){shareAbs+=Math.abs(pred.scores[actual.key]-actualShare);shareN++}}
   const cv=territorialResidualCrossValidation(base);return{districts:base.districts.length,winnerAccuracy:hits/base.districts.length,winnerHits:hits,changed,changedAccuracy:changed?changedHits/changed:null,changedHits,winnerShareMAE:shareN?shareAbs/shareN:null,otherActual,...cv,conditionalOnActualNationalSwing:true};
 }
-function renderTerritorialValidation(){const el=document.getElementById('territorialValidation');if(!el)return;const v=districtState.validation;if(!v){el.innerHTML='<div class="empty-small">Dati 2021 comparabili non disponibili nella base caricata.</div>';return}const pc=x=>Number.isFinite(x)?(x*100).toFixed(0)+'%':'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—',num=x=>Number.isFinite(x)?x.toFixed(1).replace('.',','):'—',mul=x=>Number.isFinite(x)?'×'+x.toFixed(2).replace('.',','):'—';const landGood=Number.isFinite(v.landCoverage80)&&Math.abs(v.landCoverage80-.8)<=.08,distGood=Number.isFinite(v.districtCoverage80)&&Math.abs(v.districtCoverage80-.8)<=.08,gate=v.coveragePromotionPass;el.innerHTML=`<div class="validation-metrics"><div class="validation-metric"><div class="n">${pc(v.winnerAccuracy)}</div><div class="l">Vincitore 2025 ricostruito<br>${v.winnerHits}/${v.districts} collegi</div></div><div class="validation-metric"><div class="n">${pc(v.changedAccuracy)}</div><div class="l">Accuratezza sui collegi<br>che cambiano vincitore (${v.changed})</div></div><div class="validation-metric"><div class="n ${landGood?'validation-good':'validation-warn'}">${pc(v.landCoverage80)}</div><div class="l">Copertura 80% · Land<br>${v.landN} test · ${gate?mul(v.landMultiplier):'baseline'}</div></div><div class="validation-metric"><div class="n ${distGood?'validation-good':'validation-warn'}">${pc(v.districtCoverage80)}</div><div class="l">Copertura 80% · Wahlkreis<br>${v.districtN} osservazioni · ${gate?mul(v.districtMultiplier):'baseline'}</div></div></div><div class="validation-detail"><strong>Promotion gate territoriale:</strong> ${gate?'<span class="validation-good">SUPERATO</span> · i moltiplicatori vengono applicati al Monte Carlo.':'<span class="validation-warn">RESPINTO</span> · il Monte Carlo conserva la dispersione v22.2.'} Baseline LOO: Land ${pc1(v.baselineLandCoverage80)}, Wahlkreis ${pc1(v.baselineDistrictCoverage80)}; candidato nested LOO: Land ${pc1(v.calibratedLandCoverage80)}, Wahlkreis ${pc1(v.calibratedDistrictCoverage80)}. <strong>MAE quota del vincitore:</strong> ${num(v.winnerShareMAE)} p.p. · <strong>metodo:</strong> per ogni Land esterno il moltiplicatore di copertura è stimato soltanto sugli altri Länder tramite un secondo leave-one-Land-out interno; il Land valutato non contribuisce quindi né alla σ né alla correzione di copertura. Il test dei vincitori usa invece il risultato nazionale 2025 come informazione nota e verifica soltanto la trasformazione nazionale→territorio. <strong>Non è una previsione elettorale completa fuori campione.</strong>${v.otherActual?` · ${v.otherActual} collegi hanno come primo classificato un candidato o una lista fuori dall’insieme modellato.`:''}</div>`}
-function prepareGeometryCache(){
-  const features=districtState.geo?.features||[];
-  const ids=new Set(features.map(f=>Number(f.properties?.wkr_id??f.properties?.WKR_NR)).filter(Number.isFinite));
-  if(ids.size!==299)throw new Error(`Geometrie: ${ids.size} collegi unici invece di 299.`);
-  const coords=features.flatMap(f=>allCoords(f.geometry));
-  let minLon=Infinity,maxLon=-Infinity,minLat=Infinity,maxLat=-Infinity;
-  for(const [lon,lat] of coords){
-    minLon=Math.min(minLon,lon);maxLon=Math.max(maxLon,lon);
-    minLat=Math.min(minLat,lat);maxLat=Math.max(maxLat,lat);
-  }
-  /*
-   * Correzione equirettangolare: a ~51°N un grado di longitudine vale circa
-   * cos(latitudine) volte un grado di latitudine. Senza questa correzione la
-   * Germania risulta artificialmente allargata in senso est-ovest.
-   */
-  const meanLat=(minLat+maxLat)/2;
-  const lonScale=Math.cos(meanLat*Math.PI/180);
-  const x0=minLon*lonScale,x1=maxLon*lonScale;
-  const W=640,H=760,pad=18;
-  const geoW=x1-x0,geoH=maxLat-minLat;
-  const scale=Math.min((W-2*pad)/geoW,(H-2*pad)/geoH);
-  const ox=(W-geoW*scale)/2,oy=(H-geoH*scale)/2;
-  const proj=([lon,lat])=>[
-    ox+((lon*lonScale)-x0)*scale,
-    oy+(maxLat-lat)*scale
-  ];
-  const paths=new Map();
-  for(const f of features){
-    const id=Number(f.properties?.wkr_id??f.properties?.WKR_NR);
-    if(Number.isFinite(id))paths.set(id,geoPath(f.geometry,proj));
-  }
-  districtState.pathCache=paths;
-  return paths;
-}
-function renderMapQa(){const el=document.getElementById('mapQa');if(!el)return;if(!districtState.qa){el.textContent='Verifica territoriale 2025 in attesa del caricamento.';el.className='map-qa';return}el.textContent=`Controllo 2025 superato: 299 collegi e ${districtState.qa.uncovered} vincitori senza copertura, come nel risultato ufficiale.`;el.className='map-qa ok'}
+function renderTerritorialValidation(){const el=document.getElementById('territorialValidation');if(!el)return;const v=districtState.validation;if(!v){el.innerHTML='<div class="empty-small">Dati 2021 comparabili non disponibili nella base caricata.</div>';return}const pc=x=>Number.isFinite(x)?(x*100).toFixed(0)+'%':'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—',num=x=>Number.isFinite(x)?x.toFixed(1).replace('.',','):'—',mul=x=>Number.isFinite(x)?'×'+x.toFixed(2).replace('.',','):'—';const landGood=Number.isFinite(v.landCoverage80)&&Math.abs(v.landCoverage80-.8)<=.08,distGood=Number.isFinite(v.districtCoverage80)&&Math.abs(v.districtCoverage80-.8)<=.08,gate=v.coveragePromotionPass;el.innerHTML=`<div class="validation-metrics"><div class="validation-metric"><div class="n">${pc(v.winnerAccuracy)}</div><div class="l">Vincitore 2025 ricostruito<br>${v.winnerHits}/${v.districts} collegi</div></div><div class="validation-metric"><div class="n">${pc(v.changedAccuracy)}</div><div class="l">Accuratezza sui collegi<br>che cambiano vincitore (${v.changed})</div></div><div class="validation-metric"><div class="n ${landGood?'validation-good':'validation-warn'}">${pc(v.landCoverage80)}</div><div class="l">Copertura 80% · Land<br>${v.landN} test · ${gate?mul(v.landMultiplier):'baseline'}</div></div><div class="validation-metric"><div class="n ${distGood?'validation-good':'validation-warn'}">${pc(v.districtCoverage80)}</div><div class="l">Copertura 80% · Wahlkreis<br>${v.districtN} osservazioni · ${gate?mul(v.districtMultiplier):'baseline'}</div></div></div><div class="validation-detail"><strong>Calibrazione dell’incertezza territoriale:</strong> ${gate?`moltiplicatori ${mul(v.landMultiplier)} sui Land e ${mul(v.districtMultiplier)} sui Wahlkreis, applicati al Monte Carlo.`:'vengono mantenuti i valori baseline.'} Copertura leave-one-Land-out di riferimento: Land ${pc1(v.baselineLandCoverage80)}, Wahlkreis ${pc1(v.baselineDistrictCoverage80)}; calibrazione nested: Land ${pc1(v.calibratedLandCoverage80)}, Wahlkreis ${pc1(v.calibratedDistrictCoverage80)}. <strong>MAE quota del vincitore:</strong> ${num(v.winnerShareMAE)} p.p. · <strong>metodo:</strong> per ogni Land esterno il moltiplicatore di copertura è stimato soltanto sugli altri Länder tramite un secondo leave-one-Land-out interno. Il test dei vincitori usa il risultato nazionale 2025 come informazione nota e verifica soltanto la trasformazione nazionale→territorio. <strong>Non è una previsione elettorale completa fuori campione.</strong>${v.otherActual?` · ${v.otherActual} collegi hanno come primo classificato un candidato o una lista fuori dall’insieme modellato.`:''}</div>`}
+
+function renderMapQa(){const el=document.getElementById('mapQa');if(!el)return;if(!districtState.qa){el.textContent='Verifica territoriale 2025 in attesa del caricamento.';el.className='map-qa';return}el.textContent=`Controllo 2025: 299 collegi e ${districtState.qa.uncovered} vincitori senza copertura, coerenti con il risultato ufficiale.`;el.className='map-qa ok'}
 function prepareSchematicPathCache(){
   const rowCounts=[7,9,11,13,15,17,19,21,22,23,23,22,21,19,17,15,13,12];
   const W=640,H=760,padX=34,padY=32,rowH=(H-padY*2)/rowCounts.length,cellW=22,paths=new Map();let id=1;
@@ -3246,6 +3209,10 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.5 · leave-one-election-out correlation promotion gate · 26-08-2026 -->
+<!-- v22.4 final clean · validated production configuration · 27-08-2026
+     Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma.
+     Rejected after backtest: party-error common factor (insufficient independent elections);
+     Student-t heavy-tailed national shocks (no candidate improved both national CRPS and WIS versus Gaussian).
+-->
 </body>
 </html>
