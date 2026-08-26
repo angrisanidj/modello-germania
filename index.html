@@ -1238,7 +1238,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.1</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">v22.2</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
   </header>
   <section class="editorial-meta" aria-label="Stato del modello">
@@ -1293,7 +1293,7 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="method-list">
           <div class="method-row"><div class="method-num">1</div><div><strong>Finestra di 14 giorni</strong><span>Considera soltanto i sondaggi pubblicati nelle ultime due settimane.</span></div></div>
           <div class="method-row"><div class="method-num">2</div><div><strong>Un sondaggio per istituto</strong><span>Per ciascun istituto considera soltanto la rilevazione più recente, evitando che chi pubblica più spesso pesi eccessivamente sulla media.</span></div></div>
-          <div class="method-row"><div class="method-num">3</div><div><strong>Ponderazione temporale</strong><span>Il peso di ciascun sondaggio si dimezza ogni sette giorni.</span></div></div>
+          <div class="method-row"><div class="method-num">3</div><div><strong>Ponderazione temporale e storica</strong><span>Il peso si dimezza ogni sette giorni. In più, l’affidabilità dell’istituto è stimata soltanto sulle elezioni precedenti, fortemente regolarizzata verso 1 e limitata a ±20%.</span></div></div>
           <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con shock nazionale iniziale centrato a zero e σ = 1,3 punti percentuali, seguito da vincolo di positività e rinormalizzazione delle quote al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
         </div>
         <div class="proj-stats">
@@ -1545,7 +1545,7 @@ body.sticky-nowcast-offset{padding-top:0}
       <a class="source-pill" target="_blank" rel="noopener" href="https://www.wahlrecht.de/umfragen/archiv/2025.htm">Archivio sondaggi 2025 · Wahlrecht.de ↗</a>
     </div>
     <div class="footnote"><strong>Incompatibilità politiche:</strong> il costruttore distingue la maggioranza aritmetica dalle posizioni ufficiali o pubblicamente dichiarate dei partiti. Non si tratta di impedimenti giuridici e tali posizioni possono cambiare. La scala politica distingue ora tre livelli. Per esempio, CDU/CSU + Verdi è classificata come <em>veto politico forte</em>, non come veto formale: la CSU continua a escludere Schwarz-Grün a livello federale, mentre non esiste una corrispondente delibera formale di incompatibilità (<em>Unvereinbarkeitsbeschluss</em>) dell’intera Union.</div>
-    <div class="footnote">* La verifica retrospettiva nazionale usa le ultime rilevazioni disponibili di ciascun istituto entro 14 giorni dal voto e la stessa emivita di 7 giorni del modello corrente. La copertura probabilistica è calcolata sulle 19 osservazioni di partito comparabili dei tre cicli; non costituisce una validazione fuori campione della mappa dei collegi.</div>
+    <div class="footnote">* La verifica retrospettiva nazionale usa le ultime rilevazioni disponibili di ciascun istituto entro 14 giorni dal voto, la stessa emivita di 7 giorni del modello corrente e, dal 2021 in avanti, pesi di affidabilità stimati esclusivamente sulle elezioni precedenti. La copertura probabilistica è calcolata sulle 19 osservazioni di partito comparabili dei tre cicli; non costituisce una validazione fuori campione della mappa dei collegi.</div>
   </footer>
   <div class="author-signature">Daniele Angrisani · Nowcast probabilistico del Bundestag · <a href="https://x.com/putino" target="_blank" rel="noopener">@putino</a></div>
 
@@ -1560,8 +1560,8 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A8:Z`,
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
-const APP_VERSION='22.0';
-const SHARE_CARD_VERSION='20260825v22_0';
+const APP_VERSION='22.2';
+const SHARE_CARD_VERSION='20260826v22_2';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
 const POLL_REFRESH_JITTER_MS=60*60*1000;
@@ -1573,10 +1573,10 @@ const TOTAL_SEATS=630, MAJORITY=316, SSW_ASSUMED_SHARE=0.153;
 const MC_SIMS=50000, MC_BATCH=1000, MC_SIGMA=1.30, MC_QLOW=0.10, MC_QHIGH=0.90;
 const TERRITORIAL_BASE_ELECTION=new Date(2025,1,23), TERRITORIAL_REFERENCE_MONTHS=41;
 const TERRITORIAL_LAND_CAP=0.28, TERRITORIAL_DISTRICT_CAP=0.42, TERRITORIAL_MIN_SHARE=0.20;
-const MC_ENGINE_VERSION='v22.1-representative-normalized';
-const MC_CACHE_KEY='de_bundestag_mc_v22_1_repnorm';
-const FORECAST_ENGINE_VERSION='v22.1-forecast-representative-normalized';
-const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_1_repnorm';
+const MC_ENGINE_VERSION='v22.2-pollster-reliability';
+const MC_CACHE_KEY='de_bundestag_mc_v22_2_pollsterrel';
+const FORECAST_ENGINE_VERSION='v22.2-forecast-pollster-reliability';
+const FORECAST_CACHE_KEY='de_bundestag_forecast_v22_2_pollsterrel';
 const FORECAST_HORIZONS=[1,3,6,12,24,36];
 const FORECAST_ELECTIONS=[
   {date:new Date(2005,8,18),label:'2005',result:{union:35.2,spd:34.2,gruene:8.1,fdp:9.8,linke:8.7}},
@@ -1837,19 +1837,20 @@ function currentAvg(){const latest=state.polls[state.polls.length-1]?.date;retur
 function historySeries(){if(!state.polls.length)return[];const first=state.polls[0].date,last=state.polls[state.polls.length-1].date;let start=first;if(state.range!=='all'){const cut=new Date(last);cut.setDate(cut.getDate()-Number(state.range));if(cut>start)start=cut}const out=[];for(let d=new Date(start.getFullYear(),start.getMonth(),start.getDate());d<=last;d.setDate(d.getDate()+1)){const a=avgAt(d,state.window);if(a.count)out.push(a)}return out}
 function nearestAvg(daysAgo){const last=state.polls[state.polls.length-1]?.date;if(!last)return null;const d=new Date(last);d.setDate(d.getDate()-daysAgo);return avgAt(d,state.window)}
 
-/* Projection average: latest poll from each pollster in the last 14 days, half-life 7 days. */
+/* Projection average: latest poll from each pollster in the last 14 days, half-life 7 days,
+   plus a conservative pollster-reliability multiplier learned only from elections already held. */
 function projectionAverage(){
   if(!state.polls.length)return null;const latest=state.polls[state.polls.length-1].date,start=dayKey(latest)-13*DAY,byInst=new Map();
   for(const p of state.polls){if(dayKey(p.date)<start||p.date>latest)continue;const k=p.institute.trim().toLowerCase(),prev=byInst.get(k);if(!prev||p.date>=prev.date)byInst.set(k,p)}
-  const rows=[...byInst.values()];if(!rows.length)return null;const out={date:latest,count:rows.length,rows};
-  for(const party of PARTIES){let num=0,den=0;for(const p of rows){const v=p[party.key];if(!Number.isFinite(v))continue;const age=Math.max(0,(dayKey(latest)-dayKey(p.date))/DAY),w=Math.pow(.5,age/7);num+=v*w;den+=w}out[party.key]=den?num/den:null}
+  const rows=[...byInst.values()];if(!rows.length)return null;const rel=pollsterReliabilityWeights(latest),out={date:latest,count:rows.length,rows,reliability:rel};
+  for(const party of PARTIES){let num=0,den=0;for(const p of rows){const v=p[party.key];if(!Number.isFinite(v))continue;const age=Math.max(0,(dayKey(latest)-dayKey(p.date))/DAY),w=Math.pow(.5,age/7)*(rel.get(p.institute.trim().toLowerCase())||1);num+=v*w;den+=w}out[party.key]=den?num/den:null}
   return out;
 }
 function projectionAverageAt(endDate){
   if(!state.polls.length)return null;const end=new Date(endDate),endDay=dayKey(end),start=endDay-13*DAY,byInst=new Map();
   for(const p of state.polls){const t=dayKey(p.date);if(t<start||t>endDay)continue;const k=p.institute.trim().toLowerCase(),prev=byInst.get(k);if(!prev||p.date>=prev.date)byInst.set(k,p)}
-  const rows=[...byInst.values()];if(!rows.length)return null;const out={date:end,count:rows.length,rows};
-  for(const party of PARTIES){let num=0,den=0;for(const p of rows){const v=p[party.key];if(!Number.isFinite(v))continue;const age=Math.max(0,(endDay-dayKey(p.date))/DAY),w=Math.pow(.5,age/7);num+=v*w;den+=w}out[party.key]=den?num/den:null}
+  const rows=[...byInst.values()];if(!rows.length)return null;const rel=pollsterReliabilityWeights(end),out={date:end,count:rows.length,rows,reliability:rel};
+  for(const party of PARTIES){let num=0,den=0;for(const p of rows){const v=p[party.key];if(!Number.isFinite(v))continue;const age=Math.max(0,(endDay-dayKey(p.date))/DAY),w=Math.pow(.5,age/7)*(rel.get(p.institute.trim().toLowerCase())||1);num+=v*w;den+=w}out[party.key]=den?num/den:null}
   return out;
 }
 
@@ -1863,7 +1864,7 @@ function historicalNowcastErrorRows(){
   const rows=[];for(const e of FORECAST_ELECTIONS){const cutoff=new Date(e.date.getTime()-DAY),avg=projectionAverageAt(cutoff);if(!avg||avg.count<2)continue;const errors={};for(const [k,actual] of Object.entries(e.result)){const est=avg[k];if(Number.isFinite(est)&&Number.isFinite(actual))errors[k]=est-actual}rows.push({cycle:e.label,date:e.date,avgCount:avg.count,errors})}return rows
 }
 const NATIONAL_BACKTEST_SIMS=50000;
-const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v1';
+const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v2-pollster-reliability';
 
 /*
   Dataset storico dedicato al backtest nazionale.
@@ -1920,16 +1921,44 @@ const NATIONAL_BACKTEST_DATA=[
   }
 ];
 
+/* ===== Pollster reliability: strictly walk-forward, strongly shrunk =====
+   - Score: cycle-level RMSE of each institute's final eligible poll vs the election result.
+   - Training: only elections strictly earlier than the date being estimated (no future leakage).
+   - Weight: inverse-MSE relative to the historical median, shrunk toward 1 with four prior cycles
+     and capped to 0.80–1.20. Unknown institutes stay at 1.00.
+*/
+const POLLSTER_RELIABILITY_PRIOR_CYCLES=4;
+const POLLSTER_RELIABILITY_MIN=.80, POLLSTER_RELIABILITY_MAX=1.20;
+function pollsterReliabilityWeights(asOfDate){
+  const asOf=new Date(asOfDate),byInst=new Map();
+  for(const cycle of NATIONAL_BACKTEST_DATA){
+    if(!(cycle.election<asOf))continue;
+    const cutoff=new Date(cycle.election.getTime()-DAY),end=dayKey(cutoff),start=end-13*DAY,latest=new Map();
+    for(const p of cycle.polls){const t=dayKey(p.date);if(t<start||t>end)continue;const key=p.institute.trim().toLowerCase(),prev=latest.get(key);if(!prev||p.date>=prev.date)latest.set(key,p)}
+    for(const [key,p] of latest){
+      const sq=[];for(const [k,actual] of Object.entries(cycle.result)){const v=p[k];if(Number.isFinite(v)&&Number.isFinite(actual))sq.push((v-actual)*(v-actual))}
+      if(!sq.length)continue;const cycleRmse=Math.sqrt(sq.reduce((a,b)=>a+b,0)/sq.length),row=byInst.get(key)||{sumSq:0,n:0};row.sumSq+=cycleRmse*cycleRmse;row.n++;byInst.set(key,row);
+    }
+  }
+  if(!byInst.size)return new Map();
+  const scores=[...byInst.entries()].map(([key,v])=>({key,score:Math.sqrt(v.sumSq/v.n),n:v.n})).filter(x=>Number.isFinite(x.score)&&x.score>0).sort((a,b)=>a.score-b.score);
+  if(!scores.length)return new Map();
+  const mid=Math.floor(scores.length/2),median=scores.length%2?scores[mid].score:(scores[mid-1].score+scores[mid].score)/2,out=new Map();
+  for(const x of scores){const raw=(median/x.score)*(median/x.score),lambda=x.n/(x.n+POLLSTER_RELIABILITY_PRIOR_CYCLES),shrunk=1+lambda*(raw-1),w=Math.max(POLLSTER_RELIABILITY_MIN,Math.min(POLLSTER_RELIABILITY_MAX,shrunk));out.set(x.key,w)}
+  return out;
+}
+
 const NATIONAL_BACKTEST_REFERENCE={
   n:19,
-  mae:1.0419,
-  rmse:1.2352,
+  mae:1.0386,
+  rmse:1.2333,
   cycles:{
     '2017':{mae:1.4500,n:6},
-    '2021':{mae:0.8309,n:6},
-    '2025':{mae:0.8729,n:7}
+    '2021':{mae:0.8274,n:6},
+    '2025':{mae:0.8671,n:7}
   }
 };
+const NATIONAL_BACKTEST_BASELINE_V22_1={mae:1.0419,rmse:1.2352,cycles:{'2017':1.4500,'2021':0.8309,'2025':0.8729}};
 
 function backtestPartyLabel(k){return partyByKey(k)?.label||k}
 function backtestQuantile(arr,q){const a=Float32Array.from(arr);a.sort();const i=Math.max(0,Math.min(a.length-1,Math.round((a.length-1)*q)));return a[i]}
@@ -1941,12 +1970,12 @@ function dedicatedBacktestAverage(cycle){
     const key=p.institute.trim().toLowerCase(),prev=byInst.get(key);
     if(!prev||p.date>=prev.date)byInst.set(key,p);
   }
-  const rows=[...byInst.values()],out={date:cutoff,count:rows.length,rows};
+  const rows=[...byInst.values()],rel=pollsterReliabilityWeights(cutoff),out={date:cutoff,count:rows.length,rows,reliability:rel};
   for(const k of Object.keys(cycle.result)){
     let num=0,den=0;
     for(const p of rows){
       const v=p[k];if(!Number.isFinite(v))continue;
-      const age=Math.max(0,(end-dayKey(p.date))/DAY),w=Math.pow(.5,age/7);
+      const age=Math.max(0,(end-dayKey(p.date))/DAY),w=Math.pow(.5,age/7)*(rel.get(p.institute.trim().toLowerCase())||1);
       num+=v*w;den+=w;
     }
     out[k]=den?num/den:null;
@@ -1986,7 +2015,9 @@ function nationalBacktestRegressionCheck(bt){
     const ref=NATIONAL_BACKTEST_REFERENCE.cycles[r.cycle];
     if(!ref||r.n!==ref.n||Math.abs(r.mae-ref.mae)>cycleTol)return{ok:false,detail:`ciclo ${r.cycle} fuori regressione`};
   }
-  return{ok:true,detail:'19 osservazioni · MAE/RMSE e cicli entro tolleranza'};
+  if(!(bt.mae<NATIONAL_BACKTEST_BASELINE_V22_1.mae&&bt.rmse<NATIONAL_BACKTEST_BASELINE_V22_1.rmse))return{ok:false,detail:'il candidato non migliora MAE e RMSE rispetto alla v22.1'};
+  for(const r of bt.rows){const base=NATIONAL_BACKTEST_BASELINE_V22_1.cycles[r.cycle];if(Number.isFinite(base)&&r.mae>base+cycleTol)return{ok:false,detail:`il ciclo ${r.cycle} peggiora rispetto alla v22.1`}}
+  return{ok:true,detail:'19 osservazioni · regressione stabile · MAE/RMSE migliori della v22.1 · nessun ciclo peggiora'};
 }
 
 function nationalBacktest(){
@@ -2053,7 +2084,7 @@ function renderNationalBacktest(){
 
   verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli sono ricalcolati con shock iniziale σ = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., positività e rinormalizzazione. Il fattore comune è escluso da questo controllo per non confondere dispersione marginale e dipendenza tra partiti. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
 
-  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni ed emivita di 7 giorni. La validazione territoriale resta separata.`;
+  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward soltanto sui cicli precedenti (shrink verso 1; cap 0,80–1,20). La validazione territoriale resta separata.`;
 
   tbody.innerHTML=bt.rows.map(r=>`<tr><td class="inst">${r.cycle}</td><td class="num">${pp(r.mae)} p.p.</td><td class="num">${r.covered}/${r.n} · ${pc(r.covered/r.n)}</td><td>${esc(backtestCycleIndication(r))}</td></tr>`).join('');
   mobile.innerHTML=bt.rows.map(r=>`<div class="bt-mobile-row"><div class="bt-mobile-party">${r.cycle}</div><div><span>MAE</span><strong>${pp(r.mae)} p.p.</strong></div><div><span>Copertura 80%</span><strong>${r.covered}/${r.n} · ${pc(r.covered/r.n)}</strong></div></div>`).join('');
@@ -3027,6 +3058,6 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.1 · copy feedback + poll refresh 12h+jitter · 25-08-2026 -->
+<!-- v22.2 · walk-forward pollster reliability + backtest promotion gate · 26-08-2026 -->
 </body>
 </html>
