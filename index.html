@@ -1157,6 +1157,34 @@ body.sticky-nowcast-offset{padding-top:0}
   }
 }
 
+
+/* --- v22.1 map zoom controls --- */
+.map-zoom-controls{
+  position:absolute;top:14px;right:14px;z-index:12;
+  display:flex;align-items:center;gap:5px;padding:5px;
+  border:1px solid rgba(20,22,24,.12);border-radius:12px;
+  background:rgba(255,255,255,.94);box-shadow:0 5px 18px rgba(0,0,0,.08);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)
+}
+.map-zoom-controls button{
+  display:grid;place-items:center;min-width:34px;height:34px;padding:0 9px;
+  border:1px solid #dedfdd;border-radius:9px;background:#fff;color:#1d2023;
+  font:800 15px/1 system-ui,-apple-system,sans-serif;cursor:pointer
+}
+.map-zoom-controls button:hover{background:#f5f5f2;border-color:#c9cac7}
+.map-zoom-controls button:active{transform:translateY(1px)}
+.map-zoom-controls .map-reset{font-size:10px;letter-spacing:.02em;min-width:48px}
+.map-zoom-level{min-width:43px;text-align:center;font-size:10px;font-weight:850;color:#666b72;font-variant-numeric:tabular-nums}
+.germany-map-wrap.is-map-pannable #germanyDistrictMap{cursor:grab}
+.germany-map-wrap.is-map-panning #germanyDistrictMap{cursor:grabbing}
+.germany-map-wrap.local-fallback .map-zoom-controls{display:none}
+@media(max-width:640px){
+  .map-zoom-controls{top:9px;right:8px;gap:4px;padding:4px;border-radius:10px}
+  .map-zoom-controls button{min-width:32px;height:32px;padding:0 7px}
+  .map-zoom-controls .map-reset{min-width:44px;font-size:9px}
+  .map-zoom-level{min-width:38px;font-size:9px}
+}
+
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
@@ -1318,6 +1346,12 @@ body.sticky-nowcast-offset{padding-top:0}
       </div>
       <div id="mapSummary" class="map-summary"><span class="map-summary-chip"><strong>Caricamento della base territoriale…</strong></span></div>
       <div class="germany-map-wrap">
+        <div class="map-zoom-controls" id="mapZoomControls" aria-label="Controlli zoom mappa">
+          <button type="button" data-mapzoom="out" aria-label="Riduci lo zoom" title="Riduci lo zoom">−</button>
+          <span class="map-zoom-level" id="mapZoomLevel" aria-live="polite">100%</span>
+          <button type="button" data-mapzoom="in" aria-label="Aumenta lo zoom" title="Aumenta lo zoom">+</button>
+          <button type="button" class="map-reset" data-mapzoom="reset" aria-label="Torna alla vista iniziale" title="Torna alla vista iniziale">Reset</button>
+        </div>
         <svg id="germanyDistrictMap" viewBox="0 0 640 760" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mappa dei 299 collegi elettorali tedeschi"></svg>
         <iframe id="localMapFrame" class="local-map-frame" src="mappa_uninominali_locale.html" title="Cartogramma locale dei 299 collegi"></iframe>
         <div id="mapLoading" class="map-loading"><div><strong>Preparazione della mappa</strong><span>Il caricamento parte automaticamente. Se la geometria ufficiale non è disponibile, la dashboard passa a un cartogramma locale dei 299 collegi anziché lasciare la sezione vuota.</span></div></div>
@@ -1593,6 +1627,7 @@ const DISTRICT_PARTIES={
   fw:{label:'FW',model:'fw',color:'#f39200'},other:{label:'Altri',model:'other',color:'#9a9a96'}
 };
 const districtState={ready:false,loading:false,loadedOnce:false,geo:null,base:null,projected:[],deterministicProjected:[],mode:'winner',selected:null,source:null,pathCache:null,qa:null,partyFilters:new Set(),territorialCalibration:null,scenarioMode:'deterministic',validation:null,nextPollCheckAt:null};
+const mapZoomState={base:{x:0,y:0,w:640,h:760},view:{x:0,y:0,w:640,h:760},maxZoom:5,panning:false,pointerId:null,startX:0,startY:0,startView:null,moved:false,suppressClickUntil:0};
 
 const SEAT_ORDER=['linke','gruene','spd','ssw','union','fdp','fw','bsw','afd'];
 let state={polls:[],window:7,range:180,visible:new Set(),fetchedAt:null,modelUpdatedAt:null,lastSnapshotAt:null,directExceptions:new Set(),autoDirectExceptions:new Set(),coalition:new Set(),lastProjection:null,monteCarlo:null,mcRunning:false,mcFingerprint:null,mcToken:0,mcProgress:0,mcLoadedFromCache:false,forecast:null,forecastRunning:false,forecastProgress:0,forecastToken:0,forecastFingerprint:null,forecastHorizon:12,forecastCalibration:null,errorStructure:null,mcCachePersisted:null,forecastCachePersisted:null,validation:null,nextPollCheckAt:null};
@@ -1908,7 +1943,7 @@ function saveMonteCarloCache(fp,mc){const packed={version:MC_ENGINE_VERSION,fing
 function loadMonteCarloCache(fp){try{const raw=safeStorageGet(MC_CACHE_KEY);if(!raw)return null;const p=JSON.parse(raw);if(p.version!==MC_ENGINE_VERSION||p.fingerprint!==fp||p.n!==MC_SIMS||!Array.isArray(p.coalitionWins)||p.coalitionWins.length!==COALITION_MASK_COUNT)return null;return{ready:true,n:p.n,sigma:p.sigma,stats:p.stats,centralSeats:p.centralSeats,manualExceptions:[],districtsSimulated:true,seed:p.seed,cached:true,savedAt:p.savedAt,representativeIndex:Number.isInteger(p.representativeIndex)?p.representativeIndex:null,winnerTally:Array.isArray(p.winnerTally)?Uint32Array.from(p.winnerTally):null,territorialCalibration:p.territorialCalibration||null,coalitionWins:Uint32Array.from(p.coalitionWins)}}catch(e){console.warn('Cache Monte Carlo non leggibile:',e);return null}}
 function yieldToBrowser(){return new Promise(resolve=>{if('requestIdleCallback' in window)requestIdleCallback(()=>resolve(),{timeout:40});else setTimeout(resolve,0)})}
 const IT_COUNT_FORMAT=new Intl.NumberFormat('it-IT',{useGrouping:true,maximumFractionDigits:0});
-function fmtCount(v){return IT_COUNT_FORMAT.format(Number(v)||0)}
+function fmtCount(v){const n=Math.trunc(Number(v)||0),sign=n<0?'-':'',digits=String(Math.abs(n));return sign+digits.replace(/\B(?=(\d{3})+(?!\d))/g,'.')}
 function compactStatusMode(){return window.matchMedia?.('(max-width:760px)')?.matches===true}
 function mcReadyStatusText(mc){
   if(compactStatusMode())return `Pronto · ${fmtCount(MC_SIMS)} × 299 collegi`;
@@ -2294,7 +2329,36 @@ function geoPath(geometry,proj){if(!geometry)return'';const polys=geometry.type=
 function mapFill(d){const p=DISTRICT_PARTIES[d.winner]||DISTRICT_PARTIES.other;if(districtState.mode==='coverage'){if(d.winner==='other')return'#e3e2df';return d.covered?p.color:'#dedbd5'}if(districtState.mode==='margin'){const op=Math.max(.28,Math.min(1,.28+d.margin/20*.72));return hexWithWhite(p.color,op)}return p.color}
 function hexWithWhite(hex,t){const h=hex.replace('#','');if(h.length!==6)return hex;const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16)),out=rgb.map(v=>Math.round(255+(v-255)*t).toString(16).padStart(2,'0'));return'#'+out.join('')}
 function districtPartyLabel(d,key){return key==='other'&&d?.otherCandidateLabel?d.otherCandidateLabel:(DISTRICT_PARTIES[key]?.label||key||'—')}
-function renderConstituencyMap(){const svg=document.getElementById('germanyDistrictMap');if(!svg||!districtState.projected.length)return;if(!districtState.pathCache){districtState.geo?prepareGeometryCache():prepareSchematicPathCache();}const pById=new Map(districtState.projected.map(d=>[d.id,d]));svg.innerHTML='';const frag=document.createDocumentFragment();for(const [id,pathD] of districtState.pathCache.entries()){const d=pById.get(id);if(!d)continue;const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',pathD);path.setAttribute('fill',mapFill(d));const filtered=districtState.partyFilters.size>0,match=!filtered||districtState.partyFilters.has(d.winner);path.setAttribute('class','wk-path'+(districtState.selected===id?' is-active':'')+(filtered?(match?' is-filter-match':' is-filtered-out'):''));path.dataset.id=id;path.dataset.party=d.winner;path.setAttribute('tabindex','0');path.setAttribute('role','button');path.setAttribute('aria-label',`${d.name}: ${districtPartyLabel(d,d.winner)} ${d.winnerShare.toFixed(1)}%, margine ${d.margin.toFixed(1)} punti`);path.addEventListener('pointerenter',ev=>showDistrictTooltip(ev,d));path.addEventListener('pointermove',ev=>moveDistrictTooltip(ev));path.addEventListener('pointerleave',()=>hideDistrictTooltip());path.addEventListener('focus',()=>renderDistrictDetail(d));path.addEventListener('click',()=>selectDistrict(id));path.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectDistrict(id)}});frag.appendChild(path)}svg.appendChild(frag);renderMapLegend()}
+function clampMapView(v){
+  const b=mapZoomState.base,minW=b.w/mapZoomState.maxZoom,minH=b.h/mapZoomState.maxZoom;
+  let w=Math.max(minW,Math.min(b.w,Number(v.w)||b.w)),h=Math.max(minH,Math.min(b.h,Number(v.h)||b.h));
+  const aspect=b.w/b.h;if(w/h>aspect)w=h*aspect;else h=w/aspect;
+  let x=Number(v.x)||0,y=Number(v.y)||0;x=Math.max(b.x,Math.min(b.x+b.w-w,x));y=Math.max(b.y,Math.min(b.y+b.h-h,y));return{x,y,w,h};
+}
+function applyMapView(){
+  const svg=document.getElementById('germanyDistrictMap');if(!svg)return;const v=mapZoomState.view;
+  svg.setAttribute('viewBox',`${v.x} ${v.y} ${v.w} ${v.h}`);
+  const zoom=mapZoomState.base.w/v.w,level=document.getElementById('mapZoomLevel');if(level)level.textContent=`${Math.round(zoom*100)}%`;
+  const wrap=document.querySelector('.germany-map-wrap');if(wrap)wrap.classList.toggle('is-map-pannable',zoom>1.001);
+}
+function resetMapZoom(){mapZoomState.view={...mapZoomState.base};mapZoomState.panning=false;mapZoomState.pointerId=null;applyMapView()}
+function zoomMapAt(factor,cx=null,cy=null){
+  const b=mapZoomState.base,v=mapZoomState.view,svg=document.getElementById('germanyDistrictMap');if(!svg)return;
+  factor=Math.max(.2,Number(factor)||1);const oldW=v.w,oldH=v.h,newW=Math.max(b.w/mapZoomState.maxZoom,Math.min(b.w,oldW*factor)),newH=Math.max(b.h/mapZoomState.maxZoom,Math.min(b.h,oldH*factor));
+  if(cx==null)cx=v.x+oldW/2;if(cy==null)cy=v.y+oldH/2;const rx=(cx-v.x)/oldW,ry=(cy-v.y)/oldH;
+  mapZoomState.view=clampMapView({x:cx-rx*newW,y:cy-ry*newH,w:newW,h:newH});applyMapView();
+}
+function mapPointFromClient(clientX,clientY){const svg=document.getElementById('germanyDistrictMap');if(!svg)return null;const r=svg.getBoundingClientRect(),v=mapZoomState.view;if(!r.width||!r.height)return null;return{x:v.x+(clientX-r.left)/r.width*v.w,y:v.y+(clientY-r.top)/r.height*v.h}}
+function initMapZoom(){
+  const svg=document.getElementById('germanyDistrictMap'),wrap=document.querySelector('.germany-map-wrap');if(!svg||!wrap)return;resetMapZoom();
+  document.querySelectorAll('#mapZoomControls [data-mapzoom]').forEach(btn=>btn.addEventListener('click',()=>{const a=btn.dataset.mapzoom;if(a==='in')zoomMapAt(.78);else if(a==='out')zoomMapAt(1/.78);else resetMapZoom()}));
+  svg.addEventListener('wheel',ev=>{if(!window.matchMedia('(pointer:fine)').matches)return;ev.preventDefault();const pt=mapPointFromClient(ev.clientX,ev.clientY);if(pt)zoomMapAt(ev.deltaY>0?1.12:.89,pt.x,pt.y)},{passive:false});
+  svg.addEventListener('pointerdown',ev=>{const zoom=mapZoomState.base.w/mapZoomState.view.w;if(zoom<=1.001||ev.button!==0)return;mapZoomState.panning=true;mapZoomState.pointerId=ev.pointerId;mapZoomState.startX=ev.clientX;mapZoomState.startY=ev.clientY;mapZoomState.startView={...mapZoomState.view};mapZoomState.moved=false;wrap.classList.add('is-map-panning');svg.setPointerCapture?.(ev.pointerId);hideDistrictTooltip()});
+  svg.addEventListener('pointermove',ev=>{if(!mapZoomState.panning||ev.pointerId!==mapZoomState.pointerId)return;const r=svg.getBoundingClientRect(),dx=ev.clientX-mapZoomState.startX,dy=ev.clientY-mapZoomState.startY;if(Math.abs(dx)+Math.abs(dy)>4)mapZoomState.moved=true;const sv=mapZoomState.startView;mapZoomState.view=clampMapView({x:sv.x-dx/r.width*sv.w,y:sv.y-dy/r.height*sv.h,w:sv.w,h:sv.h});applyMapView()});
+  const finish=ev=>{if(!mapZoomState.panning)return;if(mapZoomState.moved)mapZoomState.suppressClickUntil=performance.now()+250;mapZoomState.panning=false;mapZoomState.pointerId=null;wrap.classList.remove('is-map-panning');try{if(ev?.pointerId!=null)svg.releasePointerCapture?.(ev.pointerId)}catch(e){}};
+  svg.addEventListener('pointerup',finish);svg.addEventListener('pointercancel',finish);svg.addEventListener('lostpointercapture',finish);
+}
+function renderConstituencyMap(){const svg=document.getElementById('germanyDistrictMap');if(!svg||!districtState.projected.length)return;if(!districtState.pathCache){districtState.geo?prepareGeometryCache():prepareSchematicPathCache();}const pById=new Map(districtState.projected.map(d=>[d.id,d]));svg.innerHTML='';const frag=document.createDocumentFragment();for(const [id,pathD] of districtState.pathCache.entries()){const d=pById.get(id);if(!d)continue;const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',pathD);path.setAttribute('fill',mapFill(d));const filtered=districtState.partyFilters.size>0,match=!filtered||districtState.partyFilters.has(d.winner);path.setAttribute('class','wk-path'+(districtState.selected===id?' is-active':'')+(filtered?(match?' is-filter-match':' is-filtered-out'):''));path.dataset.id=id;path.dataset.party=d.winner;path.setAttribute('tabindex','0');path.setAttribute('role','button');path.setAttribute('aria-label',`${d.name}: ${districtPartyLabel(d,d.winner)} ${d.winnerShare.toFixed(1)}%, margine ${d.margin.toFixed(1)} punti`);path.addEventListener('pointerenter',ev=>showDistrictTooltip(ev,d));path.addEventListener('pointermove',ev=>moveDistrictTooltip(ev));path.addEventListener('pointerleave',()=>hideDistrictTooltip());path.addEventListener('focus',()=>renderDistrictDetail(d));path.addEventListener('click',()=>{if(performance.now()<mapZoomState.suppressClickUntil)return;selectDistrict(id)});path.addEventListener('keydown',ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();selectDistrict(id)}});frag.appendChild(path)}svg.appendChild(frag);renderMapLegend()}
 function renderMapLegend(){const el=document.getElementById('mapLegend');if(!el)return;if(districtState.mode==='coverage'){el.innerHTML='<span><i style="--c:#111"></i>Seggio coperto</span><span><i style="--c:#dedbd5;border:1px solid #aaa"></i>Vittoria senza seggio</span>';return}const counts={};for(const d of districtState.projected)counts[d.winner]=(counts[d.winner]||0)+1;el.innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([k])=>`<span><i style="--c:${DISTRICT_PARTIES[k]?.color||'#999'}"></i>${DISTRICT_PARTIES[k]?.label||k}</span>`).join('')+(districtState.mode==='margin'?'<span>Più scuro = margine maggiore</span>':'')}
 function toggleMapPartyFilter(key){
   if(districtState.partyFilters.has(key))districtState.partyFilters.delete(key);else districtState.partyFilters.add(key);
@@ -2318,7 +2382,7 @@ function showDistrictTooltip(ev,d){if(matchMedia('(max-width:640px)').matches)re
 function moveDistrictTooltip(ev){const tip=document.getElementById('wkTooltip');if(!tip||tip.style.display==='none')return;tip.style.left=Math.max(8,Math.min(innerWidth-300,ev.clientX+14))+'px';tip.style.top=Math.max(8,Math.min(innerHeight-190,ev.clientY+14))+'px'}
 function hideDistrictTooltip(){const tip=document.getElementById('wkTooltip');if(tip)tip.style.display='none'}
 function selectDistrict(id){const d=districtState.projected.find(x=>x.id===Number(id));if(d)renderDistrictDetail(d)}
-function initConstituencyUI(){document.querySelectorAll('#mapModeControls button').forEach(b=>b.addEventListener('click',()=>{districtState.mode=b.dataset.mapmode;document.querySelectorAll('#mapModeControls button').forEach(x=>x.classList.toggle('active',x===b));if(districtState.ready)renderConstituencyMap()}));loadConstituencyModel()}
+function initConstituencyUI(){document.querySelectorAll('#mapModeControls button').forEach(b=>b.addEventListener('click',()=>{districtState.mode=b.dataset.mapmode;document.querySelectorAll('#mapModeControls button').forEach(x=>x.classList.toggle('active',x===b));if(districtState.ready)renderConstituencyMap()}));initMapZoom();loadConstituencyModel()}
 
 function renderKPIs(){const cur=currentAvg();if(!cur)return;const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),a=ranked[0],b=ranked[1];document.getElementById('kpiLeader').textContent=a?`${a.label} ${pct(a.val)}`:'—';document.getElementById('kpiLeaderMeta').textContent=`media mobile · ${state.window} giorni`;document.getElementById('kpiLead').textContent=a&&b?pct(a.val-b.val):'—';document.getElementById('kpiLeadMeta').textContent=a&&b?`${a.label} rispetto a ${b.label}`:`media mobile · ${state.window} giorni`;const latest=state.polls[state.polls.length-1];document.getElementById('kpiLatest').textContent=fmtDate(latest.date);document.getElementById('kpiLatestMeta').textContent=`${latest.institute}${latest.client?' · '+latest.client:''}`;const start=new Date(latest.date);start.setDate(start.getDate()-29);const last30=state.polls.filter(p=>p.date>=start&&p.date<=latest.date);document.getElementById('kpiCount').textContent=last30.length;document.getElementById('kpiCountMeta').textContent=`${new Set(last30.map(p=>p.institute)).size} istituti`}
 
@@ -2434,7 +2498,7 @@ function renderSnapshot(){const cur=currentAvg(),el=document.getElementById('sna
 function renderMomentum(){const cur=currentAvg(),past=nearestAvg(30),el=document.getElementById('momentum');if(!cur||!past){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}const rows=PARTIES.map(p=>({...p,now:cur[p.key],then:past[p.key]})).filter(x=>Number.isFinite(x.now)&&Number.isFinite(x.then)).map(x=>({...x,d:x.now-x.then})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));el.innerHTML=rows.map(x=>{const cls=x.d>.05?'up':x.d<-.05?'down':'flat',sign=x.d>0?'+':'';return `<div class="mini-row"><div><strong>${esc(x.label)}</strong><div class="sub">media corrente ${pct(x.now)}</div></div><span class="delta ${cls}">${sign}${x.d.toFixed(1).replace('.',',')} p.p.</span><span style="width:9px;height:9px;border-radius:3px;background:${x.color}"></span></div>`}).join('')}
 function renderThreshold(){const cur=currentAvg(),el=document.getElementById('threshold');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const rows=PARTIES.filter(p=>p.key!=='other'&&(['bsw','fdp','fw'].includes(p.key)||((cur[p.key]??99)<8))).map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val);el.innerHTML=rows.map(x=>{const w=Math.min(100,x.val/10*100),dist=x.val-5;return `<div class="threshold-row"><div class="threshold-top"><strong>${esc(x.label)}</strong><strong>${pct(x.val)}</strong></div><div class="threshold-track"><div class="threshold-fill" style="--w:${w}%;--c:${x.color}"></div><div class="threshold-line" title="Soglia 5%"></div></div><div class="threshold-note">${dist>=0?'+':''}${dist.toFixed(1).replace('.',',')} punti dalla soglia</div></div>`}).join('')||'<div class="empty">Nessun partito vicino alla soglia</div>'}
 function renderPollsters(){const last=state.polls[state.polls.length-1]?.date,el=document.getElementById('pollsters');if(!last)return;const start=new Date(last);start.setDate(start.getDate()-89);const counts={};for(const p of state.polls.filter(p=>p.date>=start))counts[p.institute]=(counts[p.institute]||0)+1;const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8),max=Math.max(1,...rows.map(x=>x[1]));el.innerHTML=rows.map(([name,n])=>`<div class="mini-row"><div><strong>${esc(name)}</strong><div class="sub"><span style="display:inline-block;width:${Math.max(6,n/max*100)}%;height:4px;background:#d2aa16;border-radius:9px"></span></div></div><span class="delta flat">${n}</span><span class="sub">sondaggi</span></div>`).join('')}
-function formatItalianCountText(v){const s=String(v??'');return s.replace(/\b\d{4,}\b/g,m=>IT_COUNT_FORMAT.format(Number(m)))}
+function formatItalianCountText(v){const s=String(v??'');return s.replace(/\b\d{4,}\b/g,m=>fmtCount(Number(m)))}
 function renderPollDetails(p){const bits=[];if(p.method)bits.push(esc(p.method));if(p.fieldwork)bits.push(esc(p.fieldwork));if(p.sample)bits.push(esc(formatItalianCountText(p.sample)));if(p.sourceUrl)bits.push(`<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">Fonte ↗</a>`);else if(p.source)bits.push(esc(p.source));return bits.length?bits.join('<span class="detail-sep">·</span>'):'—'}
 function renderMobilePollMeta(p){const bits=[];if(p.client)bits.push(`<span><strong>Committente:</strong> ${esc(p.client)}</span>`);if(p.method)bits.push(`<span>${esc(p.method)}</span>`);if(p.fieldwork)bits.push(`<span>${esc(p.fieldwork)}</span>`);if(p.sample)bits.push(`<span>${esc(formatItalianCountText(p.sample))}</span>`);if(p.sourceUrl)bits.push(`<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">Fonte ↗</a>`);else if(p.source)bits.push(`<span>${esc(p.source)}</span>`);return bits.length?bits.join(''):'<span>Nessun dettaglio aggiuntivo</span>'}
 function renderTable(){const body=document.getElementById('pollTable'),mobile=document.getElementById('mobilePolls'),rows=[...state.polls].sort((a,b)=>b.date-a.date).slice(0,30),nf=new Intl.NumberFormat('it-IT',{useGrouping:true}),total=nf.format(state.polls.length),badge=document.getElementById('pollCountBadge');badge.innerHTML=`<span class="poll-count-desktop">${total} sondaggi totali</span><span class="poll-count-mobile">${rows.length} più recenti · ${total} totali</span>`;body.innerHTML=rows.map(p=>`<tr><td>${fmtDate(p.date)}</td><td class="inst">${esc(p.institute)}</td><td class="client">${esc(p.client||'—')}</td>${PARTIES.map(x=>`<td>${pct(p[x.key])}</td>`).join('')}</tr>`).join('');if(mobile)mobile.innerHTML=rows.map(p=>{const ranked=PARTIES.filter(x=>x.key!=='other'&&Number.isFinite(p[x.key])).map(x=>({...x,val:p[x.key]})).sort((a,b)=>b.val-a.val),top2=ranked.slice(0,2),partyPills=PARTIES.filter(x=>Number.isFinite(p[x.key])).map(x=>`<span class="mobile-party-pill" style="--c:${x.color}"><i></i>${esc(x.label)} <strong>${pct(p[x.key])}</strong></span>`).join('');return `<details class="mobile-poll"><summary><div class="mobile-poll-main"><div class="mobile-poll-title"><span class="mobile-poll-date">${fmtDate(p.date)}</span><span class="mobile-poll-inst">${esc(p.institute)}</span></div></div><div class="mobile-poll-top2">${top2.map(x=>`<span style="--c:${x.color}"><i></i>${esc(x.label)} <strong>${pct(x.val)}</strong></span>`).join('')}</div></summary><div class="mobile-poll-body"><div class="mobile-poll-meta">${renderMobilePollMeta(p)}</div><div class="mobile-party-grid">${partyPills}</div></div></details>`}).join('')}
