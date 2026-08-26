@@ -1185,6 +1185,20 @@ body.sticky-nowcast-offset{padding-top:0}
   .map-zoom-level{min-width:38px;font-size:9px}
 }
 
+
+/* --- v22.1 mobile map zoom clamp under sticky header --- */
+:root{
+  --map-mobile-safe-top: 132px;
+}
+@media(max-width:760px){
+  :root{
+    --map-mobile-safe-top: 146px;
+  }
+  .map-geo-shell{
+    overflow:hidden;
+  }
+}
+
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
