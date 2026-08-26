@@ -1625,7 +1625,7 @@ const DISTRICT_RESULTS_OFFICIAL_URLS=[
 const DISTRICT_RESULTS_FALLBACKS=['https://cdn.jsdelivr.net/gh/ZeitOnline/bundestagswahl-2025-gemeindeverbands-daten@main/gem_wk_data.csv','https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-2025-gemeindeverbands-daten/main/gem_wk_data.csv'];
 const DISTRICT_GEO_URLS=[
   ()=>new URL('./data/wkr2025.geojson',document.baseURI).href,
-  ()=>new URL('./data/wkr2025.geojson?v=20260827-v22.4-final',document.baseURI).href,
+  ()=>new URL('./data/wkr2025.geojson?v=20260827-mapfix3',document.baseURI).href,
   'https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/wkr2025.geojson',
   'https://cdn.jsdelivr.net/gh/angrisanidj/modello-germania@main/data/wkr2025.geojson',
   'https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten/main/shapes_2025/wkr2025.geojson',
@@ -2656,7 +2656,7 @@ async function loadDistrictGeometry(){
       if(!geo||!Array.isArray(geo.features))throw new Error('GeoJSON senza features.');
       const ids=new Set(geo.features.map(f=>Number(f.properties?.wkr_id??f.properties?.WKR_NR)).filter(n=>Number.isInteger(n)&&n>=1&&n<=299));
       if(ids.size!==299)throw new Error(`GeoJSON con ${ids.size} collegi invece di 299.`);
-      districtState.geo=geo;prepareGeometryCache();return url;
+      districtState.geo=geo;prepareGeometryCache();console.info('Geometria ufficiale collegi caricata:',url,'·',districtState.pathCache?.size||0,'collegi');return url;
     }catch(e){lastErr=e;console.warn('Geometria non leggibile da',url,e)}
   }
   throw lastErr||new Error('Nessuna geometria dei 299 collegi disponibile.');
@@ -2709,6 +2709,37 @@ function runTerritorialValidation(){
 }
 function renderTerritorialValidation(){const el=document.getElementById('territorialValidation');if(!el)return;const v=districtState.validation;if(!v){el.innerHTML='<div class="empty-small">Dati 2021 comparabili non disponibili nella base caricata.</div>';return}const pc=x=>Number.isFinite(x)?(x*100).toFixed(0)+'%':'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—',num=x=>Number.isFinite(x)?x.toFixed(1).replace('.',','):'—',mul=x=>Number.isFinite(x)?'×'+x.toFixed(2).replace('.',','):'—';const landGood=Number.isFinite(v.landCoverage80)&&Math.abs(v.landCoverage80-.8)<=.08,distGood=Number.isFinite(v.districtCoverage80)&&Math.abs(v.districtCoverage80-.8)<=.08,gate=v.coveragePromotionPass;el.innerHTML=`<div class="validation-metrics"><div class="validation-metric"><div class="n">${pc(v.winnerAccuracy)}</div><div class="l">Vincitore 2025 ricostruito<br>${v.winnerHits}/${v.districts} collegi</div></div><div class="validation-metric"><div class="n">${pc(v.changedAccuracy)}</div><div class="l">Accuratezza sui collegi<br>che cambiano vincitore (${v.changed})</div></div><div class="validation-metric"><div class="n ${landGood?'validation-good':'validation-warn'}">${pc(v.landCoverage80)}</div><div class="l">Copertura 80% · Land<br>${v.landN} test · ${gate?mul(v.landMultiplier):'baseline'}</div></div><div class="validation-metric"><div class="n ${distGood?'validation-good':'validation-warn'}">${pc(v.districtCoverage80)}</div><div class="l">Copertura 80% · Wahlkreis<br>${v.districtN} osservazioni · ${gate?mul(v.districtMultiplier):'baseline'}</div></div></div><div class="validation-detail"><strong>Calibrazione dell’incertezza territoriale:</strong> ${gate?`moltiplicatori ${mul(v.landMultiplier)} sui Land e ${mul(v.districtMultiplier)} sui Wahlkreis, applicati al Monte Carlo.`:'vengono mantenuti i valori baseline.'} Copertura leave-one-Land-out di riferimento: Land ${pc1(v.baselineLandCoverage80)}, Wahlkreis ${pc1(v.baselineDistrictCoverage80)}; calibrazione nested: Land ${pc1(v.calibratedLandCoverage80)}, Wahlkreis ${pc1(v.calibratedDistrictCoverage80)}. <strong>MAE quota del vincitore:</strong> ${num(v.winnerShareMAE)} p.p. · <strong>metodo:</strong> per ogni Land esterno il moltiplicatore di copertura è stimato soltanto sugli altri Länder tramite un secondo leave-one-Land-out interno. Il test dei vincitori usa il risultato nazionale 2025 come informazione nota e verifica soltanto la trasformazione nazionale→territorio. <strong>Non è una previsione elettorale completa fuori campione.</strong>${v.otherActual?` · ${v.otherActual} collegi hanno come primo classificato un candidato o una lista fuori dall’insieme modellato.`:''}</div>`}
 
+function prepareGeometryCache(){
+  const features=districtState.geo?.features||[];
+  const ids=new Set(features.map(f=>Number(f.properties?.wkr_id??f.properties?.WKR_NR)).filter(Number.isFinite));
+  if(ids.size!==299)throw new Error(`Geometrie: ${ids.size} collegi unici invece di 299.`);
+  const coords=features.flatMap(f=>allCoords(f.geometry));
+  let minLon=Infinity,maxLon=-Infinity,minLat=Infinity,maxLat=-Infinity;
+  for(const [lon,lat] of coords){
+    minLon=Math.min(minLon,lon);maxLon=Math.max(maxLon,lon);
+    minLat=Math.min(minLat,lat);maxLat=Math.max(maxLat,lat);
+  }
+  const meanLat=(minLat+maxLat)/2;
+  const lonScale=Math.cos(meanLat*Math.PI/180);
+  const x0=minLon*lonScale,x1=maxLon*lonScale;
+  const W=640,H=760,pad=18;
+  const geoW=x1-x0,geoH=maxLat-minLat;
+  const scale=Math.min((W-2*pad)/geoW,(H-2*pad)/geoH);
+  const ox=(W-geoW*scale)/2,oy=(H-geoH*scale)/2;
+  const proj=([lon,lat])=>[
+    ox+((lon*lonScale)-x0)*scale,
+    oy+(maxLat-lat)*scale
+  ];
+  const paths=new Map();
+  for(const f of features){
+    const id=Number(f.properties?.wkr_id??f.properties?.WKR_NR);
+    if(Number.isFinite(id))paths.set(id,geoPath(f.geometry,proj));
+  }
+  if(paths.size!==299)throw new Error(`Geometrie proiettate: ${paths.size} collegi invece di 299.`);
+  districtState.pathCache=paths;
+  districtState.geometryMode='official';
+  return paths;
+}
 function renderMapQa(){const el=document.getElementById('mapQa');if(!el)return;if(!districtState.qa){el.textContent='Verifica territoriale 2025 in attesa del caricamento.';el.className='map-qa';return}el.textContent=`Controllo 2025: 299 collegi e ${districtState.qa.uncovered} vincitori senza copertura, coerenti con il risultato ufficiale.`;el.className='map-qa ok'}
 function prepareSchematicPathCache(){
   const rowCounts=[7,9,11,13,15,17,19,21,22,23,23,22,21,19,17,15,13,12];
@@ -3193,6 +3224,13 @@ function runInternalChecks(){
   // 9) v22.5 correlation gate: the pre-existing common-factor candidate must beat independent shocks out of sample.
   const pg=probabilisticSeatPromotionGate(),expectedAlpha=pg.pass?MC_SHARE_SIGMA_ALPHA_CANDIDATE:0;if(Math.abs(activeMcShareSigmaAlpha()-expectedAlpha)>1e-12)throw new Error('Autotest probabilistico v22.4 fallito: il fallback del promotion gate non è coerente.');
   const cg=correlationPromotionGate(),es=nationalErrorStructure();if(Boolean(es.active)!==Boolean(cg.pass))throw new Error('Autotest correlazioni v22.5 fallito: stato attivo/fallback non coerente con il promotion gate.');
+  // 10) Geometry pipeline smoke test: ensure the official-geometry renderer exists and builds all 299 SVG paths.
+  const savedGeo=districtState.geo,savedPaths=districtState.pathCache,savedMode=districtState.geometryMode;
+  try{
+    districtState.geo={type:'FeatureCollection',features:Array.from({length:299},(_,i)=>{const id=i+1,x=(i%23)*0.02,y=Math.floor(i/23)*0.02;return{type:'Feature',properties:{wkr_id:id},geometry:{type:'Polygon',coordinates:[[[7+x,50+y],[7.01+x,50+y],[7.01+x,50.01+y],[7+x,50.01+y],[7+x,50+y]]]}}})};
+    districtState.pathCache=null;prepareGeometryCache();
+    if(!(districtState.pathCache instanceof Map)||districtState.pathCache.size!==299||!String(districtState.pathCache.get(1)||'').startsWith('M'))throw new Error('pipeline SVG incompleta');
+  }finally{districtState.geo=savedGeo;districtState.pathCache=savedPaths;districtState.geometryMode=savedMode;}
   return true;
 }
 
@@ -3221,7 +3259,7 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.4 final clean · validated production configuration · 27-08-2026
+<!-- v22.4 final clean · map renderer restored + geometry smoke test · 27-08-2026
      Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma.
      Rejected after backtest: party-error common factor (insufficient independent elections);
      Student-t heavy-tailed national shocks (no candidate improved both national CRPS and WIS versus Gaussian).
