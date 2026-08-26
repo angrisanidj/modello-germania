@@ -2327,6 +2327,7 @@ function projectSeats(){
 
 
 /* ===== Probabilistic model: 50,000 Monte Carlo simulations ===== */
+function sainteLague(weights,seats){ return sainteLagueFast(weights,seats); }
 function sainteLagueFast(weights,seats){
   const keys=Object.keys(weights).filter(k=>Number.isFinite(weights[k])&&weights[k]>0);if(!keys.length)return{};
   let lo=1e-9,hi=Math.max(...keys.map(k=>weights[k]))*2+1e-9,out={};
