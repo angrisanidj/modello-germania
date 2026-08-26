@@ -1430,7 +1430,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
   </section>
 
-  <div class="section-title"><div><div class="section-kicker">Calibrazione</div><h2>Verifica retrospettiva 2017–2025</h2><p>La verifica viene ricalcolata automaticamente dall’archivio caricato usando la stessa aggregazione del modello corrente: finestra di 14 giorni, ultima rilevazione di ciascun istituto e peso che si dimezza ogni sette giorni. Il modulo territoriale è valutato separatamente.</p></div><span class="badge" id="btBadge">Calcolo…</span></div>
+  <div class="section-title"><div><div class="section-kicker">Calibrazione</div><h2>Verifica retrospettiva 2017–2025</h2><p>La verifica viene ricalcolata automaticamente su un dataset storico dedicato e verificato, separato dal feed corrente: finestra di 14 giorni, ultima rilevazione di ciascun istituto e peso che si dimezza ogni sette giorni. Il modulo territoriale è valutato separatamente.</p></div><span class="badge" id="btBadge">Calcolo…</span></div>
   <section class="backtest backtest-grid">
     <div class="card bt-summary">
       <h3 id="btTitle">Ricalcolo della calibrazione nazionale…</h3>
@@ -1799,7 +1799,7 @@ async function applyFetchedPolls(polls,{sourceLabel='Fonte controllata',quiet=fa
   if(changed){
     // An update invalidates any forecast currently running and lets scheduleMonteCarlo cancel/restart the nowcast via its token.
     state.forecastToken++;state.forecastRunning=false;state.forecast=null;state.forecastFingerprint=null;state.forecastProgress=0;
-    state.polls=polls;state.errorStructure=null;state.forecastCalibration=null;state.nationalBacktest=null;renderAll();
+    state.polls=polls;state.errorStructure=null;state.forecastCalibration=null;renderAll();
     if(!quiet)setStatus('ok',`${sourceLabel} · nuovi dati · ${state.fetchedAt.toLocaleString('it-IT')} · prossimo controllo ${fmtNextPollCheck(state.nextPollCheckAt)}${persisted?'':' · cache del browser non disponibile'}`);
   }else if(!quiet){setStatus('ok',`${sourceLabel} · nessun nuovo sondaggio · prossimo controllo ${fmtNextPollCheck(state.nextPollCheckAt)}${persisted?'':' · cache del browser non disponibile'}`)}
   schedulePollRefresh(state.nextPollCheckAt);return changed;
@@ -1811,7 +1811,7 @@ async function fetchData(force=false){
   // Il prossimo controllo viene pianificato dal timestamp persistito; se è scaduto,
   // viene dilazionato casualmente entro l'ora successiva per evitare raffiche di richieste.
   if(!force&&cachedObj?.polls?.length){
-    state.polls=deserializePolls(cachedObj.polls);state.nationalBacktest=null;state.fetchedAt=new Date(cachedObj.fetchedAt||Date.now());
+    state.polls=deserializePolls(cachedObj.polls);state.fetchedAt=new Date(cachedObj.fetchedAt||Date.now());
     let next=Number(cachedObj.nextCheckAt);
     if(!Number.isFinite(next))next=nextPollRefreshTimestamp(Number(cachedObj.fetchedAt)||Date.now());
     state.nextPollCheckAt=next;renderAll();schedulePollRefresh(next);
@@ -1862,67 +1862,165 @@ function sampleCorrelation(a,b){const n=Math.min(a.length,b.length);if(n<3)retur
 function historicalNowcastErrorRows(){
   const rows=[];for(const e of FORECAST_ELECTIONS){const cutoff=new Date(e.date.getTime()-DAY),avg=projectionAverageAt(cutoff);if(!avg||avg.count<2)continue;const errors={};for(const [k,actual] of Object.entries(e.result)){const est=avg[k];if(Number.isFinite(est)&&Number.isFinite(actual))errors[k]=est-actual}rows.push({cycle:e.label,date:e.date,avgCount:avg.count,errors})}return rows
 }
-const NATIONAL_BACKTEST_CYCLES=new Set(['2017','2021','2025']);
-const NATIONAL_BACKTEST_SIMS=12000;
+const NATIONAL_BACKTEST_SIMS=50000;
+const NATIONAL_BACKTEST_DATA_VERSION='wahlrecht-final-snapshots-2017-2021-2025-v1';
+
+/*
+  Dataset storico dedicato al backtest nazionale.
+  Fonti:
+  - Wahlrecht.de, ultime rilevazioni prima delle federali 2017, 2021 e 2025.
+  - Risultati elettorali finali; per il 2025 CDU+CSU è trattata come Union.
+  Questo dataset è volutamente separato dal feed corrente della dashboard:
+  eventuali cambi di colonne/partiti nel foglio live non possono contaminare il backtest.
+*/
+const NATIONAL_BACKTEST_DATA=[
+  {
+    cycle:'2017', election:new Date(2017,8,24),
+    result:{union:32.9,spd:20.5,gruene:8.9,fdp:10.7,linke:9.2,afd:12.6},
+    polls:[
+      {institute:'Allensbach',date:new Date(2017,8,22),union:36,spd:22,gruene:8,fdp:10.5,linke:9.5,afd:10},
+      {institute:'Emnid',date:new Date(2017,8,22),union:35,spd:22,gruene:8,fdp:9,linke:10,afd:11},
+      {institute:'Forsa',date:new Date(2017,8,22),union:36,spd:22,gruene:7,fdp:9.5,linke:9.5,afd:11},
+      {institute:'Forschungsgruppe Wahlen',date:new Date(2017,8,21),union:36,spd:21.5,gruene:8,fdp:10,linke:8.5,afd:11},
+      {institute:'GMS',date:new Date(2017,8,21),union:37,spd:22,gruene:8,fdp:9,linke:9,afd:10},
+      {institute:'Infratest dimap',date:new Date(2017,8,14),union:37,spd:20,gruene:7.5,fdp:9.5,linke:9,afd:12},
+      {institute:'INSA',date:new Date(2017,8,22),union:34,spd:21,gruene:8,fdp:9,linke:11,afd:13},
+      {institute:'YouGov',date:new Date(2017,8,21),union:36,spd:23,gruene:7,fdp:9,linke:10,afd:10}
+    ]
+  },
+  {
+    cycle:'2021', election:new Date(2021,8,26),
+    result:{union:24.1,spd:25.7,gruene:14.8,fdp:11.5,linke:4.9,afd:10.3},
+    polls:[
+      {institute:'Allensbach',date:new Date(2021,8,24),union:25,spd:26,gruene:16,fdp:10.5,linke:5,afd:10},
+      {institute:'Kantar',date:new Date(2021,8,23),union:21,spd:25,gruene:16,fdp:11,linke:7,afd:11},
+      {institute:'Forsa',date:new Date(2021,8,24),union:22,spd:25,gruene:17,fdp:12,linke:6,afd:10},
+      {institute:'Forschungsgruppe Wahlen',date:new Date(2021,8,23),union:23,spd:25,gruene:16.5,fdp:11,linke:6,afd:10},
+      {institute:'GMS',date:new Date(2021,8,14),union:23,spd:25,gruene:16,fdp:13,linke:6,afd:11},
+      {institute:'Infratest dimap',date:new Date(2021,8,16),union:22,spd:26,gruene:15,fdp:11,linke:6,afd:11},
+      {institute:'INSA',date:new Date(2021,8,20),union:22,spd:25,gruene:15,fdp:12,linke:6.5,afd:11},
+      {institute:'YouGov',date:new Date(2021,8,23),union:21,spd:25,gruene:14,fdp:11,linke:7,afd:12}
+    ]
+  },
+  {
+    cycle:'2025', election:new Date(2025,1,23),
+    result:{union:28.5,spd:16.4,gruene:11.6,fdp:4.3,linke:8.8,afd:20.8,bsw:4.981},
+    polls:[
+      {institute:'Allensbach',date:new Date(2025,1,21),union:32,spd:14.5,gruene:12,fdp:4.5,linke:7.5,afd:20,bsw:4.5},
+      /* Verian è deliberatamente presente ma cadrà fuori dalla finestra di 14 giorni. */
+      {institute:'Verian',date:new Date(2025,0,31),union:30,spd:15,gruene:14,fdp:4,linke:4,afd:20,bsw:5},
+      {institute:'Forsa',date:new Date(2025,1,21),union:29,spd:15,gruene:13,fdp:5,linke:8,afd:21,bsw:3},
+      {institute:'Forschungsgruppe Wahlen',date:new Date(2025,1,20),union:28,spd:16,gruene:14,fdp:4.5,linke:8,afd:21,bsw:4.5},
+      {institute:'GMS',date:new Date(2025,1,19),union:31,spd:15,gruene:13,fdp:4,linke:6,afd:20,bsw:4},
+      {institute:'Infratest dimap',date:new Date(2025,1,13),union:32,spd:14,gruene:14,fdp:4,linke:6,afd:21,bsw:4.5},
+      {institute:'INSA',date:new Date(2025,1,22),union:29.5,spd:15,gruene:12.5,fdp:4.5,linke:7.5,afd:21,bsw:5},
+      {institute:'Ipsos',date:new Date(2025,1,21),union:30,spd:16,gruene:12,fdp:4.5,linke:7,afd:21,bsw:4.5},
+      {institute:'YouGov',date:new Date(2025,1,21),union:29,spd:16,gruene:13,fdp:4,linke:8,afd:20,bsw:5}
+    ]
+  }
+];
+
+const NATIONAL_BACKTEST_REFERENCE={
+  n:19,
+  mae:1.0419,
+  rmse:1.2352,
+  cycles:{
+    '2017':{mae:1.4500,n:6},
+    '2021':{mae:0.8309,n:6},
+    '2025':{mae:0.8729,n:7}
+  }
+};
 
 function backtestPartyLabel(k){return partyByKey(k)?.label||k}
 function backtestQuantile(arr,q){const a=Float32Array.from(arr);a.sort();const i=Math.max(0,Math.min(a.length-1,Math.round((a.length-1)*q)));return a[i]}
 
-function marginalBacktestBands(avg,cycle,keys){
-  const n=NATIONAL_BACKTEST_SIMS,seed=hashString(`national-backtest-v1|${cycle}|${pollDatasetSignature()}|${MC_SIGMA}`),
-        zeroRho=Object.fromEntries(MC_KEYS.map(k=>[k,0])),ones=Object.fromEntries(MC_KEYS.map(k=>[k,1])),
-        rngState={rng:mulberry32(seed),spare:null,errorStructure:{rho:zeroRho,sign:ones}},
-        samples=Object.fromEntries(keys.map(k=>[k,new Float32Array(n)]));
-  for(let i=0;i<n;i++){
-    const v=drawNationalVoteVector(avg,rngState,MC_SIGMA);
-    for(const k of keys)samples[k][i]=Number(v[k])||0;
+function dedicatedBacktestAverage(cycle){
+  const cutoff=new Date(cycle.election.getTime()-DAY),end=dayKey(cutoff),start=end-13*DAY,byInst=new Map();
+  for(const p of cycle.polls){
+    const t=dayKey(p.date);if(t<start||t>end)continue;
+    const key=p.institute.trim().toLowerCase(),prev=byInst.get(key);
+    if(!prev||p.date>=prev.date)byInst.set(key,p);
   }
-  const bands={};
-  for(const k of keys)bands[k]={low:backtestQuantile(samples[k],MC_QLOW),high:backtestQuantile(samples[k],MC_QHIGH)};
+  const rows=[...byInst.values()],out={date:cutoff,count:rows.length,rows};
+  for(const k of Object.keys(cycle.result)){
+    let num=0,den=0;
+    for(const p of rows){
+      const v=p[k];if(!Number.isFinite(v))continue;
+      const age=Math.max(0,(end-dayKey(p.date))/DAY),w=Math.pow(.5,age/7);
+      num+=v*w;den+=w;
+    }
+    out[k]=den?num/den:null;
+  }
+  return out;
+}
+
+/*
+  Test di copertura marginale.
+  Per ogni ciclo si applicano shock indipendenti N(0, σ) alle sole categorie
+  effettivamente confrontabili in quell'elezione più una categoria residua.
+  Poi: positività e rinormalizzazione al 100%.
+  Il fattore comune NON entra qui: questo test misura la calibrazione marginale di σ,
+  non la struttura di dipendenza tra partiti.
+*/
+function dedicatedBacktestBands(avg,cycle,keys){
+  const n=NATIONAL_BACKTEST_SIMS,seed=hashString(`${NATIONAL_BACKTEST_DATA_VERSION}|${cycle}|${MC_SIGMA}`),
+        rng=mulberry32(seed),samples=Object.fromEntries(keys.map(k=>[k,new Float32Array(n)])),
+        residual=Math.max(.01,100-keys.reduce((a,k)=>a+(Number(avg[k])||0),0));
+  let spare=null;
+  const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
+  for(let i=0;i<n;i++){
+    const raw={},other=Math.max(.01,residual+MC_SIGMA*gauss());let total=other;
+    for(const k of keys){const x=Math.max(.01,(Number(avg[k])||0)+MC_SIGMA*gauss());raw[k]=x;total+=x}
+    const scale=100/total;for(const k of keys)samples[k][i]=raw[k]*scale;
+  }
+  const bands={};for(const k of keys)bands[k]={low:backtestQuantile(samples[k],MC_QLOW),high:backtestQuantile(samples[k],MC_QHIGH)};
   return bands;
 }
 
-function nationalBacktest(){
-  const datasetKey=pollDatasetSignature();
-  if(state.nationalBacktest?.datasetKey===datasetKey)return state.nationalBacktest;
+function nationalBacktestRegressionCheck(bt){
+  const tol=.006,cycleTol=.006;
+  if(!bt||bt.n!==NATIONAL_BACKTEST_REFERENCE.n)return{ok:false,detail:`osservazioni ${bt?.n??0}/${NATIONAL_BACKTEST_REFERENCE.n}`};
+  if(Math.abs(bt.mae-NATIONAL_BACKTEST_REFERENCE.mae)>tol)return{ok:false,detail:`MAE ${bt.mae.toFixed(4)} atteso ${NATIONAL_BACKTEST_REFERENCE.mae.toFixed(4)}`};
+  if(Math.abs(bt.rmse-NATIONAL_BACKTEST_REFERENCE.rmse)>tol)return{ok:false,detail:`RMSE ${bt.rmse.toFixed(4)} atteso ${NATIONAL_BACKTEST_REFERENCE.rmse.toFixed(4)}`};
+  for(const r of bt.rows){
+    const ref=NATIONAL_BACKTEST_REFERENCE.cycles[r.cycle];
+    if(!ref||r.n!==ref.n||Math.abs(r.mae-ref.mae)>cycleTol)return{ok:false,detail:`ciclo ${r.cycle} fuori regressione`};
+  }
+  return{ok:true,detail:'19 osservazioni · MAE/RMSE e cicli entro tolleranza'};
+}
 
+function nationalBacktest(){
+  if(state.nationalBacktest?.dataVersion===NATIONAL_BACKTEST_DATA_VERSION)return state.nationalBacktest;
   const rows=[];
-  for(const e of FORECAST_ELECTIONS){
-    if(!NATIONAL_BACKTEST_CYCLES.has(e.label))continue;
-    const cutoff=new Date(e.date.getTime()-DAY),avg=projectionAverageAt(cutoff);
-    if(!avg||avg.count<2)continue;
-    const obs=[];
-    for(const [k,actual] of Object.entries(e.result)){
-      const estimate=avg[k];
-      if(Number.isFinite(estimate)&&Number.isFinite(actual))obs.push({k,estimate,actual,error:estimate-actual});
+  for(const cycle of NATIONAL_BACKTEST_DATA){
+    const avg=dedicatedBacktestAverage(cycle),obs=[];
+    for(const [k,actual] of Object.entries(cycle.result)){
+      const estimate=avg[k];if(Number.isFinite(estimate)&&Number.isFinite(actual))obs.push({k,estimate,actual,error:estimate-actual});
     }
-    if(!obs.length)continue;
-    const bands=marginalBacktestBands(avg,e.label,obs.map(o=>o.k));
-    for(const o of obs){const b=bands[o.k];o.low=b?.low;o.high=b?.high;o.covered=Number.isFinite(o.low)&&Number.isFinite(o.high)&&o.actual>=o.low&&o.actual<=o.high}
-    const mae=obs.reduce((a,o)=>a+Math.abs(o.error),0)/obs.length;
-    const rmse=Math.sqrt(obs.reduce((a,o)=>a+o.error*o.error,0)/obs.length);
-    const covered=obs.filter(o=>o.covered).length;
-    rows.push({cycle:e.label,date:e.date,avgCount:avg.count,obs,mae,rmse,covered,n:obs.length});
+    const bands=dedicatedBacktestBands(avg,cycle.cycle,obs.map(o=>o.k));
+    for(const o of obs){const b=bands[o.k];o.low=b.low;o.high=b.high;o.covered=o.actual>=o.low&&o.actual<=o.high}
+    const mae=obs.reduce((a,o)=>a+Math.abs(o.error),0)/obs.length,rmse=Math.sqrt(obs.reduce((a,o)=>a+o.error*o.error,0)/obs.length),covered=obs.filter(o=>o.covered).length;
+    rows.push({cycle:cycle.cycle,date:cycle.election,avgCount:avg.count,obs,mae,rmse,covered,n:obs.length});
   }
 
-  const all=rows.flatMap(r=>r.obs.map(o=>({...o,cycle:r.cycle}))),n=all.length;
-  const mae=n?all.reduce((a,o)=>a+Math.abs(o.error),0)/n:null;
-  const rmse=n?Math.sqrt(all.reduce((a,o)=>a+o.error*o.error,0)/n):null;
-  const covered=all.filter(o=>o.covered).length,coverage=n?covered/n:null;
+  const all=rows.flatMap(r=>r.obs.map(o=>({...o,cycle:r.cycle}))),n=all.length,
+        mae=n?all.reduce((a,o)=>a+Math.abs(o.error),0)/n:null,
+        rmse=n?Math.sqrt(all.reduce((a,o)=>a+o.error*o.error,0)/n):null,
+        covered=all.filter(o=>o.covered).length,coverage=n?covered/n:null;
 
   const correctedMae=alpha=>{
-    if(!n)return null;
-    let total=0;
+    if(!n)return null;let total=0;
     for(const o of all){
-      const train=all.filter(x=>x.k===o.k&&x.cycle!==o.cycle).map(x=>x.error);
-      const bias=train.length?train.reduce((a,b)=>a+b,0)/train.length:0;
+      const train=all.filter(x=>x.k===o.k&&x.cycle!==o.cycle).map(x=>x.error),
+            bias=train.length?train.reduce((a,b)=>a+b,0)/train.length:0;
       total+=Math.abs(o.error-alpha*bias);
     }
     return total/n;
   };
 
-  const loo={none:correctedMae(0),q25:correctedMae(.25),q50:correctedMae(.5),full:correctedMae(1)};
-  const result={datasetKey,rows,n,mae,rmse,covered,coverage,loo,method:`${NATIONAL_BACKTEST_SIMS} simulazioni marginali per ciclo dopo positività e rinormalizzazione; fattore comune escluso dal test di copertura`};
+  const result={dataVersion:NATIONAL_BACKTEST_DATA_VERSION,rows,n,mae,rmse,covered,coverage,
+    loo:{none:correctedMae(0),q25:correctedMae(.25),q50:correctedMae(.5),full:correctedMae(1)}};
+  result.regression=nationalBacktestRegressionCheck(result);
   state.nationalBacktest=result;return result;
 }
 
@@ -1939,23 +2037,28 @@ function renderNationalBacktest(){
         verdict=document.getElementById('btVerdict'),note=document.getElementById('btNote'),tbody=document.getElementById('btTableBody'),
         mobile=document.getElementById('btMobileCards');
   if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!verdict||!note||!tbody||!mobile)return;
-  const bt=nationalBacktest();
+  const bt=nationalBacktest(),pp=x=>Number.isFinite(x)?x.toFixed(2).replace('.',','):'—',pc=x=>Number.isFinite(x)?Math.round(x*100)+'%':'—';
+
   if(!bt.n){
-    badge.textContent='Archivio storico insufficiente';title.textContent='Backtest non disponibile';
-    intro.textContent='L’archivio caricato non contiene abbastanza rilevazioni comparabili per il 2017, 2021 e 2025.';
+    badge.textContent='Dataset storico insufficiente';title.textContent='Backtest non disponibile';
+    intro.textContent='Il dataset storico dedicato non contiene abbastanza osservazioni comparabili.';
     return;
   }
-  const pp=x=>Number.isFinite(x)?x.toFixed(2).replace('.',','):'—',pc=x=>Number.isFinite(x)?Math.round(x*100)+'%':'—';
+
   badge.textContent=`${bt.rows.length} elezioni · ${bt.n} osservazioni di partito`;
-  title.textContent='La calibrazione nazionale viene ricalcolata dall’archivio';
-  intro.textContent=`Con il metodo oggi in uso il MAE complessivo è ${pp(bt.mae)} punti percentuali. I valori qui sotto non sono più scritti a mano: cambiano automaticamente se cambiano archivio o regola di aggregazione.`;
+  title.textContent=bt.regression.ok?'La calibrazione nazionale supera l’autotest storico':'Attenzione: autotest storico non superato';
+  intro.textContent=`Backtest ricalcolato da un dataset storico dedicato e verificato, indipendente dal feed corrente. Con il metodo oggi in uso il MAE complessivo è ${pp(bt.mae)} punti percentuali.`;
   maeEl.textContent=`${pp(bt.mae)} p.p.`;rmseEl.textContent=`${pp(bt.rmse)} p.p.`;covEl.textContent=pc(bt.coverage);
   covEl.classList.toggle('bt-good',Number.isFinite(bt.coverage)&&Math.abs(bt.coverage-.8)<=.10);
-  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli sono ricalcolati con shock iniziale σ = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., vincolo di positività e rinormalizzazione al 100%. Per non confondere calibrazione marginale e dipendenza tra partiti, questo test esclude il fattore comune; la struttura correlata resta diagnosticata separatamente.`;
-  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Parte territoriale:</strong> resta separata: il test 2021→2025 è condizionale alla variazione nazionale effettiva e la copertura Land/Wahlkreis usa validazione incrociata spaziale.`;
+
+  verdict.innerHTML=`<strong>Controllo della calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli sono ricalcolati con shock iniziale σ = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p., positività e rinormalizzazione. Il fattore comune è escluso da questo controllo per non confondere dispersione marginale e dipendenza tra partiti. <strong>Autotest:</strong> ${bt.regression.ok?'OK':'ERRORE · '+esc(bt.regression.detail)}.`;
+
+  note.innerHTML=`<strong>Correzione storica leave-one-election-out:</strong> nessuna correzione ${pp(bt.loo.none)} p.p.; 25% dello scostamento medio degli altri cicli ${pp(bt.loo.q25)} p.p.; 50% ${pp(bt.loo.q50)} p.p.; correzione piena ${pp(bt.loo.full)} p.p. <strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, con finestra di 14 giorni ed emivita di 7 giorni. La validazione territoriale resta separata.`;
+
   tbody.innerHTML=bt.rows.map(r=>`<tr><td class="inst">${r.cycle}</td><td class="num">${pp(r.mae)} p.p.</td><td class="num">${r.covered}/${r.n} · ${pc(r.covered/r.n)}</td><td>${esc(backtestCycleIndication(r))}</td></tr>`).join('');
   mobile.innerHTML=bt.rows.map(r=>`<div class="bt-mobile-row"><div class="bt-mobile-party">${r.cycle}</div><div><span>MAE</span><strong>${pp(r.mae)} p.p.</strong></div><div><span>Copertura 80%</span><strong>${r.covered}/${r.n} · ${pc(r.covered/r.n)}</strong></div></div>`).join('');
 }
+
 function nationalErrorStructure(){
   const datasetKey=pollDatasetSignature();
   if(state.errorStructure?.datasetKey===datasetKey)return state.errorStructure;
