@@ -1624,8 +1624,9 @@ const DISTRICT_RESULTS_OFFICIAL_URLS=[
 ];
 const DISTRICT_RESULTS_FALLBACKS=['https://cdn.jsdelivr.net/gh/ZeitOnline/bundestagswahl-2025-gemeindeverbands-daten@main/gem_wk_data.csv','https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-2025-gemeindeverbands-daten/main/gem_wk_data.csv'];
 const DISTRICT_GEO_URLS=[
-  ()=>new URL('./data/wkr2025.geojson?v=20260825-v22',document.baseURI).href,
-  'https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/wkr2025.geojson?v=20260825-v22',
+  ()=>new URL('./data/wkr2025.geojson',document.baseURI).href,
+  ()=>new URL('./data/wkr2025.geojson?v=20260827-v22.4-final',document.baseURI).href,
+  'https://raw.githubusercontent.com/angrisanidj/modello-germania/main/data/wkr2025.geojson',
   'https://cdn.jsdelivr.net/gh/angrisanidj/modello-germania@main/data/wkr2025.geojson',
   'https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten/main/shapes_2025/wkr2025.geojson',
   'https://cdn.jsdelivr.net/gh/ZeitOnline/bundestagswahl-historische-wahlkreis-daten@main/shapes_2025/wkr2025.geojson'
@@ -2636,12 +2637,22 @@ async function fetchVerifiedKerg(candidate,ms=12000){
   }
   return {url,text};
 }
+async function fetchGeometryJson(url,ms=30000){
+  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),ms);
+  try{
+    const r=await fetch(url,{cache:'default',signal:ctrl.signal});
+    if(!r.ok)throw new Error(`HTTP ${r.status}`);
+    return await r.json();
+  }finally{clearTimeout(timer)}
+}
 async function loadDistrictGeometry(){
   let lastErr=null;
-  for(const candidate of DISTRICT_GEO_URLS){
-    const url=resolveSourceUrl(candidate);
+  for(let i=0;i<DISTRICT_GEO_URLS.length;i++){
+    const url=resolveSourceUrl(DISTRICT_GEO_URLS[i]);
     try{
-      const geo=await fetchWithTimeout(url,10000,'json');
+      // La geometria ufficiale pesa ~2,4 MB: il file locale di GitHub Pages
+      // ha una finestra più ampia e usa la cache del browser/CDN.
+      const geo=await fetchGeometryJson(url,i<2?30000:20000);
       if(!geo||!Array.isArray(geo.features))throw new Error('GeoJSON senza features.');
       const ids=new Set(geo.features.map(f=>Number(f.properties?.wkr_id??f.properties?.WKR_NR)).filter(n=>Number.isInteger(n)&&n>=1&&n<=299));
       if(ids.size!==299)throw new Error(`GeoJSON con ${ids.size} collegi invece di 299.`);
