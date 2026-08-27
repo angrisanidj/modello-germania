@@ -1567,7 +1567,7 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
 const APP_VERSION='22.4-final-clean';
-const SHARE_CARD_VERSION='20260827v22_4_final';
+const SHARE_CARD_VERSION='20260827x3';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
 const POLL_REFRESH_JITTER_MS=60*60*1000;
@@ -3116,11 +3116,12 @@ function downloadSnapshotJson(){ const data=buildCurrentSnapshot(); downloadBlob
 function pageShareData(){return {url:location.href,title:document.title,text:'Sondaggi e proiezione del Bundestag: media dei sondaggi, seggi probabilistici e collegi simulati.'}}
 
 function socialShareTarget(kind){
-  const map={x:'share-x.html',threads:'share-threads.html',facebook:'share-facebook.html',linkedin:'share-linkedin.html',telegram:'share-telegram.html',whatsapp:'share-whatsapp.html'};
+  const map={x:'share-x-v2.html',threads:'share-threads.html',facebook:'share-facebook.html',linkedin:'share-linkedin.html',telegram:'share-telegram.html',whatsapp:'share-whatsapp.html'};
   if(!map[kind]) return location.href;
   const u=new URL(map[kind], location.href);
   const avg=projectionAverage();
-  const v=avg?.date?avg.date.toISOString().slice(0,10).replace(/-/g,''):SHARE_CARD_VERSION;
+  const pollV=avg?.date?avg.date.toISOString().slice(0,10).replace(/-/g,''):'';
+  const v=kind==='x'?SHARE_CARD_VERSION:(pollV||SHARE_CARD_VERSION);
   u.searchParams.set('v',v);
   u.searchParams.set('src',kind);
   return u.href;
