@@ -1,9 +1,0 @@
-Questa cartella deve contenere:
-
-1) kerg.csv
-https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata/btw25/csv/kerg.csv
-
-2) wkr2025.geojson
-https://raw.githubusercontent.com/ZeitOnline/bundestagswahl-historische-wahlkreis-daten/main/shapes_2025/wkr2025.geojson
-
-Non rinominare i file.
