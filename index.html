@@ -3169,7 +3169,7 @@ async function downloadModelSocialCard(format='landscape'){
 async function shareInstagramModelCard(triggerEl=null){
   const blob=await socialCardBlob('instagram'), file=new File([blob],`bundestag_instagram_${fileDateStamp()}.png`,{type:'image/png'});
   if(navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){
-    await navigator.share({files:[file],title:'Proiezione del Bundestag',text:`Sondaggi e seggi · Nowcast · ${location.href}`});return true;
+    await navigator.share({files:[file],title:'Proiezione del Bundestag',text:`Elezioni federali tedesche: sondaggi e proiezione del Bundestag.\nNowcast probabilistico con seggi, collegi e maggioranze.\n\n${location.href}`});return true;
   }
   triggerBlobDownload(blob,file.name);if(triggerEl)flashCopyFeedback(triggerEl,'PNG Instagram ✓');alert('Card Instagram 4:5 generata dal modello e scaricata.');return true;
 }
@@ -3273,13 +3273,14 @@ function openShare(kind,triggerEl=null){
   if(kind==='instagram'){shareInstagramModelCard(triggerEl).catch(err=>{if(err?.name!=='AbortError'){console.error(err);alert(err.message||'Condivisione Instagram non riuscita')}});return;}
   const s=pageShareData(),shareUrl=socialShareTarget(kind),u=encodeURIComponent(shareUrl);
   const shortText='Elezioni federali tedesche: sondaggi, proiezione dei seggi e collegi.';
+  const messageText='Elezioni federali tedesche: sondaggi e proiezione del Bundestag.\nNowcast probabilistico con seggi, collegi e maggioranze.';
   let url='';
   if(kind==='x') url=`https://x.com/intent/post?text=${encodeURIComponent(shortText+' '+shareUrl)}`;
   else if(kind==='threads') url=`https://www.threads.net/intent/post?text=${encodeURIComponent(shortText+' '+shareUrl)}`;
   else if(kind==='facebook') url=`https://www.facebook.com/sharer/sharer.php?u=${u}`;
   else if(kind==='linkedin') url=`https://www.linkedin.com/sharing/share-offsite/?url=${u}`;
-  else if(kind==='telegram') url=`https://t.me/share/url?url=${u}&text=${encodeURIComponent(shortText)}`;
-  else if(kind==='whatsapp') url=`https://api.whatsapp.com/send?text=${u}`;
+  else if(kind==='telegram') url=`https://t.me/share/url?url=${u}&text=${encodeURIComponent(messageText)}`;
+  else if(kind==='whatsapp') url=`https://api.whatsapp.com/send?text=${encodeURIComponent(messageText+'\n\n'+shareUrl)}`;
   else if(kind==='copy'){copyTextWithFeedback(location.href,triggerEl,'Copiato ✓','Link copiato negli appunti');return;}
   if(url) window.open(url,'_blank','noopener');
 }
