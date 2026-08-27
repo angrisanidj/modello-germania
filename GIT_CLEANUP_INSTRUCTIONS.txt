@@ -1,0 +1,32 @@
+ORDINE CONSIGLIATO
+1. Carica/sostituisci prima tutti i file nuovi del pacchetto nel repository.
+2. Fai commit e attendi che GitHub Pages/Actions abbiano recepito l'aggiornamento.
+3. Esegui manualmente il workflow "Update model social cards" e verifica che termini in verde.
+4. Solo dopo elimina i file obsoleti.
+
+FILE OBSOLETI DA ELIMINARE
+data/AGGIUNGI_QUI_I_DUE_FILE.txt
+LEGGIMI-v0.4.md
+README_COMMIT.md
+README_COMMIT_MANUALE.md
+README_INTEGRAZIONE.md
+README_SOCIAL.md
+README_social_cards.txt
+card_facebook.png
+card_linkedin.png
+card_telegram.png
+card_threads.png
+card_whatsapp.png
+card_x.png
+preview-bundestag-v21.png
+preview-bundestag-v22.png
+preview-bundestag.png
+share-x-v2.html
+social-card-bundestag-model.png
+
+COMANDO UNICO DA TERMINALE (dalla cartella del repository):
+git rm -- data/AGGIUNGI_QUI_I_DUE_FILE.txt LEGGIMI-v0.4.md README_COMMIT.md README_COMMIT_MANUALE.md README_INTEGRAZIONE.md README_SOCIAL.md README_social_cards.txt card_facebook.png card_linkedin.png card_telegram.png card_threads.png card_whatsapp.png card_x.png preview-bundestag-v21.png preview-bundestag-v22.png preview-bundestag.png share-x-v2.html social-card-bundestag-model.png
+
+git status
+git commit -m "chore: remove obsolete social assets and legacy setup files"
+git push

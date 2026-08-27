@@ -9,17 +9,30 @@ page.on('pageerror', err => console.error('[pageerror]', err.message));
 await page.goto(base, {waitUntil:'domcontentloaded', timeout:120000});
 await page.waitForFunction(() => typeof window.socialCardReady === 'function' && window.socialCardReady(), null, {timeout:240000});
 const token = await page.evaluate(() => window.socialCardVersionToken());
-for (const [format,file] of [['landscape','social-card-bundestag-v2.png'],['instagram','social-card-bundestag-instagram-v2.png']]) {
+
+const outputs = [['landscape','social-card-bundestag-v2.png'],['instagram','social-card-bundestag-instagram-v2.png']];
+for (const [format,file] of outputs) {
   const dataUrl = await page.evaluate(async (f) => window.socialCardDataUrl(f), format);
   const base64 = dataUrl.split(',')[1];
-  await writeFile(file, Buffer.from(base64, 'base64'));
-  console.log(`generated ${file} from model (${format})`);
+  const buf = Buffer.from(base64, 'base64');
+  if (buf.length < 10000 || buf.subarray(1,4).toString() !== 'PNG') throw new Error(`Invalid generated PNG: ${file}`);
+  await writeFile(file, buf);
+  console.log(`generated ${file} from model (${format}) · ${buf.length} bytes`);
 }
 await browser.close();
 
 for (const file of ['share-x.html','share-threads.html','share-facebook.html','share-linkedin.html','share-telegram.html','share-whatsapp.html','share-instagram.html']) {
   let s = await readFile(file,'utf8');
   s = s.replace(/\?v=[A-Za-z0-9._-]+/g, `?v=${token}`);
+  await writeFile(file,s);
+}
+
+// Keep the main page metadata aligned with the model-generated landscape card,
+// without touching unrelated ?v= cache-busters used by data/geometry URLs.
+{
+  const file='index.html';
+  let s=await readFile(file,'utf8');
+  s=s.replace(/(social-card-bundestag-v2\.png\?v=)[A-Za-z0-9._-]+/g, `$1${token}`);
   await writeFile(file,s);
 }
 console.log('social card version', token);
