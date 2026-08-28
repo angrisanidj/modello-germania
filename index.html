@@ -1287,7 +1287,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.4.1</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">v22.4.4</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
     <div class="election-calendar-banner"><strong>Nowcast, non elezione convocata.</strong> Al 28 agosto 2026 non è fissata una data per nuove elezioni federali. In assenza di elezioni anticipate, la prossima elezione ordinaria deve tenersi tra il 26 gennaio e il 25 marzo 2029. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2029.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></div>
   </header>
@@ -1620,7 +1620,7 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A8:Z`,
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
-const APP_VERSION='22.4.3';
+const APP_VERSION='22.4.4';
 const SHARE_CARD_VERSION='20260827v22_4_final';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
@@ -1863,7 +1863,49 @@ function schedulePollRefresh(targetTs=null){
 function deferPollRefreshAfterFailure(){
   const target=nextPollRefreshTimestamp(Date.now());state.nextPollCheckAt=target;persistPollSchedule(target);schedulePollRefresh(target);
 }
+
+// Input Integrity Hotfix v22.4.4 — supplemento versionato di osservazioni
+// presenti nella fonte canonica Wahlrecht ma assenti nel feed esterno consumato
+// dalla dashboard. Nessuna modifica alla metodologia del nowcast.
+const INPUT_HOTFIX_SUPPLEMENT=[
+  {
+    date:new Date('2026-08-21T12:00:00+02:00'),
+    institute:'pollytix',
+    client:'—',
+    method:'Online-Panel',
+    fieldwork:'12.-17.08.2026',
+    sample:'1276',
+    source:'Wahlrecht.de',
+    sourceUrl:'https://www.wahlrecht.de/umfragen/weitere-umfragen.htm',
+    union:20,afd:28,spd:15,gruene:13,linke:11,bsw:4,fdp:5,fw:null,other:4
+  },
+  {
+    date:new Date('2026-08-28T12:00:00+02:00'),
+    institute:'Verian',
+    client:'—',
+    method:'Telefonisch',
+    fieldwork:'19.-25.08.2026',
+    sample:'1451',
+    source:'Wahlrecht.de',
+    sourceUrl:'https://www.wahlrecht.de/umfragen/',
+    union:20,afd:28,spd:13,gruene:16,linke:12,bsw:2,fdp:4,fw:null,other:5
+  }
+];
+function inputHotfixSupplementKey(p){
+  return `${String(p?.institute||'').trim().toLowerCase()}|${dayKey(p?.date)}`;
+}
+function mergeInputHotfixSupplement(polls){
+  const out=Array.isArray(polls)?polls.slice():[],seen=new Set(out.map(inputHotfixSupplementKey));
+  for(const row of INPUT_HOTFIX_SUPPLEMENT){
+    const key=inputHotfixSupplementKey(row);
+    if(!seen.has(key)){out.push({...row});seen.add(key)}
+  }
+  out.sort((a,b)=>a.date-b.date);
+  return out;
+}
+
 async function applyFetchedPolls(polls,{sourceLabel='Fonte controllata',quiet=false}={}){
+  polls=mergeInputHotfixSupplement(polls);
   const previousSig=pollArraySignature(state.polls),nextSig=pollArraySignature(polls),changed=previousSig!==nextSig,now=Date.now();
   state.fetchedAt=new Date(now);state.nextPollCheckAt=nextPollRefreshTimestamp(now);
   const persisted=safeStorageSet(CACHE_KEY,JSON.stringify({fetchedAt:now,nextCheckAt:state.nextPollCheckAt,polls:serializePolls(polls)}));
@@ -1882,7 +1924,7 @@ async function fetchData(force=false){
   // Il prossimo controllo viene pianificato dal timestamp persistito; se è scaduto,
   // viene dilazionato casualmente entro l'ora successiva per evitare raffiche di richieste.
   if(!force&&cachedObj?.polls?.length){
-    state.polls=deserializePolls(cachedObj.polls);state.fetchedAt=new Date(cachedObj.fetchedAt||Date.now());
+    state.polls=mergeInputHotfixSupplement(deserializePolls(cachedObj.polls));state.fetchedAt=new Date(cachedObj.fetchedAt||Date.now());
     let next=Number(cachedObj.nextCheckAt);
     if(!Number.isFinite(next))next=nextPollRefreshTimestamp(Number(cachedObj.fetchedAt)||Date.now());
     state.nextPollCheckAt=next;renderAll();schedulePollRefresh(next);
@@ -1890,7 +1932,7 @@ async function fetchData(force=false){
   }
   setStatus('loading',force?'Controllo aggiornamenti in corso…':'Primo caricamento dei dati…');
   try{const polls=await loadGViz();await applyFetchedPolls(polls,{sourceLabel:force?'Aggiornamento manuale':'Fonte controllata'})}
-  catch(e){if(cachedObj?.polls?.length){state.polls=deserializePolls(cachedObj.polls);state.fetchedAt=new Date(cachedObj.fetchedAt);state.nextPollCheckAt=Number(cachedObj.nextCheckAt)||nextPollRefreshTimestamp(Date.now());if(state.polls.length){renderAll();schedulePollRefresh(state.nextPollCheckAt);setStatus('error',`Fonte esterna non disponibile · dati memorizzati del ${state.fetchedAt.toLocaleString('it-IT')}`);showError((e?.message||'Errore nel caricamento')+' Viene mostrata l’ultima copia disponibile sul dispositivo.');return}}setStatus('error','Errore nel caricamento dei dati');showError((e?.message||'Errore sconosciuto')+' La dashboard ha provato sia il feed Google Visualization sia l’esportazione CSV del foglio.')}
+  catch(e){if(cachedObj?.polls?.length){state.polls=mergeInputHotfixSupplement(deserializePolls(cachedObj.polls));state.fetchedAt=new Date(cachedObj.fetchedAt);state.nextPollCheckAt=Number(cachedObj.nextCheckAt)||nextPollRefreshTimestamp(Date.now());if(state.polls.length){renderAll();schedulePollRefresh(state.nextPollCheckAt);setStatus('error',`Fonte esterna non disponibile · dati memorizzati del ${state.fetchedAt.toLocaleString('it-IT')}`);showError((e?.message||'Errore nel caricamento')+' Viene mostrata l’ultima copia disponibile sul dispositivo.');return}}setStatus('error','Errore nel caricamento dei dati');showError((e?.message||'Errore sconosciuto')+' La dashboard ha provato sia il feed Google Visualization sia l’esportazione CSV del foglio.')}
 }
 async function refreshPollsInBackground(){
   pollRefreshTimer=null;
@@ -3721,5 +3763,7 @@ window.addEventListener('resize',()=>{
      Rejected after backtest: party-error common factor (insufficient independent elections);
      Student-t heavy-tailed national shocks (no candidate improved both national CRPS and WIS versus Gaussian).
 -->
+<script src="./scripts/input-integrity-core.js?v=22.4.4"></script>
+<script src="./scripts/input-integrity-ui.js?v=22.4.4"></script>
 </body>
 </html>
