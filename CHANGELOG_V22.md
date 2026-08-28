@@ -1,5 +1,13 @@
 # Changelog v22
 
+## Release pubblica pulita · 28 agosto 2026
+
+- rimossi dall'interfaccia pubblica i pannelli di audit, gli shadow test e i pulsanti di sensitivity usati durante la validazione;
+- mantenuti nel JavaScript i gate probabilistici, gli autotest e i fallback automatici;
+- mantenuti il backtest nazionale, la validazione territoriale e le nuove probabilità condizionate per configurazione parlamentare;
+- riscritta la nota di rilascio in forma editoriale, senza linguaggio da promotion gate;
+- nessuna modifica al motore statistico `v22.4.1-residual-fix` o ai suoi parametri.
+
 ## Bug fix generalizzato
 
 - corretto l'aggiornamento automatico: anche con cache dello stesso giorno viene effettuato un controllo remoto silenzioso all'apertura e poi ogni ora;

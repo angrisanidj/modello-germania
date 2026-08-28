@@ -1300,7 +1300,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="editorial-meta-actions"><button id="downloadSnapshotBtn">Esporta JSON</button><button id="downloadPngBtn">Salva immagine</button></div>
   </section>
-  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · Correzione del residuo nazionale.</strong> Corretta la gestione del residuo “Altri” nel percorso live del Monte Carlo, che riscalava il vettore delle quote di circa il 4% prima della verifica della soglia. Nel diagnostico legacy ricalcolato sullo stesso input corrente, la probabilità di ingresso del FDP passa dal 43,8% al 35,3% e quella del BSW dal 4,7% al 3,0%. Nel full-shadow di promozione le mediane salgono di circa un seggio per i principali partiti già sopra soglia e CDU/CSU + SPD + Verdi passa dall’87,1% all’89,1%. Il backtest storico ricostruiva già il residuo e non è interessato dalla correzione.</div>
+  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · Correzione del residuo nazionale.</strong> Il Monte Carlo ricostruisce ora esplicitamente la quota “Altri” prima di applicare gli shock e verificare le soglie. La correzione rende coerenti il percorso live e il backtest storico, senza modificare la media dei sondaggi né i parametri di incertezza del modello.</div>
   <details class="read-guide">
     <summary>Come leggere il modello</summary>
     <div class="read-guide-grid">
@@ -1499,8 +1499,6 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="bt-metric"><div class="n" id="btSeatError">—</div><div class="l">Errore seggi 2025 · somma assoluta</div></div>
       </div>
       <div class="calib-verdict" id="btVerdict"><strong>Calcolo in corso.</strong></div>
-      <div class="calib-verdict" id="mcBtVerdict" style="display:none" aria-hidden="true"></div>
-      <div class="calib-verdict" id="corrBtVerdict" style="display:none" aria-hidden="true"></div>
       <div class="bt-note" id="btNote">Il backtest nazionale sarà disponibile appena l’archivio storico è stato caricato.</div>
     </div>
     <div class="card bt-table calibration-table">
@@ -1539,46 +1537,6 @@ body.sticky-nowcast-offset{padding-top:0}
       <div id="snapshot" class="snapshot"></div>
     </div>
   </section>
-
-  <details class="nowcast-audit" id="nowcastAverageAudit">
-    <summary><span><strong>Trasparenza della media del nowcast</strong><small>Confronta il vettore realmente usato dal motore con la media semplice degli ultimi 7 giorni</small></span><span class="audit-summary-badge">AUDIT</span></summary>
-    <div class="audit-body">
-      <p class="audit-intro">La colonna <strong>Nowcast 14 gg</strong> è il vettore pubblicato. Dal 28 agosto 2026 il Monte Carlo ricostruisce esplicitamente il residuo <strong>Altri</strong> quando manca e verifica l’integrità del vettore <strong>prima</strong> degli shock. Il confronto pre-fix resta visibile per tracciabilità; lo shadow B non è promosso.</p>
-      <div id="averageAuditIntegrity" class="audit-integrity-grid"><div class="audit-integrity-card"><div class="k">Integrità vettore</div><div class="v">—</div><div class="s">In attesa dei dati</div></div></div>
-      <div class="audit-tablewrap">
-        <table class="audit-table">
-          <thead><tr><th>Partito</th><th>Nowcast 14 gg</th><th>Semplice 7 gg</th><th>Δ</th><th>Input produzione</th><th>σ produzione</th><th>≥5% produzione</th><th>≥5% pre-fix</th><th>≥3 collegi</th><th>Ingresso</th></tr></thead>
-          <tbody id="averageAuditBody"><tr><td colspan="10">In attesa dei dati…</td></tr></tbody>
-        </table>
-      </div>
-      <div class="audit-shadow-box">
-        <div class="audit-shadow-head"><strong>Integrità del vettore nazionale</strong><span id="residualShadowStatus">In attesa del Monte Carlo</span></div>
-        <div id="residualShadowSummary" class="audit-shadow-grid"></div>
-      </div>
-      <div class="audit-weight-head"><strong>Peso base degli istituti nel nowcast</strong><span id="averageAuditMeta">—</span></div>
-      <div id="averageAuditWeights" class="audit-weights"><span class="audit-weight-chip">In attesa dei dati…</span></div>
-      <div class="audit-shadow-box" id="reliabilitySensitivityBox">
-        <div class="audit-shadow-head"><strong>Sensitivity dei pesi di affidabilità</strong><span id="reliabilitySensitivityStatus">Confronto rel attuali vs tutti rel=1,000</span></div>
-        <div id="reliabilitySensitivitySummary" class="audit-shadow-grid"></div>
-        <div class="audit-tablewrap" style="margin-top:12px">
-          <table class="audit-table"><thead><tr><th>Partito</th><th>Pesi attuali</th><th>rel=1,000</th><th>Δ</th></tr></thead><tbody id="reliabilitySensitivityBody"><tr><td colspan="4">In attesa dei dati…</td></tr></tbody></table>
-        </div>
-        <div class="audit-shadow-action" style="margin-top:12px"><button type="button" id="runReliabilityShadow">Esegui sensitivity 50.000</button><span>Ricalcola seggi e coalizioni con gli stessi shock ma senza reliability weights; produzione invariata.</span></div>
-        <div id="reliabilityShadowResult" class="audit-shadow-result">Nessuna sensitivity completa eseguita.</div>
-      </div>
-      <div class="audit-shadow-box" id="correlationSensitivityBox">
-        <div class="audit-shadow-head"><strong>Sensitivity della correlazione nazionale</strong><span id="correlationSensitivityStatus">Stress test imposto · produzione invariata</span></div>
-        <div id="correlationSensitivitySummary" class="audit-shadow-grid">
-          <div class="audit-shadow-col candidate"><h4>Struttura attuale</h4><p>Shock di partito indipendenti; la rinormalizzazione conserva la correlazione compositiva.</p></div>
-          <div class="audit-shadow-col"><h4>Blocco moderato</h4><p>ρ intra-blocco imposto = <strong>0,25</strong>.</p></div>
-          <div class="audit-shadow-col strict"><h4>Blocco forte</h4><p>ρ intra-blocco imposto = <strong>0,50</strong>.</p></div>
-        </div>
-        <div class="audit-shadow-action" style="margin-top:12px"><button type="button" id="runCorrelationSensitivity">Esegui sensitivity 50.000</button><span>Stessi shock di partito e territoriali in tutti gli scenari; cambia solo la componente comune di blocco.</span></div>
-        <div id="correlationSensitivityResult" class="audit-shadow-result">Soglia fissata prima del test: fascia ≤3 p.p. = rischio chiuso; 3–6 p.p. = documentare; &gt;6 p.p. = riaprire la covarianza.</div>
-      </div>
-      <div class="audit-note">Le probabilità di produzione ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. La produzione v22.4.1 ricostruisce il residuo “Altri” e conserva la gestione delle categorie nominate mancanti già presente nel backtest. Il confronto pre-fix e lo shadow B sono solo diagnostici. La normalizzazione media post-shock può restare leggermente diversa da 1: con FW non osservato la base è 0 ma lo shock minimo ereditato dal backtest (σ≈0,975) viene troncato a valori positivi, introducendo in media circa 0,39 p.p. di massa prima della rinormalizzazione. Questo effetto è diagnostico e separato dalla guardia di integrità, che opera sul vettore base e deve leggere 1,000; variazioni future materialmente superiori a questo ordine di grandezza vanno investigate. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
-    </div>
-  </details>
 
   <section class="grid three">
     <div class="card"><div class="cardhead"><div><h3>Variazione a 30 giorni</h3><p>Scostamento rispetto alla media di trenta giorni fa.</p></div></div><div id="momentum" class="mini-list"></div></div>
@@ -2307,9 +2265,9 @@ function backtestCycleIndication(row){
 function renderNationalBacktest(){
   const badge=document.getElementById('btBadge'),title=document.getElementById('btTitle'),intro=document.getElementById('btIntro'),
         maeEl=document.getElementById('btMae'),rmseEl=document.getElementById('btRmse'),covEl=document.getElementById('btCoverage'),seatEl=document.getElementById('btSeatError'),
-        verdict=document.getElementById('btVerdict'),mcVerdict=document.getElementById('mcBtVerdict'),corrVerdict=document.getElementById('corrBtVerdict'),note=document.getElementById('btNote'),tbody=document.getElementById('btTableBody'),
+        verdict=document.getElementById('btVerdict'),note=document.getElementById('btNote'),tbody=document.getElementById('btTableBody'),
         mobile=document.getElementById('btMobileCards');
-  if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!seatEl||!verdict||!mcVerdict||!corrVerdict||!note||!tbody||!mobile)return;
+  if(!badge||!title||!intro||!maeEl||!rmseEl||!covEl||!seatEl||!verdict||!note||!tbody||!mobile)return;
   const bt=nationalBacktest(),pp=x=>Number.isFinite(x)?x.toFixed(2).replace('.',','):'—',pc=x=>Number.isFinite(x)?Math.round(x*100)+'%':'—';
 
   if(!bt.n){
@@ -2327,10 +2285,6 @@ function renderNationalBacktest(){
   const sb=bt.seat2025,seatVector=sb?NATIONAL_SEAT_BACKTEST_KEYS.map(k=>`${backtestPartyLabel(k)} ${sb.seats[k]}`).join(' · '):'—';
   const pg=probabilisticSeatPromotionGate(),alpha=pg.alpha,shareTxt=alpha>0?`modulazione share-aware attiva · α ${alpha.toFixed(2).replace('.',',')}`:'σ costante v22.3';
   verdict.innerHTML=`<strong>Calibrazione marginale:</strong> ${bt.covered} risultati di partito su ${bt.n} cadono nell’intervallo nominale dell’80% (10°–90° percentile). Gli intervalli partono da σ-base = ${MC_SIGMA.toFixed(1).replace('.',',')} p.p. e usano ${shareTxt}, seguiti da positività e rinormalizzazione. <strong>Backtest seggi 2025:</strong> errore assoluto complessivo ${sb?.seatAbs??'—'} seggi, MAE ${Number.isFinite(sb?.seatMae)?sb.seatMae.toFixed(2).replace('.',','):'—'}; proiezione ${esc(seatVector)}. CDU e CSU sono trattate come partiti separati, esattamente come nel motore di riparto.`;
-  const f=x=>Number.isFinite(x)?x.toFixed(3).replace('.',','):'—',pc1=x=>Number.isFinite(x)?(x*100).toFixed(1).replace('.',',')+'%':'—';
-  mcVerdict.textContent='';
-  const cg=correlationPromotionGate();
-  corrVerdict.textContent='';
 
   note.innerHTML=`<strong>Dataset:</strong> ultime rilevazioni per istituto prima delle federali 2017, 2021 e 2025, finestra di 14 giorni, emivita di 7 giorni e affidabilità dell’istituto stimata in modalità walk-forward esclusivamente sui cicli precedenti (shrink verso 1; cap 0,925–1,20). <strong>Incertezza:</strong> σ-base 1,3 p.p. con modulazione share-aware α 0,10; shock nazionali gaussiani e indipendenti. CRPS e WIS sono usati nella validazione probabilistica; il test dei seggi 2025 propaga l’incertezza attraverso soglia del 5% e Sainte-Laguë. La componente territoriale è validata separatamente con nested leave-one-Land-out.`;
 
@@ -3760,7 +3714,7 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.4 final clean · average-traceability audit + projectionAverage promoted to headline · 28-08-2026
+<!-- v22.4.1 public clean · diagnostic UI removed; internal validation retained · 28-08-2026
      No statistical parameter changed.
      Original map note: map renderer restored + geometry smoke test · 27-08-2026
      Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma. Added non-production reliability-weight sensitivity audit (rel=1.000 comparator) and paired correlation stress test (rho 0 / 0.25 / 0.50).
