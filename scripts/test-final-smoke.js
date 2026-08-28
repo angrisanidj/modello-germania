@@ -1,7 +1,8 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const root=path.resolve(__dirname,'..'),index=fs.readFileSync(path.join(root,'index.html'),'utf8');
-assert(index.includes('Daniele Angrisani · Bundestag · Sondaggi e proiezioni'),'clean public brand missing');
-assert.equal((index.match(/Daniele Angrisani · Bundestag · Sondaggi e proiezioni/g)||[]).length,2,'brand must be present in desktop and mobile headers');
+assert(index.includes('Daniele Angrisani · Sondaggi e proiezioni'),'clean public brand missing');
+assert.equal((index.match(/Daniele Angrisani · Sondaggi e proiezioni/g)||[]).length,2,'brand must be present in desktop and mobile headers');
+assert(!index.includes('Daniele Angrisani · Bundestag · Sondaggi e proiezioni'),'Bundestag must not appear in the public brand');
 assert(!index.includes('Bundestagswahl · Sondaggi e proiezioni'),'legacy Bundestagswahl label must be removed');
 assert(index.includes("const APP_VERSION='22.4.5';"),'APP_VERSION must stay frozen for this frontend-only cleanup');
 assert(index.includes("const FINGERPRINT_SCHEMA_VERSION='civil-date-v1';"));
@@ -12,7 +13,9 @@ assert(!index.includes('Hardening infrastrutturale finale.'),'release/hardening 
 assert(index.includes('Nessuna nuova elezione federale è stata convocata'),'editorial nowcast headline missing');
 assert(index.includes('Salvo elezioni anticipate, la prossima elezione ordinaria si terrà tra il 26 gennaio e il 25 marzo 2029.'),'election calendar wording missing');
 assert(index.includes('class="calendar-source"'),'official-source treatment missing');
-assert(index.includes('#inputIntegrityPublic,#inputIntegrityAudit,.nowcast-audit,.release-note,#refreshBtn,#mapQa{display:none!important}'),'diagnostic UI clean rule missing');
+assert(index.includes('#inputIntegrityPublic,#inputIntegrityAudit,.nowcast-audit,.release-note,#mapQa{display:none!important}'),'diagnostic UI clean rule missing');
+assert(!index.includes('#inputIntegrityPublic,#inputIntegrityAudit,.nowcast-audit,.release-note,#refreshBtn,#mapQa{display:none!important}'),'refresh button must not be hidden by clean UI');
+assert(index.includes('<button id="refreshBtn" class="primary">↻ Aggiorna dati</button>'),'manual refresh button must be visible and clearly labelled');
 assert(index.includes('<div hidden aria-hidden="true"><span class="meta-kicker">Ultimo caricamento</span><strong id="dateDataLoaded">—</strong></div>'),'last-load technical metadata must be hidden');
 assert(index.includes('<div hidden aria-hidden="true"><span class="meta-kicker">Istantanea</span><strong id="dateSnapshot">—</strong></div>'),'snapshot technical metadata must be hidden');
 assert(index.includes('<button id="downloadSnapshotBtn" hidden aria-hidden="true">Esporta JSON</button>'),'JSON export must be hidden in clean UI');
