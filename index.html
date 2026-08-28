@@ -10,8 +10,8 @@
 <meta property="og:url" content="https://angrisanidj.github.io/modello-germania/" />
 <meta property="og:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta property="og:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta property="og:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
-<meta property="og:image:secure_url" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
+<meta property="og:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
+<meta property="og:image:secure_url" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta name="twitter:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta name="twitter:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
+<meta name="twitter:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
 <meta name="twitter:image:alt" content="Proiezione del Bundestag: emiciclo, seggi e sondaggi aggiornati dal modello." />
 <meta name="twitter:url" content="https://angrisanidj.github.io/modello-germania/" />
 <link rel="canonical" href="https://angrisanidj.github.io/modello-germania/" />
@@ -1292,7 +1292,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="editorial-meta-actions"><button id="downloadSnapshotBtn">Esporta JSON</button><button id="downloadPngBtn">Salva immagine</button></div>
   </section>
-  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · Correzione del residuo nazionale.</strong> Corretta la gestione del residuo “Altri” nel percorso live del Monte Carlo, che riscalava il vettore delle quote di circa il 4% prima della verifica della soglia. Al momento della correzione, la probabilità di ingresso stimata del FDP passa dal 43,2% al 35,4% e quella del BSW dal 4,7% al 2,9%; le mediane salgono di circa un seggio per i principali partiti già sopra soglia e CDU/CSU + SPD + Verdi passa dall’87,1% all’89,1%. Il backtest storico ricostruiva già il residuo e non è interessato dalla correzione.</div>
+  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · Correzione del residuo nazionale.</strong> Corretta la gestione del residuo “Altri” nel percorso live del Monte Carlo, che riscalava il vettore delle quote di circa il 4% prima della verifica della soglia. Nel diagnostico legacy ricalcolato sullo stesso input corrente, la probabilità di ingresso del FDP passa dal 43,8% al 35,3% e quella del BSW dal 4,7% al 3,0%. Nel full-shadow di promozione le mediane salgono di circa un seggio per i principali partiti già sopra soglia e CDU/CSU + SPD + Verdi passa dall’87,1% all’89,1%. Il backtest storico ricostruiva già il residuo e non è interessato dalla correzione.</div>
   <details class="read-guide">
     <summary>Come leggere il modello</summary>
     <div class="read-guide-grid">
@@ -1543,7 +1543,7 @@ body.sticky-nowcast-offset{padding-top:0}
       </div>
       <div class="audit-weight-head"><strong>Peso base degli istituti nel nowcast</strong><span id="averageAuditMeta">—</span></div>
       <div id="averageAuditWeights" class="audit-weights"><span class="audit-weight-chip">In attesa dei dati…</span></div>
-      <div class="audit-note">Le probabilità di produzione ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. La produzione v22.4.1 ricostruisce il residuo “Altri” e conserva la gestione delle categorie nominate mancanti già presente nel backtest. Il confronto pre-fix e lo shadow B sono solo diagnostici. La normalizzazione media post-shock può restare leggermente diversa da 1 finché FW, quando non osservato, conserva lo shock minimo ereditato dal backtest; la guardia di integrità opera invece sul vettore base e deve leggere 1,000. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
+      <div class="audit-note">Le probabilità di produzione ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. La produzione v22.4.1 ricostruisce il residuo “Altri” e conserva la gestione delle categorie nominate mancanti già presente nel backtest. Il confronto pre-fix e lo shadow B sono solo diagnostici. La normalizzazione media post-shock può restare leggermente diversa da 1: con FW non osservato la base è 0 ma lo shock minimo ereditato dal backtest (σ≈0,975) viene troncato a valori positivi, introducendo in media circa 0,39 p.p. di massa prima della rinormalizzazione. Questo effetto è diagnostico e separato dalla guardia di integrità, che opera sul vettore base e deve leggere 1,000; variazioni future materialmente superiori a questo ordine di grandezza vanno investigate. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
     </div>
   </details>
 
@@ -2568,6 +2568,7 @@ function strictResidualBase(avg){
   return info;
 }
 function shadowGaussianState(seed){return{rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()}}
+// Nota diagnostica v22.4.1: una categoria nominata mancante (oggi FW) resta a base 0 ma, nel percorso residual-only compatibile col backtest, riceve lo shock minimo share-aware. Con sigma≈0,975 e floor a 0,01, E[max(0,01,N(0,sigma))]≈0,394 p.p.; questo spiega quasi tutto il surplus medio post-shock osservato (~0,4 p.p.). Non usare la scala post-shock come guardia di integrità: la guardia corretta è sul vettore base pre-shock.
 function drawVoteVectorFromBaseInfo(info,rngState,sigma=MC_SIGMA){
   const {rng}=rngState;let {spare}=rngState;
   const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
@@ -3123,7 +3124,7 @@ function renderAverageAudit(){
   const fmt=v=>Number.isFinite(v)?v.toFixed(3).replace('.',','):'—',pp=v=>Number.isFinite(v)?`${(v*100).toFixed(1).replace('.',',')}%`:'—';
   if(integrity){
     const missing=legacy.missing.map(k=>partyByKey(k)?.label||k).join(', ')||'nessuna',phantom=shadow?legacy.missing.reduce((s,k)=>s+(shadow.modes.legacy.rawMeans[k]||0),0):null;
-    integrity.innerHTML=`<div class="audit-integrity-card ok"><div class="k">Somma base produzione</div><div class="v">${fmt(residual.rawSum)}%</div><div class="s">target ${fmt(residual.target)}% · scarto ${fmt(residual.delta)} p.p.</div></div><div class="audit-integrity-card ok"><div class="k">Scala integrità base</div><div class="v">${fmt(residual.integrityScale)}</div><div class="s">guardia pre-shock · tolleranza ±${fmt(NATIONAL_VECTOR_TOLERANCE)} p.p.</div></div><div class="audit-integrity-card"><div class="k">Categorie nominate mancanti</div><div class="v">${esc(missing)}</div><div class="s">FW conserva per ora lo shock minimo già presente nel backtest; massa media ${Number.isFinite(phantom)?fmt(phantom)+' p.p.':'—'}</div></div><div class="audit-integrity-card"><div class="k">Normalizzazione MC media</div><div class="v">${shadow?fmt(shadow.modes.residual.meanScale):'—'}</div><div class="s">post-shock: può differire da 1 per positività/troncamento; non è la guardia di integrità</div></div>`;
+    integrity.innerHTML=`<div class="audit-integrity-card ok"><div class="k">Somma base produzione</div><div class="v">${fmt(residual.rawSum)}%</div><div class="s">target ${fmt(residual.target)}% · scarto ${fmt(residual.delta)} p.p.</div></div><div class="audit-integrity-card ok"><div class="k">Scala integrità base</div><div class="v">${fmt(residual.integrityScale)}</div><div class="s">guardia pre-shock · tolleranza ±${fmt(NATIONAL_VECTOR_TOLERANCE)} p.p.</div></div><div class="audit-integrity-card"><div class="k">Categorie nominate mancanti</div><div class="v">${esc(missing)}</div><div class="s">FW conserva per ora lo shock minimo già presente nel backtest; massa media ${Number.isFinite(phantom)?fmt(phantom)+' p.p.':'—'}</div></div><div class="audit-integrity-card"><div class="k">Normalizzazione MC media</div><div class="v">${shadow?fmt(shadow.modes.residual.meanScale):'—'}</div><div class="s">post-shock: ~0,39 p.p. derivano oggi dal floor positivo di FW mancante; non è la guardia di integrità</div></div>`;
   }
   const keys=PARTIES.filter(p=>p.key==='other'||Number.isFinite(proj[p.key])||Number.isFinite(simple[p.key])||legacy.missing.includes(p.key));
   body.innerHTML=keys.map(p=>{
