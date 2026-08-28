@@ -1212,6 +1212,14 @@ body.sticky-nowcast-offset{padding-top:0}
 .election-calendar-banner strong,.release-note strong{color:#17191c}.election-calendar-banner{border-left:4px solid #111}.release-note{border-left:4px solid #177d43;background:#f9fdf9}.release-note time{font-weight:850;color:#177d43}
 @media(max-width:720px){.election-calendar-banner,.release-note{font-size:10px;padding:9px 10px}}
 
+/* --- v22.4.5 clean public UI --- */
+.election-calendar-banner{margin:18px 0 0;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;border:1px solid #dfe1dd;border-left:4px solid #111;border-radius:15px;padding:14px 16px;background:linear-gradient(135deg,#fff 0%,#fafaf7 100%);box-shadow:0 6px 20px rgba(20,20,20,.035);color:#555b63}
+.calendar-kicker{display:flex;align-items:center;gap:7px;font-size:9px;font-weight:900;letter-spacing:.12em;color:#686d73}.calendar-kicker:before{content:"";width:20px;height:14px;flex:0 0 20px;border-radius:3px;background:linear-gradient(to bottom,#111 0 33.333%,#dd0000 33.333% 66.666%,#ffce00 66.666% 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.calendar-copy{display:grid;gap:3px;min-width:0}.calendar-copy strong{font-size:13px;color:#17191c;letter-spacing:-.01em}.calendar-copy span{font-size:10.8px;line-height:1.55;color:#5d6268}.calendar-source{justify-self:end;white-space:nowrap;border:1px solid #d7d9d5;border-radius:999px;padding:7px 10px;background:#fff;color:#33373c;font-size:9.5px;font-weight:850}.calendar-source:hover{background:#f4f4f1;text-decoration:none}
+#inputIntegrityPublic,#inputIntegrityAudit,.nowcast-audit,.release-note,#refreshBtn,#mapQa{display:none!important}
+#downloadSnapshotBtn{display:none!important}
+@media(max-width:720px){.election-calendar-banner{grid-template-columns:1fr;gap:8px;padding:13px 14px}.calendar-kicker{font-size:8.5px}.calendar-copy strong{font-size:12.5px}.calendar-copy span{font-size:10.2px}.calendar-source{justify-self:start}}
+
 /* --- Nowcast average transparency audit --- */
 .nowcast-audit{margin:12px 0 16px;border:1px solid #d9dcdf;border-radius:13px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
 .nowcast-audit>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 18px;color:#24272b}
@@ -1259,7 +1267,7 @@ body.sticky-nowcast-offset{padding-top:0}
     <div class="mobile-nowcast-inner">
       <div class="mobile-nowcast-brand">
         <span class="mobile-nowcast-badge" aria-hidden="true"></span>
-        <div class="mobile-nowcast-label">Bundestagswahl · Sondaggi e proiezioni</div>
+        <div class="mobile-nowcast-label">Daniele Angrisani · Bundestag · Sondaggi e proiezioni</div>
       </div>
       <div class="mobile-nowcast-stats">
         <span class="mobile-nowcast-now">Nowcast</span>
@@ -1276,9 +1284,9 @@ body.sticky-nowcast-offset{padding-top:0}
   <header class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow"><span class="flag-dot"><i></i><i></i><i></i></span> Bundestagswahl · Sondaggi e proiezioni</div>
+        <div class="eyebrow"><span class="flag-dot"><i></i><i></i><i></i></span> Daniele Angrisani · Bundestag · Sondaggi e proiezioni</div>
         <h1>Elezioni federali tedesche</h1>
-        <div class="subtitle">Monitor dei sondaggi e <strong>proiezione probabilistica dei 630 seggi del Bundestag</strong>. Dati da <strong>Wahlen in Deutschland</strong>, con controllo automatico periodico della fonte e possibilità di aggiornamento manuale in qualsiasi momento.</div>
+        <div class="subtitle">Sondaggi e <strong>proiezione probabilistica dei 630 seggi del Bundestag</strong>. I dati provengono da <strong>Wahlen in Deutschland</strong> e sono sottoposti a un controllo automatico periodico sulla fonte.</div>
       </div>
       <div class="actions">
         <button id="refreshBtn" class="primary">↻ Aggiorna ora</button>
@@ -1287,26 +1295,25 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.4.5</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span>
     </div>
-    <div class="election-calendar-banner"><strong>Nowcast, non elezione convocata.</strong> Al 28 agosto 2026 non è fissata una data per nuove elezioni federali. In assenza di elezioni anticipate, la prossima elezione ordinaria deve tenersi tra il 26 gennaio e il 25 marzo 2029. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2029.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></div>
+    <div class="election-calendar-banner" role="note" aria-label="Stato elettorale"><div class="calendar-kicker">NOWCAST</div><div class="calendar-copy"><strong>Nessuna nuova elezione federale è stata convocata</strong><span>Al 28 agosto 2026 non è stata fissata una data per nuove elezioni federali. Salvo elezioni anticipate, la prossima elezione ordinaria si terrà tra il 26 gennaio e il 25 marzo 2029.</span></div><a class="calendar-source" href="https://www.bundeswahlleiterin.de/bundestagswahlen/2029.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></div>
   </header>
   <section class="editorial-meta" aria-label="Stato del modello">
     <div class="editorial-meta-main">
       <div><span class="meta-kicker">Ultimo sondaggio</span><strong id="dateLatestPoll">—</strong></div>
-      <div><span class="meta-kicker">Ultimo caricamento</span><strong id="dateDataLoaded">—</strong></div>
+      <div hidden aria-hidden="true"><span class="meta-kicker">Ultimo caricamento</span><strong id="dateDataLoaded">—</strong></div>
       <div><span class="meta-kicker">Modello aggiornato</span><strong id="dateModelUpdated">—</strong></div>
-      <div><span class="meta-kicker">Istantanea</span><strong id="dateSnapshot">—</strong></div>
+      <div hidden aria-hidden="true"><span class="meta-kicker">Istantanea</span><strong id="dateSnapshot">—</strong></div>
     </div>
-    <div class="editorial-meta-actions"><button id="downloadSnapshotBtn">Esporta JSON</button><button id="downloadPngBtn">Salva immagine</button></div>
+    <div class="editorial-meta-actions"><button id="downloadSnapshotBtn" hidden aria-hidden="true">Esporta JSON</button><button id="downloadPngBtn">Salva immagine</button></div>
   </section>
-  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · v22.4.5 · Hardening infrastrutturale finale.</strong> I fingerprint e i seed usano ora date civili indipendenti dal fuso orario; la verifica upstream Guard A è automatizzata. Nessuna modifica alla media dei sondaggi, alla dispersione, al riparto dei seggi, al forecast o al modello territoriale.</div>
-  <details class="read-guide">
+    <details class="read-guide">
     <summary>Come leggere il modello</summary>
     <div class="read-guide-grid">
-      <p><strong>Nowcast e forecast sono separati.</strong> Il nowcast risponde a «che cosa accadrebbe se si votasse oggi?». Più sotto trovi un forecast sperimentale legato alla distanza dal voto: mantiene la media ponderata del nowcast come valore centrale, ma amplia l’incertezza in base a quanto i sondaggi si sono storicamente mossi prima delle elezioni dal 2005 al 2025, quando i dati sono disponibili.</p>
+      <p><strong>Nowcast e forecast rispondono a domande diverse.</strong> Il nowcast descrive che cosa accadrebbe se si votasse oggi. Il forecast sperimentale, più sotto, mantiene la stessa media ponderata come valore centrale ma amplia l’incertezza in base a quanto i sondaggi si sono storicamente mossi prima delle elezioni dal 2005 al 2025, quando i dati sono disponibili.</p>
       <p><strong>Incertezza.</strong> Il numero centrale è accompagnato da un intervallo: il modello non tratta una singola stima come una certezza.</p>
-      <p><strong>Collegi.</strong> La mappa usa il risultato del 2025 come base e trasferisce ai collegi la variazione nazionale; non esistono 299 sondaggi locali.</p>
+      <p><strong>Collegi.</strong> La mappa parte dal risultato del 2025 e trasferisce ai collegi la variazione nazionale insieme alla componente territoriale calibrata; non esistono 299 sondaggi locali.</p>
       <p><strong>Coalizioni.</strong> Le incompatibilità indicate sono posizioni politiche dichiarate, non divieti giuridici.</p>
     </div>
   </details>
@@ -1319,7 +1326,7 @@ body.sticky-nowcast-offset{padding-top:0}
     <div class="card kpi"><div class="label">Sondaggi · 30 giorni</div><div id="kpiCount" class="value">—</div><div id="kpiCountMeta" class="meta">—</div></div>
   </section>
 
-  <div class="section-title"><div><div class="section-kicker">Se si votasse oggi</div><h2>Proiezione del Bundestag</h2><p>La stima usa i sondaggi degli ultimi 14 giorni: per ciascun istituto considera soltanto la rilevazione più recente, attribuendo un peso maggiore ai dati più vicini nel tempo.</p></div></div>
+  <div class="section-title"><div><div class="section-kicker">Se si votasse oggi</div><h2>Proiezione del Bundestag</h2><p>La stima considera i sondaggi degli ultimi 14 giorni: per ogni istituto usa soltanto la rilevazione più recente e assegna un peso maggiore alle rilevazioni più vicine nel tempo.</p></div></div>
 
   <section class="projection-layout">
     <div class="card feature parliament-card">
@@ -1344,8 +1351,8 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="method-list">
           <div class="method-row"><div class="method-num">1</div><div><strong>Finestra di 14 giorni</strong><span>Considera soltanto i sondaggi pubblicati nelle ultime due settimane.</span></div></div>
           <div class="method-row"><div class="method-num">2</div><div><strong>Un sondaggio per istituto</strong><span>Per ciascun istituto considera soltanto la rilevazione più recente, evitando che chi pubblica più spesso pesi eccessivamente sulla media.</span></div></div>
-          <div class="method-row"><div class="method-num">3</div><div><strong>Ponderazione temporale e storica</strong><span>Il peso si dimezza ogni sette giorni. In più, l’affidabilità dell’istituto è stimata soltanto sulle elezioni precedenti, fortemente regolarizzata verso 1 e limitata a ±20%.</span></div></div>
-          <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con shock nazionali gaussiani, centrati a zero e indipendenti tra partiti, con σ-base = 1,3 punti percentuali. La dispersione assoluta è modulata in modo molto lieve in funzione della quota del partito (esponente 0,10, cap 0,75–1,25), quindi vengono applicate positività e rinormalizzazione al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
+          <div class="method-row"><div class="method-num">3</div><div><strong>Ponderazione temporale e storica</strong><span>Il peso temporale si dimezza ogni sette giorni. Il fattore di affidabilità di ciascun istituto è stimato soltanto sulle elezioni precedenti, regolarizzato verso 1 e limitato a ±20%.</span></div></div>
+          <div class="method-row"><div class="method-num">4</div><div><strong>Incertezza calibrata</strong><span>50.000 simulazioni con scostamenti nazionali gaussiani, centrati a zero e indipendenti tra partiti, con σ-base = 1,3 punti percentuali. La dispersione assoluta varia molto lievemente con la quota del partito (esponente 0,10, limite 0,75–1,25); poi si impongono valori positivi e si rinormalizza al 100%. La componente territoriale aggiunge scostamenti casuali gerarchici a livello di Land e Wahlkreis, calibrati sulla variazione 2021→2025 ricostruita sui confini del 2025.</span></div></div>
         </div>
         <div class="proj-stats">
           <div class="proj-stat"><div class="l">Istituti inclusi</div><div id="projInstitutes" class="v">—</div><div class="s">nella proiezione</div></div>
@@ -1354,7 +1361,7 @@ body.sticky-nowcast-offset{padding-top:0}
       </div>
       <div class="card threshold-scenario">
         <h3>Eccezione dei tre collegi</h3>
-        <p>Secondo la disciplina oggi applicabile, un partito sotto il 5% può partecipare al riparto se i suoi candidati arrivano primi in almeno tre collegi. Nello scenario alla media dei sondaggi l’eccezione è determinata dalla mappa mostrata sotto; nelle 50.000 simulazioni i 299 collegi vengono invece ricalcolati a ogni estrazione, quindi l’applicazione della clausola dei tre collegi varia da una simulazione all’altra. Gli interruttori restano disponibili soltanto per costruire scenari manuali alternativi.</p>
+        <p>Secondo la disciplina oggi applicabile, un partito sotto il 5% può partecipare al riparto se i suoi candidati arrivano primi in almeno tre collegi. Nello scenario centrale l’eccezione è determinata dalla mappa mostrata sotto; nelle 50.000 simulazioni i 299 collegi vengono invece ricalcolati a ogni estrazione, quindi l’applicazione della clausola dei tre collegi varia da una simulazione all’altra. Gli interruttori restano disponibili soltanto per costruire scenari manuali alternativi.</p>
         <div id="exceptions" class="exception-list"></div>
       </div>
     </div>
@@ -1364,9 +1371,9 @@ body.sticky-nowcast-offset{padding-top:0}
   <div class="section-title" id="probabilisticSection"><div><div class="section-kicker">Incertezza</div><h2>Proiezione probabilistica</h2><p>Il valore centrale del nowcast resta la media ponderata a 14 giorni. L’incertezza nazionale viene propagata attraverso 50.000 simulazioni; nei collegi si aggiungono componenti specifiche di Land e Wahlkreis, così la clausola dei tre primi posti non dipende più da una semplice variazione proporzionale uniforme.</p></div><span class="badge">50.000 simulazioni</span></div>
   <section class="mc-layout">
     <div class="card mc-card">
-      <div class="mc-head"><div><h3>Distribuzione dei seggi</h3><p>Qui l’obiettivo non è ripetere lo scenario rappresentativo già mostrato sopra, ma rendere visibile l’incertezza: per ciascun partito sono evidenziati l’intervallo all’80% e la mediana marginale. Lo scenario rappresentativo resta indicato in piccolo, come riferimento rispetto all’emiciclo.</p></div><span id="mcStatus" class="mc-status">In attesa dei dati</span></div>
+      <div class="mc-head"><div><h3>Distribuzione dei seggi</h3><p>La sezione non ripete lo scenario rappresentativo già mostrato sopra: serve a visualizzare l’incertezza. Per ciascun partito sono mostrati l’intervallo all’80% e la mediana marginale; la simulazione rappresentativa resta indicata in piccolo come riferimento rispetto all’emiciclo.</p></div><span id="mcStatus" class="mc-status">In attesa dei dati</span></div>
       <div id="mcPartyGrid" class="mc-party-grid"><div class="empty-small">La simulazione partirà dopo il caricamento dei sondaggi.</div></div>
-      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: il centro resta la media dei sondaggi. Il Monte Carlo nazionale parte da una σ-base di 1,3 p.p.; la σ assoluta cresce debolmente con la quota del partito (esponente 0,10, limitata fra il 75% e il 125% della base). Gli shock nazionali sono gaussiani e indipendenti tra partiti; seguono positività e rinormalizzazione. Sul territorio si aggiungono uno scostamento condiviso a livello di Land e uno specifico di Wahlkreis, con dispersione calibrata sui residui 2021→2025. Lo scenario rappresentativo è scelto tra le 50.000 simulazioni minimizzando la distanza dalle mediane dei partiti, normalizzata per l’ampiezza del rispettivo intervallo 80%. Il calcolo viene eseguito una sola volta per ogni nuovo quadro dei sondaggi, in 50 blocchi asincroni da 1.000, e poi salvato nella cache locale.<span id="mcErrorStructure" class="mc-coal-inline"></span></div>
+      <div class="mc-note"><strong>Calibrazione, non correzione.</strong> Non viene applicato alcun bonus o malus fisso ai singoli partiti: il centro resta la media dei sondaggi. Il Monte Carlo nazionale parte da una σ-base di 1,3 p.p.; la σ assoluta cresce debolmente con la quota del partito (esponente 0,10, limitata fra il 75% e il 125% della base). Gli scostamenti nazionali sono gaussiani e indipendenti tra partiti; in seguito si applicano il vincolo di positività e la rinormalizzazione al 100%. Sul territorio si aggiungono uno scostamento condiviso a livello di Land e uno specifico di Wahlkreis, con dispersione calibrata sui residui 2021→2025. Lo scenario rappresentativo è scelto tra le 50.000 simulazioni minimizzando la distanza dalle mediane dei partiti, normalizzata per l’ampiezza del rispettivo intervallo 80%. Il calcolo viene eseguito una sola volta per ogni nuovo quadro dei sondaggi, in 50 blocchi asincroni da 1.000, e poi salvato nella cache locale.<span id="mcErrorStructure" class="mc-coal-inline"></span></div>
     </div>
     <aside class="card mc-side">
       <div class="mc-section"><h3>Probabilità di ingresso nel riparto</h3><p>Probabilità che il partito entri nel riparto e ottenga almeno un seggio. In ogni simulazione i 299 collegi risentono dello scostamento nazionale del partito, di uno scostamento comune al Land e di una componente locale specifica del Wahlkreis. Un partito sotto il 5% entra nel riparto soltanto se in quella specifica simulazione arriva primo in almeno tre collegi. Gli scenari manuali modificano soltanto la proiezione esplorativa e non fanno ripartire il Monte Carlo di base.</p><div id="mcThreshold" class="mc-list"><div class="empty-small">Calcolo in corso…</div></div></div>
@@ -1375,28 +1382,28 @@ body.sticky-nowcast-offset{padding-top:0}
   </section>
 
   <section class="card config-card" id="parliamentConfigurations">
-    <div class="config-head"><div><h3>Configurazioni del Bundestag</h3><p>Le stesse 50.000 simulazioni sono raggruppate in tre configurazioni coerenti con il pannello coalizioni: FDP fuori, FDP dentro e altre configurazioni. “Altre” raccoglie i casi in cui entra BSW o FW, anche insieme al FDP.</p></div><span class="config-badge">stesse simulazioni</span></div>
+    <div class="config-head"><div><h3>Configurazioni del Bundestag</h3><p>Le stesse 50.000 simulazioni sono raggruppate in tre configurazioni coerenti con il pannello delle coalizioni: FDP fuori, FDP dentro e altre configurazioni. «Altre» comprende i casi in cui entra BSW o FW, anche insieme al FDP.</p></div><span class="config-badge">stesse simulazioni</span></div>
     <div id="configurationGrid" class="config-grid"><div class="empty-small" style="grid-column:1/-1;padding:14px">Calcolo in corso…</div></div>
     <div class="config-note"><strong>Partiti ammessi</strong> conta i gruppi nazionali con almeno un seggio, escluso SSW che mantiene il proprio seggio di minoranza. I seggi mostrati sono mediane condizionate alla configurazione.</div>
   </section>
 
 
-  <div class="section-title" id="forecastSection"><div><div class="section-kicker">Orizzonte elettorale</div><h2>Forecast sperimentale</h2><p>Il nowcast non cambia. Il forecast usa la stessa media ponderata del nowcast come valore centrale, ma aggiunge l’incertezza legata a quanto l’opinione pubblica potrebbe cambiare prima del voto. Poiché la data della prossima elezione non è ancora fissata, l’orizzonte è espresso in mesi prima del voto.</p></div><span class="badge">Nowcast ≠ forecast</span></div>
+  <div class="section-title" id="forecastSection"><div><div class="section-kicker">Orizzonte elettorale</div><h2>Forecast sperimentale</h2><p>Il forecast non modifica il nowcast. Usa la stessa media ponderata come valore centrale, ma aggiunge l’incertezza legata a quanto l’opinione pubblica potrebbe cambiare prima del voto. Poiché la data della prossima elezione non è ancora fissata, l’orizzonte è espresso in mesi mancanti al voto.</p></div><span class="badge">Nowcast ≠ forecast</span></div>
   <section class="card forecast-card">
     <div class="forecast-head">
-      <div><h3>Quanto può cambiare il quadro prima del voto?</h3><p>Per ciascun orizzonte il modello ricostruisce, con la stessa regola a 14 giorni usata oggi, la fotografia dei sondaggi prima delle elezioni dal 2005 al 2025, quando l’archivio contiene dati sufficienti, e misura quanto differiva dal risultato finale. Ogni ciclo disponibile ha lo stesso peso. L’incertezza non può diminuire all’aumentare dell’orizzonte: questa regola evita che il rumore di un campione storico limitato produca risultati controintuitivi.</p></div>
+      <div><h3>Quanto può cambiare il quadro prima del voto?</h3><p>Per ciascun orizzonte il modello ricostruisce, applicando la stessa regola dei 14 giorni del nowcast, la fotografia dei sondaggi disponibile prima delle elezioni dal 2005 al 2025 e misura lo scarto rispetto al risultato finale. Sono inclusi soltanto i cicli per cui l’archivio contiene dati sufficienti, ciascuno con lo stesso peso. L’incertezza non può diminuire all’aumentare dell’orizzonte: la regola evita che il rumore di un campione storico limitato produca risultati controintuitivi.</p></div>
       <div class="forecast-controls"><label for="forecastHorizon">Distanza dal voto</label><select id="forecastHorizon"><option value="1">1 mese</option><option value="3">3 mesi</option><option value="6">6 mesi</option><option value="12" selected>12 mesi</option><option value="24">24 mesi</option><option value="36">36 mesi</option></select><button id="forecastRun" type="button" class="primary">Calcola il forecast</button></div>
     </div>
-    <div class="forecast-calibration" id="forecastCalibration"><div class="empty-small">La curva storica viene costruita dopo il caricamento dell'archivio sondaggi.</div></div>
+    <div class="forecast-calibration" id="forecastCalibration"><div class="empty-small">La curva storica viene costruita dopo il caricamento dell’archivio dei sondaggi.</div></div>
     <div class="forecast-results">
-      <div class="forecast-main"><div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px"><div><strong style="font-size:15px">Distribuzione dei seggi</strong><div style="font-size:10px;color:#777c83;margin-top:3px">50.000 simulazioni, eseguite soltanto su richiesta e riutilizzate per la stessa istantanea dei dati e lo stesso orizzonte.</div></div><span id="forecastStatus" class="forecast-status">Non calcolato</span></div><div id="forecastPartyGrid" class="mc-party-grid"><div class="empty-small">Seleziona l'orizzonte e avvia il forecast. Il nowcast sopra non viene modificato.</div></div></div>
-      <aside class="forecast-side"><div><h4>Rischio soglia</h4><p>Probabilità di ingresso con l'incertezza temporale aggiuntiva.</p><div id="forecastThreshold" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div><div><h4>Maggioranze</h4><p>Probabilità aritmetica di almeno 316 seggi; le incompatibilità politiche restano separate.</p><div id="forecastCoalitions" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div></aside>
+      <div class="forecast-main"><div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px"><div><strong style="font-size:15px">Distribuzione dei seggi</strong><div style="font-size:10px;color:#777c83;margin-top:3px">50.000 simulazioni, eseguite soltanto su richiesta e riutilizzate per la stessa istantanea dei dati e lo stesso orizzonte.</div></div><span id="forecastStatus" class="forecast-status">Non calcolato</span></div><div id="forecastPartyGrid" class="mc-party-grid"><div class="empty-small">Seleziona l’orizzonte e avvia il forecast. Il nowcast sopra non viene modificato.</div></div></div>
+      <aside class="forecast-side"><div><h4>Rischio soglia</h4><p>Probabilità di ingresso con l’incertezza temporale aggiuntiva.</p><div id="forecastThreshold" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div><div><h4>Maggioranze</h4><p>Probabilità aritmetica di almeno 316 seggi; le incompatibilità politiche restano separate.</p><div id="forecastCoalitions" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div></aside>
     </div>
-    <div class="forecast-note"><strong>Interpretazione.</strong> È un forecast condizionale, non una previsione della data delle prossime elezioni. Il modello non tenta di anticipare quali partiti saliranno o scenderanno: il valore centrale resta la media ponderata del nowcast e cambia soltanto la dispersione. La componente nazionale incorpora la deriva storica dei consensi; la modulazione share-aware riguarda soltanto la componente nowcast validata, mentre la deriva temporale aggiuntiva resta comune in punti percentuali. La geografia conserva il modello gerarchico Land/Wahlkreis e ne aumenta gradualmente la dispersione con l’orizzonte. Anche con un massimo di sei cicli la calibrazione resta prudenziale: AfD dispone di meno storia e BSW non ha ancora abbastanza elezioni per stimare una dipendenza propria. Gli scostamenti nazionali restano gaussiani e additivi in punti percentuali; vengono poi limitati a valori positivi e rinormalizzati: per partiti molto piccoli e orizzonti lunghi questa trasformazione può introdurre asimmetria, motivo per cui il forecast va letto come sperimentale.</div>
+    <div class="forecast-note"><strong>Interpretazione.</strong> È un forecast condizionale, non una previsione della data delle prossime elezioni. Il modello non tenta di anticipare quali partiti saliranno o scenderanno: il valore centrale resta la media ponderata del nowcast e cambia soltanto la dispersione. La componente nazionale incorpora la deriva storica dei consensi; la lieve modulazione della dispersione in base alla quota del partito riguarda soltanto la componente nowcast validata, mentre la deriva temporale aggiuntiva resta comune in punti percentuali. La geografia conserva il modello gerarchico Land/Wahlkreis e ne aumenta gradualmente la dispersione con l’orizzonte. Anche con un massimo di sei cicli la calibrazione resta prudenziale: AfD dispone di meno storia e BSW non ha ancora abbastanza elezioni per stimare una dipendenza propria. Gli scostamenti nazionali restano gaussiani e additivi in punti percentuali; vengono poi limitati a valori positivi e rinormalizzati: per partiti molto piccoli e orizzonti lunghi questa trasformazione può introdurre asimmetria, motivo per cui il forecast va letto come sperimentale.</div>
   </section>
 
 
-  <div class="section-title constituency-section" id="constituencySection"><div><div class="section-kicker">Geografia del voto</div><h2>Proiezione dei collegi uninominali</h2><p>Simulazione dei 299 Wahlkreise sulla base del risultato del 2025 e della variazione nazionale corrente. Passa il mouse — oppure tocca un collegio su mobile — per vedere il dettaglio.</p></div><span class="badge">299 collegi</span></div>
+  <div class="section-title constituency-section" id="constituencySection"><div><div class="section-kicker">Geografia del voto</div><h2>Proiezione dei collegi uninominali</h2><p>Simulazione dei 299 Wahlkreise a partire dal risultato del 2025, dalla variazione nazionale corrente e dalla componente territoriale calibrata. Passa il mouse su un collegio oppure, su smartphone, toccalo per vedere il dettaglio.</p></div><span class="badge">299 collegi</span></div>
   <section class="constituency-layout">
     <div class="card map-card">
       <div class="map-head">
@@ -1440,7 +1447,7 @@ body.sticky-nowcast-offset{padding-top:0}
         <ol>
           <li><strong>Base 2025:</strong> risultato ufficiale dell’Erststimme e della Zweitstimme in ciascun Wahlkreis.</li>
           <li><strong>Swing proporzionale:</strong> la variazione nazionale viene trasferita ai collegi in proporzione alla forza del partito nel 2025. In forma equivalente, il modello conserva il rapporto locale fra Erststimme e Zweitstimme osservato nel 2025.</li>
-          <li><strong>Zweitstimmendeckung:</strong> i seggi nazionali vengono ripartiti tra le Landeslisten con Sainte-Laguë; se in un Land i vincitori di collegio sono più dei seggi disponibili, ottengono il mandato quelli con la quota di Erststimmen più alta.</li><li><strong>Geografia delle Zweitstimmen:</strong> nello scenario territoriale rappresentativo il peso relativo dei Länder non è più congelato al 2025: viene modificato dagli stessi scostamenti di Land usati per le Erststimmen. La scala di queste deviazioni è calibrata sui residui 2021→2025 ricostruiti sui confini 2025.</li>
+          <li><strong>Zweitstimmendeckung:</strong> i seggi nazionali vengono ripartiti tra le Landeslisten con Sainte-Laguë; se in un Land i vincitori di collegio sono più numerosi dei seggi disponibili, sono eletti i candidati con la quota di Erststimmen più alta.</li><li><strong>Geografia delle Zweitstimmen:</strong> nello scenario territoriale rappresentativo il peso relativo dei Länder non è più congelato al 2025: viene modificato dagli stessi scostamenti di Land usati per le Erststimmen. La scala di queste deviazioni è calibrata sui residui 2021→2025 ricostruiti sui confini 2025.</li>
         </ol>
         <div class="method-warning"><strong>Limite del modello.</strong> Non sono sondaggi di collegio. La componente gerarchica introduce variabilità geografica, ma non osserva candidati futuri, vantaggio degli uscenti, voto strategico o eventi locali. Le componenti di Land e Wahlkreis sono calibrate su una sola transizione territoriale completa, 2021→2025: vanno quindi lette come una regolarizzazione empirica, non come una stima definitiva. La mappa resta una componente sperimentale del nowcast, non 299 previsioni locali indipendenti.</div>
         <div id="mapQa" class="map-qa">Verifica territoriale 2025 in attesa del caricamento.</div>
@@ -1457,7 +1464,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
   </section>
 
-  <div class="section-title"><div><div class="section-kicker">Scenari di governo</div><h2>Costruttore di maggioranze</h2><p>Seleziona i partiti, verifica la soglia di 316 seggi e confronta la maggioranza aritmetica con una scala politica a tre livelli: veto formale, veto politico forte e difficoltà documentata.</p></div><span class="badge">Posizioni verificate al 25 agosto 2026</span></div>
+  <div class="section-title"><div><div class="section-kicker">Scenari di governo</div><h2>Costruttore di maggioranze</h2><p>Seleziona i partiti, verifica se raggiungono la soglia di 316 seggi e confronta la maggioranza aritmetica con una scala politica a tre livelli: veto formale, veto politico forte e difficoltà documentata.</p></div><span class="badge">Posizioni verificate al 25 agosto 2026</span></div>
   <section class="card majority-builder">
     <div class="majority-grid">
       <div class="majority-main">
@@ -1481,13 +1488,13 @@ body.sticky-nowcast-offset{padding-top:0}
       </div>
 
       <aside class="veto-panel">
-        <div class="veto-head"><span class="veto-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.4 14.6 7.8 16.2a3.2 3.2 0 0 1-4.5-4.5l3.3-3.3a3.2 3.2 0 0 1 4.5 0"/><path d="m14.6 9.4 1.6-1.6a3.2 3.2 0 0 1 4.5 4.5l-3.3 3.3a3.2 3.2 0 0 1-4.5 0"/><path d="M8 12h8"/><path d="M5 5 19 19"/></svg></span><div><h3>Compatibilità politica</h3><p>La valutazione non modifica mai i seggi. Distingue deliberati formali, veti politici correnti e difficoltà documentate. Ogni voce riporta la fonte e la data dell’ultima verifica.</p></div></div>
-        <div class="coalition-level-legend"><div class="formal"><b>Veto formale</b><span>Delibera o decisione ufficiale di partito che esclude una coalizione o una forma di collaborazione.</span></div><div class="strong"><b>Veto forte</b><span>Posizione pubblica attuale della leadership o di una componente necessaria alla coalizione, ma senza un divieto formale dell’intera formazione o alleanza.</span></div><div class="difficult"><b>Difficile</b><span>Nessun veto formale codificato, ma esistono precedenti o divergenze documentate che rendono l’alleanza politicamente problematica.</span></div></div><div id="vetoList" class="veto-list"></div><div class="veto-note"><strong>Come leggere la scala:</strong> “difficile” non significa “impossibile” e “nessuna incompatibilità codificata” non significa “probabile”. Le posizioni politiche possono cambiare; l’ultima verifica complessiva di questa matrice risale al 25 agosto 2026.</div>
+        <div class="veto-head"><span class="veto-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9.4 14.6 7.8 16.2a3.2 3.2 0 0 1-4.5-4.5l3.3-3.3a3.2 3.2 0 0 1 4.5 0"/><path d="m14.6 9.4 1.6-1.6a3.2 3.2 0 0 1 4.5 4.5l-3.3 3.3a3.2 3.2 0 0 1-4.5 0"/><path d="M8 12h8"/><path d="M5 5 19 19"/></svg></span><div><h3>Compatibilità politica</h3><p>La valutazione non modifica mai i seggi. Distingue decisioni formali di partito, veti politici correnti e difficoltà documentate. Ogni voce riporta la fonte e la data dell’ultima verifica.</p></div></div>
+        <div class="coalition-level-legend"><div class="formal"><b>Veto formale</b><span>Delibera o decisione ufficiale di partito che esclude una coalizione o una forma di collaborazione.</span></div><div class="strong"><b>Veto politico forte</b><span>Posizione pubblica attuale della leadership o di una componente necessaria alla coalizione, ma senza un divieto formale dell’intera formazione o alleanza.</span></div><div class="difficult"><b>Difficile</b><span>Nessun veto formale codificato, ma esistono precedenti o divergenze documentate che rendono l’alleanza politicamente problematica.</span></div></div><div id="vetoList" class="veto-list"></div><div class="veto-note"><strong>Come leggere la scala:</strong> “difficile” non significa “impossibile” e “nessuna incompatibilità codificata” non significa “probabile”. Le posizioni politiche possono cambiare; l’ultima verifica complessiva di questa matrice risale al 25 agosto 2026.</div>
       </aside>
     </div>
   </section>
 
-  <div class="section-title"><div><div class="section-kicker">Calibrazione</div><h2>Verifica retrospettiva 2017–2025</h2><p>La verifica viene ricalcolata automaticamente su un dataset storico dedicato e verificato, separato dal feed corrente: finestra di 14 giorni, ultima rilevazione di ciascun istituto e peso che si dimezza ogni sette giorni. Il modulo territoriale è valutato separatamente.</p></div><span class="badge" id="btBadge">Calcolo…</span></div>
+  <div class="section-title"><div><div class="section-kicker">Calibrazione</div><h2>Verifica retrospettiva 2017–2025</h2><p>La verifica viene ricalcolata automaticamente su un insieme di dati storici dedicato e verificato, separato dai dati correnti: finestra di 14 giorni, ultima rilevazione di ciascun istituto e peso temporale che si dimezza ogni sette giorni. Il modulo territoriale è valutato separatamente.</p></div><span class="badge" id="btBadge">Calcolo…</span></div>
   <section class="backtest backtest-grid">
     <div class="card bt-summary">
       <h3 id="btTitle">Ricalcolo della calibrazione nazionale…</h3>
@@ -1509,7 +1516,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
   </section>
   <section class="card territorial-validation" id="territorialValidationCard">
-    <div class="territorial-validation-head"><div><h3>Validazione territoriale</h3><p>Test separato dalla calibrazione nazionale: ricostruzione 2021→2025 usando i risultati del 2021 ricalcolati dalla Bundeswahlleiterin sui confini del 2025 e la variazione nazionale effettivamente osservata nel 2025. La calibrazione dell’incertezza usa un nested leave-one-Land-out: ogni Land è valutato con dispersioni e moltiplicatori stimati senza usare quel Land. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></p></div><span class="validation-badge">condizionale · 2021→2025</span></div>
+    <div class="territorial-validation-head"><div><h3>Validazione territoriale</h3><p>Verifica separata dalla calibrazione nazionale: ricostruzione 2021→2025 usando i risultati del 2021 ricalcolati dalla Bundeswahlleiterin sui confini del 2025 e la variazione nazionale effettivamente osservata nel 2025. La calibrazione dell’incertezza usa una validazione incrociata annidata leave-one-Land-out: ciascun Land è valutato con dispersioni e moltiplicatori stimati senza usare i dati di quel Land. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2025/ergebnisse/opendata.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></p></div><span class="validation-badge">condizionale · 2021→2025</span></div>
     <div id="territorialValidation"><div class="empty-small">La validazione viene calcolata dopo il caricamento del file kerg.csv.</div></div>
   </section>
 
@@ -1533,7 +1540,7 @@ body.sticky-nowcast-offset{padding-top:0}
       <div id="legend" class="legend"></div>
     </div>
     <div class="card">
-      <div class="cardhead"><div><h3>Media del nowcast</h3><p>Media ponderata a 14 giorni usata dal motore: un solo sondaggio per istituto, emivita di 7 giorni e pesi di affidabilità storica.</p></div></div>
+      <div class="cardhead"><div><h3>Media ponderata del nowcast</h3><p>Media ponderata a 14 giorni usata dal motore: un solo sondaggio per istituto, emivita di 7 giorni e pesi di affidabilità storica.</p></div></div>
       <div id="snapshot" class="snapshot"></div>
     </div>
   </section>
@@ -1550,7 +1557,7 @@ body.sticky-nowcast-offset{padding-top:0}
     <div id="mobilePolls" class="mobile-polls" aria-label="Sondaggi più recenti in formato mobile"></div>
   </section>
 
-  <nav class="share-rail" aria-label="Condividi il modello" title="Ogni social usa una card dedicata tramite una pagina di condivisione apposita, con query di versione per ridurre i problemi di cache delle anteprime.">
+  <nav class="share-rail" aria-label="Condividi il modello" title="Condividi il modello">
     <a class="share-btn" href="#" data-share="x" title="Condividi su X" aria-label="Condividi su X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 3H22l-6.8 7.7L23 21h-6.2l-4.9-6.4L6.3 21H3.2l7.3-8.3L1 3h6.4l4.4 5.9L18.9 3Zm-1.1 16h1.7L6.5 4.9H4.7L17.8 19Z"/></svg></a>
     <a class="share-btn" href="#" data-share="threads" title="Condividi su Threads" aria-label="Condividi su Threads"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAyCAYAAAATIfj2AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAMySURBVGhD7ZjhcaMwEEa/uxLYFqwapBaiGijBg0vwUIJSAzXgFqAGpQW5Bd8fViOEbLAgd1yGN5MJEYrNQ6vdhV+Px+OBH8TveOB/5xDaO4fQ3jmE9s6PE/r1XYXVOYe+72Gtxf1+h3MORAQAEEIAAE6nE4QQfnwLNhdq2xZt28bDTyEiSCkhpdxEbDMh5xw+Pz/hnBuN80UWRQEignMO1trRHJ4npYTWOj71FpsIOedwvV5HY1prCCF8eMWw2O12G90ErfUqqdVCsYwQApfLZTTnFSmxNVKrs1zTNP5YKfWWDIZQU0qhqio/1rYtuq4bzVvKKqGu6/x+EEKgLMt4ymKICHVd+79vt9vo/FJWhZwxxgtdLpfkfuGM1/e9HxNCQEqZnN80jV+dZ5/5iuwVCrNVavM752CM8WncOed/uq7z52I+Pj78cer8HNlCYepNbeCmafwcIvJ7JRRP1Swi8sVWCDEpA3Nkh1wYGnVdT4oiX2wq64U1i4hQluVIlMdz2GSFUl+utUZd1xMZDPM5tFKFNvV5S8kW4lCI905IeGF84dbayQrEQmvIDrnz+QwMtedVuk7tk5g4Za8ha4WWbFRrLc7n86wMgm5jydw5soRCiqKIh4Ao5RKRb2fKsoTWGkqpSUguWc05Vgul4j/uIOq69kJKKS+WYq1UllB4Z+/3++gcAHx9ffnjVJZjOHSVUqPUzw+GOWQJYSa78YW+Sr9hU3s6nWZT+VKyhRhuZ0K4c3DOjS6caYNumoYOAtFN+utC4ZfHYcdPpxj20/V6hTEGxphJ5gv3Eg3tDhKfuZRsISmlP45XgYhQVZWXCotqOCfVTeeKMNlC4d1MxTxLcZ9GQ4MqhIDWGlVVTWSwsAN5RXangCGceHVog2ofpuyyLP3eeofsFcKQbsNVWlM/rLX+/8NE8S6rhDDcSd4rbdvCGDPJenPwAx/zrOguYVXIMS56J0fDOzaReJJleN/Fr7FyQ43ZRAgJKYZXL3zRiCd1JpX13mUzIQxSfd+j7/uJ2Cu01vt7FRzCMmFPxr/5ooUQKIpiMxHmW4T+Jauz3N44hPbOIbR3DqG9cwjtnR8n9AfVFRBlw12EGAAAAABJRU5ErkJggg==" alt="" aria-hidden="true"></a>
     <a class="share-btn" href="#" data-share="facebook" title="Condividi su Facebook" aria-label="Condividi su Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7h2.4l.4-3h-2.8V9.2c0-.9.3-1.5 1.6-1.5H16V5c-.4-.1-1.4-.1-2.3-.1-2.3 0-3.8 1.4-3.8 4V11H7.5v3h2.4v7h3.6z"/></svg></a>
@@ -1564,10 +1571,10 @@ body.sticky-nowcast-offset{padding-top:0}
 
   <div class="ai-section-break">
     <div class="section-kicker">Lettura assistita</div>
-    <div class="ai-section-heading"><div><h2>Verifica e interpreta le stime con un’IA</h2><p>La dashboard prepara un prompt con i dati correnti del nowcast, gli intervalli probabilistici e le principali coalizioni. Puoi usarlo per capire meglio il risultato e confrontarlo con sondaggi e fonti aggiornate.</p></div><span class="ai-lab-badge">VERIFICA STIME</span></div>
+    <div class="ai-section-heading"><div><h2>Interpreta e verifica le stime con un’IA</h2><p>La dashboard prepara un prompt con i dati correnti del nowcast, gli intervalli probabilistici e le principali coalizioni. Puoi usarlo per approfondire il risultato e confrontarlo con sondaggi e fonti aggiornate.</p></div><span class="ai-lab-badge">VERIFICA STIME</span></div>
   </div>
   <section class="card ai-card">
-    <div class="cardhead" style="padding:0"><div><h3>Chiedi una seconda lettura delle stime</h3><p class="intro">Scegli un assistente: riceverà automaticamente sondaggi, seggi, intervalli e probabilità correnti e sarà invitato a verificarli, interpretarli e spiegare quali scenari potrebbero cambiare il quadro.</p></div></div>
+    <div class="cardhead" style="padding:0"><div><h3>Chiedi una seconda lettura delle stime</h3><p class="intro">Scegli un assistente: il prompt includerà sondaggi, seggi, intervalli e probabilità correnti e chiederà di verificarli, interpretarli e spiegare quali scenari potrebbero cambiare il quadro.</p></div></div>
     <div class="ai-grid ai-grid-brands">
       <a class="ai-btn ai-brand-btn" href="#" data-ai="perplexity"><span class="ai-brandmark"><img alt="Perplexity" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAAuCAYAAAC1ZTBOAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAALjSURBVFhH7ZjtsaMgFIbfu7N1nDRgCaEB7SBUYAlUQAlUgB2QBkgJNnApIQ24fzwOQY2g7ty7O/eZYSYBJE+Qr8PH8/kc8M35lWZ8R34kz+L/kPTew1qbZi/Sti3atk2zV/HeI4SQZs/YlMT44zmi3nt479PsRbTWaJomzV4kSxKjqNY6zd5F0zRFbWVLYvz3JY2nhBDQNE12bzPZklJKENEkmjOWYkIIqOsa3nsIISClTKuski1JROj7fpeo9x5VVSGEAGMMnHNplbdkSzJ930NKCWst2rbdFI0niHOuqAeZYkkAMMZASgnvPeq6XhXlyUZEcM5BCJFWyWKXJEZRpdQ01lLRpmlgrYUQAn3f7xbEEUkAUErNROMZLIQoHn9LfKRHtXQXCCFAaw0hBG63W1x1ouu62bJCRFBKveTF8DPGmCmPiJZ7/Pl8DnGSUg4AviRJKV9cOP1OpRmlFIgozV7k8XjMts2S5/ltrTF73bxP85q4hfd+WmLi+iGE7DZCCKiqClLKl9fPHJo4sWA8QYwxIKJpAT/KbslUMB7wQohTRXdJvhNkzhQtlswRZM4SLZIsEWTOEM2W3CPIHBXNkjwiyBwR3ZTkvRgHBJm9opuSn5+fwLiDHBFkhBBTO9z2FpuSf4OcXShmVdJaC601uq5Lixbh0xOnHLqug9Z6tu+nrB4w3m34KRxKMHVd436/b/bYlhwzk7zdbi/nxhDC21sJDspYiHuxqqopzFhDKYXr9Tp9v1wuL+UT6dktTc65AcCglJqV8dmTiAbn3EBEL58BDMaY2XNKqQHA4JyblS2l1TG5BccwNIa68cyPl5ozbj52ScYxTN/3aTEwivK4LI3TU4olS4IsIjpFNFuSd55cQYaHQ8mFQkq2pLUW3ntIKbMFY+ILhdylh8mWxPhDSzFILnyhUEq25N57nBS+UNha6GOyJHNPP5fLJasei64u3gmzkPY7ktWTX82P5Fn8E5J/AIHoiY0JdVzXAAAAAElFTkSuQmCC"></span><div><strong>PERPLEXITY</strong><span>Verifica dati e stime con Perplexity</span></div></a>
       <a class="ai-btn ai-brand-btn" href="#" data-ai="openai"><span class="ai-brandmark"><img alt="ChatGPT" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAArCAYAAADlqKH9AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAQ5SURBVFhH7Vjtbaw6ED33FZASZhugBKaBpYNQgTsIFZAOXAHbgbcBpwQ3sC6BBnh/GGts8C7k3ivlSe9IlhLw2sfjM1/8mud5wQ/HP+WDn4j/Sf4p/PquJr33uN1u8N4DAGKMYGa0bYu2bcHM5U++jdMkvff4/PxM5GpgZlhrQUTlq9M4RdJ7j67rsmd936NtWwDA7XbD4/FAjBEAQES43+8gouzZWRwmqQkSEay11SsdxxHTNCViGiKJvu8PEz5MsmkaxBhBRAghlK8TYowwxryUAwAMw3CI7CHvHscxWcVaW75OGMcRTdNkBPu+h7UWIQQ45zAMQyI1jiOu1+uuxTPM87zUhnNusdYuABYACxFt5szzvFhrFyJK8wAs1trNPD2GYUhzh2FYQgibOTKqJPu+zzaVxfQc59zCzNmcvu+fbqhHSbR8L2NDMoSw2ViGc253AwALM2fv9ag9n+c53QARVQ+XkQwhbKzinEv/60XkIERUJaFvg5l3Sej1a+tkjjOOY/rbOffUSbCGohDCJhRN04S3tzdM05ScxHuPpmlgjMkchZnTnJoDJZIxRkzTBKyhodz4CCSWGmNARHDOIYSQZZ5pmtA0TRZHL5cLAODr6ytbT5BICkGsJM8gxoiu69B1Hbz3YGbc7/d00L7vEULIYqIxBtfr9VA8TSTlFGctqGOjkPDe7wZ0ay3u9zv6vgfU4WReLagnko/HAwBSHj6CGCPGcQQzJw2LxR6PR7p6rTVJqc65Dana3pkmvwPZUN+AtphoUGctrDcWQsik9VKTrzxsD0SUrq4EEWWWkRSotY9V/0JUCpMSiaRYwnufEb1cLukAIomz0OHMGIOu67I9dD6/3W7puSCRlFPHGDPBi7WIKHnwGWsLxMOZGd77jcXEmqWRoEnq8FDqZxiGpDEJyqXnHoXsUepPy6ZcO8s4uoouS6g9r4wqAZSIMe5e3TPU/CIjSUQp+scYn3qlZBHRmD79Xl15BLJPGZo2RW+5cM0rdRbRMVEOxsxVz99DaT2NjGSpQ9FpXFuC0mJYY6KIXvKxyKIWnPegjVAebmNJgWhQN1xeFRByIGMMjDHAuvg8z5tNXiGumQuVumGjyVIPOuXJO8kiUo5pnWo8u0INOSR2rIiSJFTZVHqmaFAHXlrLsb08bIzJ6tM9yM2IhPTaGcoqWLcFe5X0vFbwtSq6bCvK5q3WmpzqceaDfUc5nHObjnFv45Lcs/Yj/aZ8MK+W0kSfLbLXuNU6Rt1DMfPLtldG9QvGOI6ZppgZ7+/vWVbQX9VkzsfHR7VwFv3Ri68gG5Ss9di7wtp4ZRXdOe7J4NnYeLeGLkxZdXUlnr2La4sgwZqZd2PhM1SvuwadX/ck0bZtylKxKEAk5p7FaZIlpmnaFCF70BX4Wfw2ScE0TdlHVCJKMvguOcEfI/k38dRxfgr+EyT/BZ1ALiO6ohIBAAAAAElFTkSuQmCC"></span><div><strong>CHATGPT</strong><span>Interpreta lo scenario con ChatGPT</span></div></a>
@@ -2799,7 +2806,7 @@ function setMapScenarioCopy(mode){
   }else{
     if(title)title.textContent='Mappa geografica dei 299 collegi';
     if(desc)desc.textContent='Confini reali dei Wahlkreise 2025. Durante il calcolo Monte Carlo viene mostrato lo scenario alla media dei sondaggi; appena la simulazione è pronta la mappa passa allo scenario territoriale rappresentativo.';
-    if(section)section.textContent='Simulazione dei 299 Wahlkreise sulla base del risultato del 2025 e della variazione nazionale corrente. Passa il mouse — oppure tocca un collegio su mobile — per vedere il dettaglio.';
+    if(section)section.textContent='Simulazione dei 299 Wahlkreise a partire dal risultato del 2025, dalla variazione nazionale corrente e dalla componente territoriale calibrata. Passa il mouse su un collegio oppure, su smartphone, toccalo per vedere il dettaglio.';
   }
 }
 function applyRepresentativeTerritory(mc=state.monteCarlo,avg=projectionAverage()){
