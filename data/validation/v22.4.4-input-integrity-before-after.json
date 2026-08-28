@@ -1,0 +1,739 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-28T17:22:02.833Z",
+  "purpose": "v22.4.4 input-integrity hotfix controlled before/after",
+  "control": {
+    "sameEngine": true,
+    "afterFingerprintMatchesCurrent": true,
+    "onlyRowsRestored": [
+      "pollytix @ 2026-08-21",
+      "verian @ 2026-08-28"
+    ]
+  },
+  "before": {
+    "kind": "BEFORE-controlled-replay",
+    "reconstruction": "Stesso dataset acquisito e stesso motore; rimosse soltanto pollytix 2026-08-21 e Verian 2026-08-28, cioè le due osservazioni recuperate dall’hotfix.",
+    "appVersion": "22.4.3/pre-input-hotfix",
+    "engineVersion": "v22.4.1-residual-fix",
+    "inputFingerprint": "2249:3336582749",
+    "mcFingerprint": "v22.4.1-residual-fix|2026-08-24|21.1406|28.0642|12.1701|14.3064|11.5266|3.0000|4.6088|0.0000|0.0000|polls:4c0078f3|wk:299|hist1|src:34ba21d1|err:independent-gated",
+    "seed": 3245878617,
+    "acquiredAt": "2026-08-28T17:21:13.563Z",
+    "sourceVerification": {
+      "schemaVersion": 1,
+      "source": "Wahlrecht.de",
+      "status": "verified",
+      "mode": "manual",
+      "verifiedAt": "2026-08-28T18:29:00+02:00",
+      "asOfDate": "2026-08-28",
+      "windowDays": 14,
+      "staleAfterHours": 36,
+      "sourcePages": [
+        "https://www.wahlrecht.de/umfragen/",
+        "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"
+      ],
+      "eligible": [
+        {
+          "institute": "Allensbach",
+          "date": "2026-08-21"
+        },
+        {
+          "institute": "Verian",
+          "date": "2026-08-28"
+        },
+        {
+          "institute": "Forsa",
+          "date": "2026-08-25"
+        },
+        {
+          "institute": "Forschungsgruppe Wahlen",
+          "date": "2026-08-20"
+        },
+        {
+          "institute": "INSA",
+          "date": "2026-08-25"
+        },
+        {
+          "institute": "YouGov",
+          "date": "2026-08-18"
+        },
+        {
+          "institute": "pollytix",
+          "date": "2026-08-21"
+        }
+      ],
+      "note": "Verifica manuale iniziale. Il verde resta valido solo entro staleAfterHours e se dataset e motore coincidono con questa lista."
+    },
+    "pollsUsed": [
+      {
+        "institute": "INSA",
+        "date": "2026-08-25",
+        "union": 20.5,
+        "afd": 28.999999999999996,
+        "spd": 12,
+        "gruene": 13.5,
+        "linke": 11,
+        "bsw": 3,
+        "fdp": 4.5
+      },
+      {
+        "institute": "Forsa",
+        "date": "2026-08-25",
+        "union": 21,
+        "afd": 28.000000000000004,
+        "spd": 12,
+        "gruene": 16,
+        "linke": 12,
+        "fdp": 4
+      },
+      {
+        "institute": "YouGov",
+        "date": "2026-08-18",
+        "union": 20,
+        "afd": 28.000000000000004,
+        "spd": 12,
+        "gruene": 15,
+        "linke": 12,
+        "bsw": 3,
+        "fdp": 5
+      },
+      {
+        "institute": "FG Wahlen",
+        "date": "2026-08-20",
+        "union": 22,
+        "afd": 27,
+        "spd": 12,
+        "gruene": 14.000000000000002,
+        "linke": 12,
+        "fdp": 4
+      },
+      {
+        "institute": "IfD Allensbach",
+        "date": "2026-08-21",
+        "union": 22.5,
+        "afd": 27.500000000000004,
+        "spd": 13,
+        "gruene": 13,
+        "linke": 11,
+        "fdp": 6
+      }
+    ],
+    "weights": [
+      {
+        "institute": "INSA",
+        "date": "2026-08-25",
+        "ageDays": 0,
+        "reliability": 1.2,
+        "rawWeight": 1.2,
+        "weight": 0.3033150746526852
+      },
+      {
+        "institute": "Forsa",
+        "date": "2026-08-25",
+        "ageDays": 0,
+        "reliability": 1.0113251749048386,
+        "rawWeight": 1.0113251749048386,
+        "weight": 0.2556251424370009
+      },
+      {
+        "institute": "YouGov",
+        "date": "2026-08-18",
+        "ageDays": 7,
+        "reliability": 0.925,
+        "rawWeight": 0.4625,
+        "weight": 0.1169026850223891
+      },
+      {
+        "institute": "FG Wahlen",
+        "date": "2026-08-20",
+        "ageDays": 5,
+        "reliability": 1,
+        "rawWeight": 0.6095068271022377,
+        "weight": 0.15406050730319712
+      },
+      {
+        "institute": "IfD Allensbach",
+        "date": "2026-08-21",
+        "ageDays": 4,
+        "reliability": 1,
+        "rawWeight": 0.6729500963161781,
+        "weight": 0.17009659058472773
+      }
+    ],
+    "avg": {
+      "date": "2026-08-25",
+      "union": 21.140645170831554,
+      "afd": 28.064206272057124,
+      "spd": 12.170096590584727,
+      "gruene": 14.30639884198532,
+      "linke": 11.52658833476259,
+      "bsw": 2.9999999999999996,
+      "fdp": 4.608753403518186
+    },
+    "integrity": {
+      "state": "red",
+      "reason": "Le rilevazioni eleggibili divergono lungo la catena dati.",
+      "sourceVerified": true,
+      "sourceCertified": false,
+      "acquisitionFresh": true,
+      "sourceMode": "manual",
+      "sourceStatus": "verified",
+      "sourceAgeHours": 0.882715,
+      "acquisitionAgeHours": 0.012280833333333333,
+      "counts": {
+        "expected": 7,
+        "dataset": 5,
+        "used": 5,
+        "excluded": 2
+      },
+      "missingUpstream": [
+        "pollytix @ 2026-08-21",
+        "verian @ 2026-08-28"
+      ],
+      "missingModel": [],
+      "unexpectedDataset": []
+    },
+    "results": {
+      "n": 50000,
+      "seed": 3245878617,
+      "centralSeats": {
+        "union": 152,
+        "afd": 202,
+        "spd": 88,
+        "gruene": 103,
+        "linke": 84,
+        "bsw": 0,
+        "fdp": 0,
+        "fw": 0,
+        "ssw": 1
+      },
+      "stats": {
+        "union": {
+          "low": 137,
+          "median": 149,
+          "high": 161,
+          "positiveMedian": 149,
+          "entry": 1,
+          "over5": 0,
+          "threeSeat": 0,
+          "leader": 0.00006
+        },
+        "afd": {
+          "low": 184,
+          "median": 198,
+          "high": 212,
+          "positiveMedian": 198,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 1,
+          "leader": 0.99994
+        },
+        "spd": {
+          "low": 75,
+          "median": 86,
+          "high": 97,
+          "positiveMedian": 86,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 0.97464,
+          "leader": 0
+        },
+        "gruene": {
+          "low": 89,
+          "median": 101,
+          "high": 112,
+          "positiveMedian": 101,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 1,
+          "leader": 0
+        },
+        "linke": {
+          "low": 70,
+          "median": 81,
+          "high": 92,
+          "positiveMedian": 81,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 0.99582,
+          "leader": 0
+        },
+        "bsw": {
+          "low": 0,
+          "median": 0,
+          "high": 0,
+          "positiveMedian": 36,
+          "entry": 0.02828,
+          "over5": 0.02828,
+          "threeSeat": 0,
+          "leader": 0
+        },
+        "fdp": {
+          "low": 0,
+          "median": 0,
+          "high": 41,
+          "positiveMedian": 38,
+          "entry": 0.35514,
+          "over5": 0.35514,
+          "threeSeat": 0,
+          "leader": 0
+        },
+        "fw": {
+          "low": 0,
+          "median": 0,
+          "high": 0,
+          "positiveMedian": 20,
+          "entry": 0.00084,
+          "over5": 0,
+          "threeSeat": 0.00084,
+          "leader": 0
+        },
+        "ssw": {
+          "low": 1,
+          "median": 1,
+          "high": 1,
+          "positiveMedian": 1,
+          "entry": 1,
+          "over5": 0,
+          "threeSeat": 0,
+          "leader": 0
+        }
+      },
+      "coalitionMajority": {
+        "union_spd": 0,
+        "union_gruene": 0,
+        "union_spd_gruene": 0.89216,
+        "union_gruene_linke": 0.82756,
+        "union_spd_linke": 0.52616,
+        "spd_gruene_linke": 0.00002,
+        "union_fdp": 0,
+        "union_afd": 0.97854
+      },
+      "singlePartyMajority": {
+        "union": 0,
+        "afd": 0,
+        "spd": 0,
+        "gruene": 0,
+        "linke": 0,
+        "bsw": 0,
+        "fdp": 0,
+        "fw": 0,
+        "ssw": 0
+      }
+    }
+  },
+  "after": {
+    "kind": "AFTER-recorded-current-runtime",
+    "appVersion": "22.4.4",
+    "engineVersion": "v22.4.1-residual-fix",
+    "inputFingerprint": "2251:1199944246",
+    "mcFingerprint": "v22.4.1-residual-fix|2026-08-28|20.7552|28.0425|12.6758|14.5407|11.5739|2.8172|4.5157|0.0000|4.6667|polls:edd0aaa8|wk:299|hist1|src:34ba21d1|err:independent-gated",
+    "seed": 2199347493,
+    "acquiredAt": "2026-08-28T17:21:13.563Z",
+    "sourceVerification": {
+      "schemaVersion": 1,
+      "source": "Wahlrecht.de",
+      "status": "verified",
+      "mode": "manual",
+      "verifiedAt": "2026-08-28T18:29:00+02:00",
+      "asOfDate": "2026-08-28",
+      "windowDays": 14,
+      "staleAfterHours": 36,
+      "sourcePages": [
+        "https://www.wahlrecht.de/umfragen/",
+        "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"
+      ],
+      "eligible": [
+        {
+          "institute": "Allensbach",
+          "date": "2026-08-21"
+        },
+        {
+          "institute": "Verian",
+          "date": "2026-08-28"
+        },
+        {
+          "institute": "Forsa",
+          "date": "2026-08-25"
+        },
+        {
+          "institute": "Forschungsgruppe Wahlen",
+          "date": "2026-08-20"
+        },
+        {
+          "institute": "INSA",
+          "date": "2026-08-25"
+        },
+        {
+          "institute": "YouGov",
+          "date": "2026-08-18"
+        },
+        {
+          "institute": "pollytix",
+          "date": "2026-08-21"
+        }
+      ],
+      "note": "Verifica manuale iniziale. Il verde resta valido solo entro staleAfterHours e se dataset e motore coincidono con questa lista."
+    },
+    "pollsUsed": [
+      {
+        "institute": "INSA",
+        "date": "2026-08-25",
+        "union": 20.5,
+        "afd": 28.999999999999996,
+        "spd": 12,
+        "gruene": 13.5,
+        "linke": 11,
+        "bsw": 3,
+        "fdp": 4.5
+      },
+      {
+        "institute": "Forsa",
+        "date": "2026-08-25",
+        "union": 21,
+        "afd": 28.000000000000004,
+        "spd": 12,
+        "gruene": 16,
+        "linke": 12,
+        "fdp": 4
+      },
+      {
+        "institute": "YouGov",
+        "date": "2026-08-18",
+        "union": 20,
+        "afd": 28.000000000000004,
+        "spd": 12,
+        "gruene": 15,
+        "linke": 12,
+        "bsw": 3,
+        "fdp": 5
+      },
+      {
+        "institute": "FG Wahlen",
+        "date": "2026-08-20",
+        "union": 22,
+        "afd": 27,
+        "spd": 12,
+        "gruene": 14.000000000000002,
+        "linke": 12,
+        "fdp": 4
+      },
+      {
+        "institute": "IfD Allensbach",
+        "date": "2026-08-21",
+        "union": 22.5,
+        "afd": 27.500000000000004,
+        "spd": 13,
+        "gruene": 13,
+        "linke": 11,
+        "fdp": 6
+      },
+      {
+        "institute": "pollytix",
+        "date": "2026-08-21",
+        "union": 20,
+        "afd": 28,
+        "spd": 15,
+        "gruene": 13,
+        "linke": 11,
+        "bsw": 4,
+        "fdp": 5,
+        "other": 4
+      },
+      {
+        "institute": "Verian",
+        "date": "2026-08-28",
+        "union": 20,
+        "afd": 28,
+        "spd": 13,
+        "gruene": 16,
+        "linke": 12,
+        "bsw": 2,
+        "fdp": 4,
+        "other": 5
+      }
+    ],
+    "weights": [
+      {
+        "institute": "INSA",
+        "date": "2026-08-25",
+        "ageDays": 3,
+        "reliability": 1.2,
+        "rawWeight": 0.891596573482169,
+        "weight": 0.2008323702678516
+      },
+      {
+        "institute": "Forsa",
+        "date": "2026-08-25",
+        "ageDays": 3,
+        "reliability": 1.0113251749048386,
+        "rawWeight": 0.7514117171845078,
+        "weight": 0.1692556933230736
+      },
+      {
+        "institute": "YouGov",
+        "date": "2026-08-18",
+        "ageDays": 10,
+        "reliability": 0.925,
+        "rawWeight": 0.34363617936291935,
+        "weight": 0.07740414270740115
+      },
+      {
+        "institute": "FG Wahlen",
+        "date": "2026-08-20",
+        "ageDays": 8,
+        "reliability": 1,
+        "rawWeight": 0.45286183213195336,
+        "weight": 0.10200725065115002
+      },
+      {
+        "institute": "IfD Allensbach",
+        "date": "2026-08-21",
+        "ageDays": 7,
+        "reliability": 1,
+        "rawWeight": 0.5,
+        "weight": 0.11262513576263089
+      },
+      {
+        "institute": "pollytix",
+        "date": "2026-08-21",
+        "ageDays": 7,
+        "reliability": 1,
+        "rawWeight": 0.5,
+        "weight": 0.11262513576263089
+      },
+      {
+        "institute": "Verian",
+        "date": "2026-08-28",
+        "ageDays": 0,
+        "reliability": 1,
+        "rawWeight": 1,
+        "weight": 0.22525027152526178
+      }
+    ],
+    "avg": {
+      "date": "2026-08-28",
+      "union": 20.755249219165872,
+      "afd": 28.04251255173538,
+      "spd": 12.675750814575785,
+      "gruene": 14.540749615744884,
+      "linke": 11.573917358206888,
+      "bsw": 2.8172002000634433,
+      "fdp": 4.515695735129219,
+      "other": 4.666666666666667
+    },
+    "integrity": {
+      "state": "yellow",
+      "reason": "Input completo, ma la freshness upstream è verificata manualmente e non certificata automaticamente.",
+      "sourceVerified": true,
+      "sourceCertified": false,
+      "acquisitionFresh": true,
+      "sourceMode": "manual",
+      "sourceStatus": "verified",
+      "sourceAgeHours": 0.8827055555555555,
+      "acquisitionAgeHours": 0.012271388888888889,
+      "counts": {
+        "expected": 7,
+        "dataset": 7,
+        "used": 7,
+        "excluded": 0
+      },
+      "missingUpstream": [],
+      "missingModel": [],
+      "unexpectedDataset": []
+    },
+    "results": {
+      "n": 50000,
+      "seed": 2199347493,
+      "centralSeats": {
+        "union": 149,
+        "afd": 201,
+        "spd": 92,
+        "gruene": 104,
+        "linke": 83,
+        "bsw": 0,
+        "fdp": 0,
+        "fw": 0,
+        "ssw": 1
+      },
+      "stats": {
+        "union": {
+          "low": 133,
+          "median": 146,
+          "high": 158,
+          "positiveMedian": 146,
+          "entry": 1,
+          "over5": 0,
+          "threeSeat": 0,
+          "leader": 0.00006
+        },
+        "afd": {
+          "low": 183,
+          "median": 197,
+          "high": 211,
+          "positiveMedian": 197,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 1,
+          "leader": 0.99994
+        },
+        "spd": {
+          "low": 78,
+          "median": 89,
+          "high": 100,
+          "positiveMedian": 89,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 0.98806,
+          "leader": 0
+        },
+        "gruene": {
+          "low": 91,
+          "median": 102,
+          "high": 114,
+          "positiveMedian": 102,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 1,
+          "leader": 0
+        },
+        "linke": {
+          "low": 70,
+          "median": 81,
+          "high": 92,
+          "positiveMedian": 81,
+          "entry": 1,
+          "over5": 1,
+          "threeSeat": 0.99644,
+          "leader": 0
+        },
+        "bsw": {
+          "low": 0,
+          "median": 0,
+          "high": 0,
+          "positiveMedian": 36,
+          "entry": 0.01936,
+          "over5": 0.01936,
+          "threeSeat": 0,
+          "leader": 0
+        },
+        "fdp": {
+          "low": 0,
+          "median": 0,
+          "high": 40,
+          "positiveMedian": 38,
+          "entry": 0.33208,
+          "over5": 0.33208,
+          "threeSeat": 0,
+          "leader": 0
+        },
+        "fw": {
+          "low": 0,
+          "median": 0,
+          "high": 0,
+          "positiveMedian": 19,
+          "entry": 0.001,
+          "over5": 0,
+          "threeSeat": 0.001,
+          "leader": 0
+        },
+        "ssw": {
+          "low": 1,
+          "median": 1,
+          "high": 1,
+          "positiveMedian": 1,
+          "entry": 1,
+          "over5": 0,
+          "threeSeat": 0,
+          "leader": 0
+        }
+      },
+      "coalitionMajority": {
+        "union_spd": 0,
+        "union_gruene": 0,
+        "union_spd_gruene": 0.91372,
+        "union_gruene_linke": 0.81188,
+        "union_spd_linke": 0.54186,
+        "spd_gruene_linke": 0.00022,
+        "union_fdp": 0,
+        "union_afd": 0.96384
+      },
+      "singlePartyMajority": {
+        "union": 0,
+        "afd": 0,
+        "spd": 0,
+        "gruene": 0,
+        "linke": 0,
+        "bsw": 0,
+        "fdp": 0,
+        "fw": 0,
+        "ssw": 0
+      }
+    }
+  },
+  "delta": {
+    "avg": {
+      "union": -0.3853959516656822,
+      "afd": -0.02169372032174266,
+      "spd": 0.5056542239910584,
+      "gruene": 0.23435077375956404,
+      "linke": 0.04732902344429846,
+      "bsw": -0.18279979993655626,
+      "fdp": -0.09305766838896723
+    },
+    "centralSeats": {
+      "union": -3,
+      "afd": -1,
+      "spd": 4,
+      "gruene": 1,
+      "linke": -1,
+      "bsw": 0,
+      "fdp": 0,
+      "fw": 0,
+      "ssw": 0
+    },
+    "leaderProbability": {
+      "union": 0,
+      "afd": 0,
+      "spd": 0,
+      "gruene": 0,
+      "linke": 0,
+      "bsw": 0,
+      "fdp": 0,
+      "fw": 0,
+      "ssw": 0
+    },
+    "entryProbability": {
+      "union": 0,
+      "afd": 0,
+      "spd": 0,
+      "gruene": 0,
+      "linke": 0,
+      "bsw": -0.00892,
+      "fdp": -0.023060000000000025,
+      "fw": 0.00015999999999999999,
+      "ssw": 0
+    },
+    "singlePartyMajority": {
+      "union": 0,
+      "afd": 0,
+      "spd": 0,
+      "gruene": 0,
+      "linke": 0,
+      "bsw": 0,
+      "fdp": 0,
+      "fw": 0,
+      "ssw": 0
+    },
+    "coalitionMajority": {
+      "union_spd": 0,
+      "union_gruene": 0,
+      "union_spd_gruene": 0.021560000000000024,
+      "union_gruene_linke": -0.015679999999999916,
+      "union_spd_linke": 0.015700000000000047,
+      "spd_gruene_linke": 0.0002,
+      "union_fdp": 0,
+      "union_afd": -0.014699999999999935
+    }
+  }
+}

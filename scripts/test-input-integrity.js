@@ -6,7 +6,7 @@ const eligible=I.latestEligibleByInstitute(polls,'2026-08-28',14);
 assert.deepEqual(eligible.map(x=>I.normalizeInstituteName(x.institute)).sort(),['forsa','pollytix','verian','yougov']);
 assert.equal(I.normalizeInstituteName('Forschungsgruppe Wahlen'),'fg wahlen');assert.equal(I.normalizeInstituteName('FG Wahlen'),'fg wahlen');assert.equal(I.normalizeInstituteName('IfD Allensbach'),'ifd allensbach');assert.equal(I.normalizeInstituteName('Allensbach'),'ifd allensbach');
 const base={now:'2026-08-28T18:00:00Z',sourceVerification:{status:'verified',verifiedAt:'2026-08-28T17:00:00Z',mode:'manual',eligible:[{institute:'YouGov',date:'2026-08-21'},{institute:'pollytix',date:'2026-08-21'},{institute:'Forsa',date:'2026-08-25'},{institute:'Verian',date:'2026-08-28'}]},acquiredAt:'2026-08-28T17:30:00Z',datasetRows:eligible,usedRows:eligible,staleAfterHours:36};
-let r=I.evaluateIntegrity(base);assert.equal(r.state,'green');
+let r=I.evaluateIntegrity(base);assert.equal(r.state,'yellow');assert.equal(r.sourceCertified,false);
 r=I.evaluateIntegrity({...base,datasetRows:eligible.filter(x=>x.institute!=='pollytix')});assert.equal(r.state,'red');assert.deepEqual(r.missingUpstream,['pollytix @ 2026-08-21']);
 r=I.evaluateIntegrity({...base,usedRows:eligible.filter(x=>x.institute!=='Verian')});assert.equal(r.state,'red');assert.deepEqual(r.missingModel,['verian @ 2026-08-28']);
 
@@ -33,4 +33,4 @@ const civilIntegrity=I.evaluateIntegrity({
   acquiredAt:'2026-08-28T17:30:00+02:00',
   datasetRows:civilEligible,usedRows:civilEligible,staleAfterHours:36
 });
-assert.equal(civilIntegrity.state,'green','civil publication dates must match canonical YYYY-MM-DD dates');
+assert.equal(civilIntegrity.state,'yellow','civil publication dates must match while manual upstream remains uncertified');

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "version": "22.4.4",
+  "scope": "input integrity hotfix",
+  "pairedManifest": "v22.4.4-input-integrity-before-after.json",
+  "control": {
+    "sameEngine": true,
+    "afterFingerprintMatchesCurrent": true,
+    "onlyRowsRestored": [
+      "pollytix @ 2026-08-21",
+      "verian @ 2026-08-28"
+    ]
+  },
+  "before": {
+    "inputFingerprint": "2249:3336582749",
+    "engineVersion": "v22.4.1-residual-fix",
+    "seed": 3245878617,
+    "pollCount": 5,
+    "afd": 28.064206272057124
+  },
+  "after": {
+    "inputFingerprint": "2251:1199944246",
+    "engineVersion": "v22.4.1-residual-fix",
+    "seed": 2199347493,
+    "pollCount": 7,
+    "afd": 28.04251255173538,
+    "integrityState": "yellow",
+    "counts": {
+      "expected": 7,
+      "dataset": 7,
+      "used": 7,
+      "excluded": 0
+    }
+  },
+  "afdDeltaPp": -0.02169372032174266,
+  "verdict": "validated-evidence-ready"
+}

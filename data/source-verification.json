@@ -7,15 +7,39 @@
   "asOfDate": "2026-08-28",
   "windowDays": 14,
   "staleAfterHours": 36,
-  "sourcePages": ["https://www.wahlrecht.de/umfragen/", "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"],
-  "eligible": [
-    {"institute":"Allensbach","date":"2026-08-21"},
-    {"institute":"Verian","date":"2026-08-28"},
-    {"institute":"Forsa","date":"2026-08-25"},
-    {"institute":"Forschungsgruppe Wahlen","date":"2026-08-20"},
-    {"institute":"INSA","date":"2026-08-25"},
-    {"institute":"YouGov","date":"2026-08-18"},
-    {"institute":"pollytix","date":"2026-08-21"}
+  "sourcePages": [
+    "https://www.wahlrecht.de/umfragen/",
+    "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"
   ],
-  "note": "Verifica manuale iniziale. Il verde resta valido solo entro staleAfterHours e se dataset e motore coincidono con questa lista."
+  "eligible": [
+    {
+      "institute": "Allensbach",
+      "date": "2026-08-21"
+    },
+    {
+      "institute": "Verian",
+      "date": "2026-08-28"
+    },
+    {
+      "institute": "Forsa",
+      "date": "2026-08-25"
+    },
+    {
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2026-08-20"
+    },
+    {
+      "institute": "INSA",
+      "date": "2026-08-25"
+    },
+    {
+      "institute": "YouGov",
+      "date": "2026-08-18"
+    },
+    {
+      "institute": "pollytix",
+      "date": "2026-08-21"
+    }
+  ],
+  "note": "Verifica upstream manuale iniziale: certifica la lista eleggibile ma non abilita il verde. Il verde richiede mode=automated, freshness valida e coerenza fonte → dataset → motore."
 }
