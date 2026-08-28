@@ -10,8 +10,8 @@
 <meta property="og:url" content="https://angrisanidj.github.io/modello-germania/" />
 <meta property="og:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta property="og:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta property="og:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
-<meta property="og:image:secure_url" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
+<meta property="og:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
+<meta property="og:image:secure_url" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta name="twitter:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta name="twitter:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
+<meta name="twitter:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
 <meta name="twitter:image:alt" content="Proiezione del Bundestag: emiciclo, seggi e sondaggi aggiornati dal modello." />
 <meta name="twitter:url" content="https://angrisanidj.github.io/modello-germania/" />
 <link rel="canonical" href="https://angrisanidj.github.io/modello-germania/" />
@@ -1223,9 +1223,9 @@ body.sticky-nowcast-offset{padding-top:0}
 .audit-body{border-top:1px solid #eceef0;padding:15px 18px 17px}
 .audit-intro,.audit-note{margin:0 0 12px;color:#646a72;font-size:10.5px;line-height:1.55}
 .audit-note{margin:12px 0 0;padding-top:11px;border-top:1px solid #eceef0}
-.audit-tablewrap{overflow:auto;border:1px solid #e3e5e7;border-radius:9px}
-.audit-table{min-width:1080px}
-.audit-table th,.audit-table td{padding:8px 9px;font-size:10.5px;text-align:right}
+.audit-tablewrap{overflow:visible;border:1px solid #e3e5e7;border-radius:9px}
+.audit-table{width:100%;min-width:0;table-layout:fixed}
+.audit-table th,.audit-table td{padding:8px 7px;font-size:10px;text-align:right;overflow-wrap:anywhere}
 .audit-table th:first-child,.audit-table td:first-child{text-align:left;font-weight:750}
 .audit-table th{position:static;background:#f6f7f8}
 .audit-delta-pos{color:#177d43;font-weight:750}.audit-delta-neg{color:#b4253e;font-weight:750}.audit-delta-flat{color:#737880;font-weight:750}
@@ -1237,6 +1237,9 @@ body.sticky-nowcast-offset{padding-top:0}
 .audit-integrity-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:12px 0}
 .audit-integrity-card{border:1px solid #e1e4e7;border-radius:9px;background:#fafbfb;padding:9px 10px}.audit-integrity-card .k{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#747a82;font-weight:800}.audit-integrity-card .v{font-size:17px;font-weight:900;margin-top:2px;color:#17191c}.audit-integrity-card .s{font-size:9px;color:#777d84;margin-top:2px;line-height:1.35}.audit-integrity-card.warn{border-color:#edc6c6;background:#fff8f8}.audit-integrity-card.ok{border-color:#cce4d5;background:#f8fdf9}
 .audit-shadow-box{margin-top:12px;border:1px solid #dde1e5;border-radius:10px;padding:11px;background:#fcfcfb}.audit-shadow-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.audit-shadow-head strong{font-size:11px}.audit-shadow-head span{font-size:9.5px;color:#727880}.audit-shadow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.audit-shadow-col{border:1px solid #e4e6e8;border-radius:8px;padding:8px;background:#fff}.audit-shadow-col h4{margin:0 0 5px;font-size:10.5px}.audit-shadow-col p{margin:3px 0;font-size:9.5px;color:#5f656d}.audit-shadow-col strong{color:#17191c}.audit-shadow-col.candidate{border-color:#c8dfd0;background:#f9fdf9}.audit-shadow-col.strict{border-color:#eadfc3;background:#fffcf5}
+.audit-tech-details{margin-top:8px;border-top:1px dashed #dde1e5;padding-top:7px}.audit-tech-details>summary{cursor:pointer;font-size:9.5px;font-weight:800;color:#646a72;list-style:none}.audit-tech-details>summary::-webkit-details-marker{display:none}.audit-tech-details>summary::before{content:'＋';margin-right:5px}.audit-tech-details[open]>summary::before{content:'−'}.audit-tech-details .audit-shadow-grid{margin-top:7px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.audit-corr-verdict{margin-top:8px;padding:8px 10px;border-radius:8px;background:#f6f7f8;font-size:10px;color:#555c65}.audit-corr-verdict.pass{background:#f2faf4;color:#176b37}.audit-corr-verdict.warn{background:#fff9ea;color:#7a5900}.audit-corr-verdict.fail{background:#fff3f1;color:#9a2921}
+@media(max-width:900px){.audit-table th,.audit-table td{padding:7px 4px;font-size:9px}.audit-tech-details .audit-shadow-grid{grid-template-columns:1fr}}
 .audit-shadow-action{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.audit-shadow-action button{font-size:10px;padding:6px 9px}.audit-shadow-result{font-size:9.5px;color:#5e646c;line-height:1.5;margin-top:8px}.audit-gate-pass{color:#137642;font-weight:850}.audit-gate-warn{color:#a25c00;font-weight:850}.audit-gate-fail{color:#aa2338;font-weight:850}
 @media(max-width:720px){.audit-integrity-grid{grid-template-columns:1fr 1fr}.audit-shadow-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.nowcast-audit>summary{padding:13px 14px}.audit-body{padding:13px 12px 15px}.audit-weight-head{align-items:flex-start;flex-direction:column;gap:3px}.audit-weight-head span{text-align:left}}
@@ -1552,6 +1555,16 @@ body.sticky-nowcast-offset{padding-top:0}
         <div class="audit-shadow-action" style="margin-top:12px"><button type="button" id="runReliabilityShadow">Esegui sensitivity 50.000</button><span>Ricalcola seggi e coalizioni con gli stessi shock ma senza reliability weights; produzione invariata.</span></div>
         <div id="reliabilityShadowResult" class="audit-shadow-result">Nessuna sensitivity completa eseguita.</div>
       </div>
+      <div class="audit-shadow-box" id="correlationSensitivityBox">
+        <div class="audit-shadow-head"><strong>Sensitivity della correlazione nazionale</strong><span id="correlationSensitivityStatus">Stress test imposto · produzione invariata</span></div>
+        <div id="correlationSensitivitySummary" class="audit-shadow-grid">
+          <div class="audit-shadow-col candidate"><h4>Struttura attuale</h4><p>Shock di partito indipendenti; la rinormalizzazione conserva la correlazione compositiva.</p></div>
+          <div class="audit-shadow-col"><h4>Blocco moderato</h4><p>ρ intra-blocco imposto = <strong>0,25</strong>.</p></div>
+          <div class="audit-shadow-col strict"><h4>Blocco forte</h4><p>ρ intra-blocco imposto = <strong>0,50</strong>.</p></div>
+        </div>
+        <div class="audit-shadow-action" style="margin-top:12px"><button type="button" id="runCorrelationSensitivity">Esegui sensitivity 50.000</button><span>Stessi shock di partito e territoriali in tutti gli scenari; cambia solo la componente comune di blocco.</span></div>
+        <div id="correlationSensitivityResult" class="audit-shadow-result">Soglia fissata prima del test: fascia ≤3 p.p. = rischio chiuso; 3–6 p.p. = documentare; &gt;6 p.p. = riaprire la covarianza.</div>
+      </div>
       <div class="audit-note">Le probabilità di produzione ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. La produzione v22.4.1 ricostruisce il residuo “Altri” e conserva la gestione delle categorie nominate mancanti già presente nel backtest. Il confronto pre-fix e lo shadow B sono solo diagnostici. La normalizzazione media post-shock può restare leggermente diversa da 1: con FW non osservato la base è 0 ma lo shock minimo ereditato dal backtest (σ≈0,975) viene troncato a valori positivi, introducendo in media circa 0,39 p.p. di massa prima della rinormalizzazione. Questo effetto è diagnostico e separato dalla guardia di integrità, che opera sul vettore base e deve leggere 1,000; variazioni future materialmente superiori a questo ordine di grandezza vanno investigate. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
     </div>
   </details>
@@ -1673,6 +1686,10 @@ const ERROR_FACTOR_EXTENDED_MAX_RHO=0.00;
 const CORR_BACKTEST_SIMS=12000, CORR_SEAT_BACKTEST_SIMS=30000;
 const MC_KEYS=['union','afd','spd','gruene','linke','bsw','fdp','fw','other'];
 const MC_SEAT_KEYS=['union','afd','spd','gruene','linke','bsw','fdp','fw','ssw'];
+const CORR_SENSITIVITY_SCENARIOS=[{key:'current',label:'Attuale',rho:0},{key:'moderate',label:'Blocco moderato',rho:.25},{key:'strong',label:'Blocco forte',rho:.50}];
+const CORR_RIGHT_BLOCK=new Set(['union','afd','fdp']);
+const CORR_LEFT_BLOCK=new Set(['spd','gruene','linke','bsw']);
+const CORR_DECISION_CLOSE=3, CORR_DECISION_REOPEN=6; // punti percentuali, fissati prima della sensitivity
 const COALITION_MASK_COUNT=1<<MC_SEAT_KEYS.length;
 const COALITION_KEY_BIT=Object.fromEntries(MC_SEAT_KEYS.map((k,i)=>[k,1<<i]));
 const COALITION_PREV_MASK=new Uint16Array(COALITION_MASK_COUNT),COALITION_BIT_INDEX=new Uint8Array(COALITION_MASK_COUNT);
@@ -2674,6 +2691,60 @@ function renderReliabilitySensitivity(){
   if(status)status.textContent='Walk-forward storico + sensitivity corrente; produzione invariata';if(btn){btn.disabled=state.reliabilityShadowRunning;btn.textContent=state.reliabilityShadowRunning?`Sensitivity ${fmtCount(state.reliabilityShadowProgress)} / ${fmtCount(MC_SIMS)}`:'Esegui sensitivity 50.000'}if(result){const sh=state.reliabilityShadow,mc=state.monteCarlo;if(!sh||!mc?.ready){result.textContent=state.reliabilityShadowRunning?'Ricalcolo in corso con rel=1,000; produzione invariata.':'Nessuna sensitivity completa eseguita.'}else{const parties=['afd','union','gruene','spd','linke','fdp','bsw'],bits=parties.map(k=>{const p=partyByKey(k),a=mc.stats[k],b=sh.stats[k];return `${p.label}: ${a.median}→${b.median}${k==='fdp'||k==='bsw'?` · ingresso ${(a.entry*100).toFixed(1).replace('.',',')}%→${(b.entry*100).toFixed(1).replace('.',',')}%`:''}`}),mask=coalitionMask(['union','spd','gruene']),p0=(mc.coalitionWins[mask]||0)/mc.n,p1=(sh.coalitionWins[mask]||0)/sh.n;result.innerHTML=`<strong>Pesi attuali → rel=1,000:</strong> ${bits.join(' · ')}<br><strong>CDU/CSU + SPD + Verdi:</strong> ${(p0*100).toFixed(1).replace('.',',')}% → ${(p1*100).toFixed(1).replace('.',',')}%.`}}
 }
 
+
+function nextPairedGaussian(s){
+  if(s.spare!==null){const z=s.spare;s.spare=null;return z}
+  let u=0,v=0;while(!u)u=s.rng();while(!v)v=s.rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;s.spare=r*Math.sin(a);return r*Math.cos(a)
+}
+function correlationSensitivityVector(info,zBase,zRight,zLeft,rho){
+  const v={},alpha=activeMcShareSigmaAlpha();let total=0;
+  for(const k of MC_KEYS){
+    const b=info.base[k]||0,block=CORR_RIGHT_BLOCK.has(k)?zRight:CORR_LEFT_BLOCK.has(k)?zLeft:null;
+    const z=block===null?zBase[k]:Math.sqrt(1-rho)*zBase[k]+Math.sqrt(rho)*block;
+    const x=info.active.has(k)?Math.max(.01,b+mcSigmaForShare(b,MC_SIGMA,alpha)*z):0;v[k]=x;total+=x;
+  }
+  const scale=info.target/total;for(const k of MC_KEYS)v[k]*=scale;return v
+}
+async function runCorrelationSensitivity(){
+  if(state.correlationSensitivityRunning)return;
+  if(!districtState.ready||state.mcRunning||!state.monteCarlo?.ready){alert('Attendi che il nowcast principale e i 299 collegi siano pronti.');return}
+  if(nationalErrorStructure().active){alert('La sensitivity imposta è definita rispetto alla struttura di produzione indipendente. Disattiva prima eventuali correlazioni validate.');return}
+  const avg=projectionAverage(),fp=`${mcFingerprint(avg)}|corr-paired-rho-0-025-050-v1`;
+  if(state.correlationSensitivity?.fingerprint===fp){renderCorrelationSensitivity();return}
+  state.correlationSensitivityRunning=true;state.correlationSensitivityProgress=0;renderCorrelationSensitivity();
+  try{
+    const info=productionNationalBaseInfo(avg),seed=state.monteCarlo.seed||hashString(`${fp}|${MC_SIMS}`),baseState={rng:mulberry32(seed),spare:null},blockState={rng:mulberry32((seed^0xa57c39e1)>>>0),spare:null},cache=prepareMonteCarloDistrictCache(),mask=coalitionMask(['union','spd','gruene']);
+    const scenarios=Object.fromEntries(CORR_SENSITIVITY_SCENARIOS.map(s=>[s.key,{...s,samples:Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,new Uint16Array(MC_SIMS)])),entry:Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),coalitionWins:new Uint32Array(COALITION_MASK_COUNT),scratch:new Uint16Array(COALITION_MASK_COUNT)}]));
+    for(let start=0;start<MC_SIMS;start+=MC_BATCH){
+      const end=Math.min(MC_SIMS,start+MC_BATCH);
+      for(let i=start;i<end;i++){
+        // Mirror exactly the production national RNG stream: one unused common draw, then one z per MC key.
+        nextPairedGaussian(baseState);const zBase={};for(const k of MC_KEYS)zBase[k]=nextPairedGaussian(baseState);
+        // Separate deterministic stream for imposed block factors, so rho=0 reproduces production shocks exactly.
+        const zRight=nextPairedGaussian(blockState),zLeft=nextPairedGaussian(blockState);
+        for(const s of CORR_SENSITIVITY_SCENARIOS){
+          const out=scenarios[s.key],v=correlationSensitivityVector(info,zBase,zRight,zLeft,s.rho),directWins=simulateDirectWinnerCounts(v,cache,i,seed),alloc=allocationForVote(v,directWins,cache),sv=alloc.seats;
+          for(const k of MC_SEAT_KEYS){out.samples[k][i]=sv[k]||0;if((sv[k]||0)>0)out.entry[k]++}accumulateCoalitionWins(sv,out.coalitionWins,out.scratch)
+        }
+      }
+      state.correlationSensitivityProgress=end;renderCorrelationSensitivity();if(end<MC_SIMS)await yieldToBrowser()
+    }
+    const compact={};for(const s of CORR_SENSITIVITY_SCENARIOS){const o=scenarios[s.key],stats={};for(const k of MC_SEAT_KEYS)stats[k]={median:quantileTyped(o.samples[k],.5),entry:o.entry[k]/MC_SIMS};compact[s.key]={label:s.label,rho:s.rho,stats,coalition:(o.coalitionWins[mask]||0)/MC_SIMS}}
+    const probs=CORR_SENSITIVITY_SCENARIOS.map(s=>compact[s.key].coalition),span=(Math.max(...probs)-Math.min(...probs))*100,published=monteCarloCoalitionProbability(['union','spd','gruene']);
+    state.correlationSensitivity={fingerprint:fp,n:MC_SIMS,seed,scenarios:compact,span,published,pairedBaseline:compact.current.coalition};
+  }catch(e){console.error(e);alert(e.message||'Sensitivity correlazione non riuscita')}finally{state.correlationSensitivityRunning=false;renderCorrelationSensitivity()}
+}
+function renderCorrelationSensitivity(){
+  const sum=document.getElementById('correlationSensitivitySummary'),status=document.getElementById('correlationSensitivityStatus'),btn=document.getElementById('runCorrelationSensitivity'),result=document.getElementById('correlationSensitivityResult');if(!sum||!result)return;
+  const cs=state.correlationSensitivity;
+  if(btn){btn.disabled=Boolean(state.correlationSensitivityRunning);btn.textContent=state.correlationSensitivityRunning?`Sensitivity ${fmtCount(state.correlationSensitivityProgress||0)} / ${fmtCount(MC_SIMS)}`:'Esegui sensitivity 50.000'}
+  if(status)status.textContent=state.correlationSensitivityRunning?'Calcolo paired in corso · produzione invariata':'Stress test imposto · produzione invariata';
+  if(!cs){sum.innerHTML=`<div class="audit-shadow-col candidate"><h4>Struttura attuale</h4><p>ρ blocco = <strong>0</strong> · shock indipendenti + rinormalizzazione compositiva.</p></div><div class="audit-shadow-col"><h4>Blocco moderato</h4><p>ρ intra-blocco imposto = <strong>0,25</strong>.</p></div><div class="audit-shadow-col strict"><h4>Blocco forte</h4><p>ρ intra-blocco imposto = <strong>0,50</strong>.</p></div>`;if(!state.correlationSensitivityRunning)result.innerHTML='Soglia fissata prima del test: fascia ≤3 p.p. = rischio chiuso; 3–6 p.p. = documentare; &gt;6 p.p. = riaprire la covarianza.';return}
+  const fmtP=p=>(p*100).toFixed(1).replace('.',',')+'%',cards=CORR_SENSITIVITY_SCENARIOS.map(s=>{const o=cs.scenarios[s.key],fdp=o.stats.fdp,cls=s.key==='current'?'candidate':s.key==='strong'?'strict':'';return `<div class="audit-shadow-col ${cls}"><h4>${s.label} · ρ=${s.rho.toFixed(2).replace('.',',')}</h4><p>CDU/CSU + SPD + Verdi <strong>${fmtP(o.coalition)}</strong></p><p>FDP ingresso <strong>${fmtP(fdp.entry)}</strong> · mediana AfD <strong>${o.stats.afd.median}</strong></p></div>`}).join('');sum.innerHTML=cards;
+  const span=cs.span,cls=span<=CORR_DECISION_CLOSE?'pass':span>CORR_DECISION_REOPEN?'fail':'warn',decision=span<=CORR_DECISION_CLOSE?'Rischio chiuso: la probabilità è robusta allo stress test imposto.':span>CORR_DECISION_REOPEN?'Riaprire la covarianza: l’assunzione di correlazione è materialmente dominante.':'Fascia intermedia: non modificare il motore; documentare la sensitivity nella dashboard.';
+  const baselineGap=Number.isFinite(cs.published)?Math.abs(cs.pairedBaseline-cs.published)*100:null;result.innerHTML=`<strong>Fascia fra scenari:</strong> ${span.toFixed(1).replace('.',',')} p.p. · <strong>baseline paired:</strong> ${fmtP(cs.pairedBaseline)}${Number.isFinite(cs.published)?` · produzione pubblicata ${fmtP(cs.published)}${baselineGap>.25?` (scarto paired ${baselineGap.toFixed(2).replace('.',',')} p.p.)`:''}`:''}<div class="audit-corr-verdict ${cls}"><strong>${decision}</strong><br>Blocchi imposti: destra = CDU/CSU, AfD, FDP; sinistra = SPD, Verdi, Linke, BSW. FW e Altri restano indipendenti. ρ è uno stress test, non una stima.</div>`
+}
+
 function drawNationalVoteVector(avg,rngState,sigma=MC_SIGMA){
   const {rng}=rngState;let {spare}=rngState;
   const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
@@ -3183,13 +3254,14 @@ function renderAverageAudit(){
   if(shadowEl){
     const L=shadow?.modes?.legacy,R=shadow?.modes?.residual,S=shadow?.modes?.strict,legacyBT=gate.legacy,strictBT=gate.strict;
     const col=(title,obj,cls,extra='')=>`<div class="audit-shadow-col ${cls}"><h4>${title}</h4><p>scala media <strong>${obj?fmt(obj.meanScale):'—'}</strong> · totale grezzo <strong>${obj?fmt(obj.meanRawTotal):'—'}%</strong></p><p>FDP ≥5% <strong>${obj?pp(obj.over5.fdp):'—'}</strong> · BSW ≥5% <strong>${obj?pp(obj.over5.bsw):'—'}</strong></p>${extra}</div>`;
-    shadowEl.innerHTML=col('Pre-fix · legacy',L,'',`<p>Percorso pubblicato fino al 28 agosto 2026.</p>`)+col('Produzione v22.4.1 · residuo-only',R,'candidate',`<p><span class="audit-gate-pass">Promosso:</span> ricostruisce Altri e conserva la gestione FW già usata nel seat backtest 2025.</p>`)+col('Shadow B · strict missing-party',S,'strict',`<p>Seat backtest CRPS ${fmt(legacyBT.crps)} → ${fmt(strictBT.crps)} · WIS ${fmt(legacyBT.wis)} → ${fmt(strictBT.wis)}.</p><p class="${gate.strictPass?'audit-gate-pass':'audit-gate-fail'}">${gate.strictPass?'SUPEREREBBE':'NON SUPERA'} il gate no-regression corrente.</p>`);
+    shadowEl.innerHTML=col('Produzione v22.4.1 · residuo-only',R,'candidate',`<p><span class="audit-gate-pass">Promosso:</span> ricostruisce Altri e conserva la gestione FW già usata nel seat backtest 2025.</p>`)+`<details class="audit-tech-details"><summary>Confronti tecnici: pre-fix e Shadow B</summary><div class="audit-shadow-grid">${col('Pre-fix · legacy',L,'',`<p>Percorso pubblicato fino al 28 agosto 2026.</p>`)}${col('Shadow B · strict missing-party',S,'strict',`<p>Seat backtest CRPS ${fmt(legacyBT.crps)} → ${fmt(strictBT.crps)} · WIS ${fmt(legacyBT.wis)} → ${fmt(strictBT.wis)}.</p><p class="${gate.strictPass?'audit-gate-pass':'audit-gate-fail'}">${gate.strictPass?'SUPEREREBBE':'NON SUPERA'} il gate no-regression corrente.</p>`)}</div></details>`;
   }
   if(shadowStatus)shadowStatus.textContent=shadow?`${fmtCount(shadow.n)} simulazioni diagnostiche · produzione v22.4.1 attiva`:'In attesa del Monte Carlo';
   const end=dayKey(proj.date),items=proj.rows.map(p=>{const key=p.institute.trim().toLowerCase(),age=Math.max(0,(end-dayKey(p.date))/DAY),rel=proj.reliability?.get(key)||1,w=Math.pow(.5,age/7)*rel;return{name:p.institute,date:p.date,age,rel,w}}),tot=items.reduce((s,x)=>s+x.w,0)||1;items.sort((a,b)=>b.w-a.w);
   weightsEl.innerHTML=items.map(x=>`<span class="audit-weight-chip"><strong>${esc(x.name)}</strong> ${(x.w/tot*100).toFixed(1).replace('.',',')}% <span>· ${Math.round(x.age)}g · rel ${x.rel.toFixed(3).replace('.',',')}</span></span>`).join('');
   if(meta)meta.textContent=`${proj.count} istituti · ultimo sondaggio ${fmtDate(proj.date)} · emivita 7 giorni`;
   renderReliabilitySensitivity();
+  renderCorrelationSensitivity();
 }
 function renderSnapshot(){const cur=projectionAverage(),el=document.getElementById('snapshot');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),max=Math.max(...ranked.map(x=>x.val),30);el.innerHTML=ranked.map(x=>`<div class="barrow"><div class="party">${esc(x.label)}</div><div class="track"><div class="fill" style="--w:${Math.max(1,x.val/max*100)}%;--c:${x.color}"></div></div><div class="pct">${pct(x.val)}</div></div>`).join('')}
 function renderMomentum(){const cur=currentAvg(),past=nearestAvg(30),el=document.getElementById('momentum');if(!cur||!past){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}const rows=PARTIES.map(p=>({...p,now:cur[p.key],then:past[p.key]})).filter(x=>Number.isFinite(x.now)&&Number.isFinite(x.then)).map(x=>({...x,d:x.now-x.then})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));el.innerHTML=rows.map(x=>{const cls=x.d>.05?'up':x.d<-.05?'down':'flat',sign=x.d>0?'+':'';return `<div class="mini-row"><div><strong>${esc(x.label)}</strong><div class="sub">media mobile semplice · ${state.window} gg · ${pct(x.now)}</div></div><span class="delta ${cls}">${sign}${x.d.toFixed(1).replace('.',',')} p.p.</span><span style="width:9px;height:9px;border-radius:3px;background:${x.color}"></span></div>`}).join('')}
@@ -3649,6 +3721,7 @@ document.getElementById('downloadPngBtn')?.addEventListener('click',downloadPrev
 document.querySelectorAll('[data-share]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openShare(el.dataset.share,el)}));
 document.getElementById('runResidualFullShadow')?.addEventListener('click',runResidualFullShadow);
 document.getElementById('runReliabilityShadow')?.addEventListener('click',runReliabilityWeightShadow);
+document.getElementById('runCorrelationSensitivity')?.addEventListener('click',runCorrelationSensitivity);
 initGraphicExports();
 initForecastUI();
 initMobileNowcastSticky();
@@ -3671,7 +3744,7 @@ window.addEventListener('resize',()=>{
 <!-- v22.4 final clean · average-traceability audit + projectionAverage promoted to headline · 28-08-2026
      No statistical parameter changed.
      Original map note: map renderer restored + geometry smoke test · 27-08-2026
-     Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma. Added non-production reliability-weight sensitivity audit (rel=1.000 comparator).
+     Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma. Added non-production reliability-weight sensitivity audit (rel=1.000 comparator) and paired correlation stress test (rho 0 / 0.25 / 0.50).
      Rejected after backtest: party-error common factor (insufficient independent elections);
      Student-t heavy-tailed national shocks (no candidate improved both national CRPS and WIS versus Gaussian).
 -->
