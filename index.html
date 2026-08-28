@@ -1206,6 +1206,30 @@ body.sticky-nowcast-offset{padding-top:0}
 
 /* Production cleanup: keep Monte Carlo status node for JS, hide diagnostic pill in UI. */
 #mcStatus{display:none!important}
+
+/* --- Nowcast average transparency audit --- */
+.nowcast-audit{margin:12px 0 16px;border:1px solid #d9dcdf;border-radius:13px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.nowcast-audit>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 18px;color:#24272b}
+.nowcast-audit>summary::-webkit-details-marker{display:none}
+.nowcast-audit>summary span:first-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.nowcast-audit>summary strong{font-size:13px}
+.nowcast-audit>summary small{font-size:10.5px;color:#737880;font-weight:500}
+.audit-summary-badge{flex:none;font-size:9px;font-weight:850;letter-spacing:.1em;color:#8d0000;border:1px solid #e2c4c4;background:#fff7f7;border-radius:999px;padding:5px 8px}
+.audit-body{border-top:1px solid #eceef0;padding:15px 18px 17px}
+.audit-intro,.audit-note{margin:0 0 12px;color:#646a72;font-size:10.5px;line-height:1.55}
+.audit-note{margin:12px 0 0;padding-top:11px;border-top:1px solid #eceef0}
+.audit-tablewrap{overflow:auto;border:1px solid #e3e5e7;border-radius:9px}
+.audit-table{min-width:780px}
+.audit-table th,.audit-table td{padding:8px 9px;font-size:10.5px;text-align:right}
+.audit-table th:first-child,.audit-table td:first-child{text-align:left;font-weight:750}
+.audit-table th{position:static;background:#f6f7f8}
+.audit-delta-pos{color:#177d43;font-weight:750}.audit-delta-neg{color:#b4253e;font-weight:750}.audit-delta-flat{color:#737880;font-weight:750}
+.audit-weight-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:13px 0 7px;font-size:10.5px}
+.audit-weight-head span{color:#737880;font-size:9.5px;text-align:right}
+.audit-weights{display:flex;flex-wrap:wrap;gap:6px}
+.audit-weight-chip{display:inline-flex;gap:5px;align-items:center;border:1px solid #e0e2e5;border-radius:999px;background:#fafbfb;padding:5px 8px;font-size:9.5px;color:#50555c}
+.audit-weight-chip strong{color:#17191c}
+@media(max-width:720px){.nowcast-audit>summary{padding:13px 14px}.audit-body{padding:13px 12px 15px}.audit-weight-head{align-items:flex-start;flex-direction:column;gap:3px}.audit-weight-head span{text-align:left}}
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
 </head>
@@ -1260,7 +1284,7 @@ body.sticky-nowcast-offset{padding-top:0}
   <details class="read-guide">
     <summary>Come leggere il modello</summary>
     <div class="read-guide-grid">
-      <p><strong>Nowcast e forecast sono separati.</strong> Il nowcast risponde a «che cosa accadrebbe se si votasse oggi?». Più sotto trovi un forecast sperimentale legato alla distanza dal voto: mantiene la media corrente come valore centrale, ma amplia l’incertezza in base a quanto i sondaggi si sono storicamente mossi prima delle elezioni dal 2005 al 2025, quando i dati sono disponibili.</p>
+      <p><strong>Nowcast e forecast sono separati.</strong> Il nowcast risponde a «che cosa accadrebbe se si votasse oggi?». Più sotto trovi un forecast sperimentale legato alla distanza dal voto: mantiene la media ponderata del nowcast come valore centrale, ma amplia l’incertezza in base a quanto i sondaggi si sono storicamente mossi prima delle elezioni dal 2005 al 2025, quando i dati sono disponibili.</p>
       <p><strong>Incertezza.</strong> Il numero centrale è accompagnato da un intervallo: il modello non tratta una singola stima come una certezza.</p>
       <p><strong>Collegi.</strong> La mappa usa il risultato del 2025 come base e trasferisce ai collegi la variazione nazionale; non esistono 299 sondaggi locali.</p>
       <p><strong>Coalizioni.</strong> Le incompatibilità indicate sono posizioni politiche dichiarate, non divieti giuridici.</p>
@@ -1331,7 +1355,7 @@ body.sticky-nowcast-offset{padding-top:0}
   </section>
 
 
-  <div class="section-title" id="forecastSection"><div><div class="section-kicker">Orizzonte elettorale</div><h2>Forecast sperimentale</h2><p>Il nowcast non cambia. Il forecast usa la stessa media corrente come valore centrale, ma aggiunge l’incertezza legata a quanto l’opinione pubblica potrebbe cambiare prima del voto. Poiché la data della prossima elezione non è ancora fissata, l’orizzonte è espresso in mesi prima del voto.</p></div><span class="badge">Nowcast ≠ forecast</span></div>
+  <div class="section-title" id="forecastSection"><div><div class="section-kicker">Orizzonte elettorale</div><h2>Forecast sperimentale</h2><p>Il nowcast non cambia. Il forecast usa la stessa media ponderata del nowcast come valore centrale, ma aggiunge l’incertezza legata a quanto l’opinione pubblica potrebbe cambiare prima del voto. Poiché la data della prossima elezione non è ancora fissata, l’orizzonte è espresso in mesi prima del voto.</p></div><span class="badge">Nowcast ≠ forecast</span></div>
   <section class="card forecast-card">
     <div class="forecast-head">
       <div><h3>Quanto può cambiare il quadro prima del voto?</h3><p>Per ciascun orizzonte il modello ricostruisce, con la stessa regola a 14 giorni usata oggi, la fotografia dei sondaggi prima delle elezioni dal 2005 al 2025, quando l’archivio contiene dati sufficienti, e misura quanto differiva dal risultato finale. Ogni ciclo disponibile ha lo stesso peso. L’incertezza non può diminuire all’aumentare dell’orizzonte: questa regola evita che il rumore di un campione storico limitato produca risultati controintuitivi.</p></div>
@@ -1342,7 +1366,7 @@ body.sticky-nowcast-offset{padding-top:0}
       <div class="forecast-main"><div style="display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px"><div><strong style="font-size:15px">Distribuzione dei seggi</strong><div style="font-size:10px;color:#777c83;margin-top:3px">50.000 simulazioni, eseguite soltanto su richiesta e riutilizzate per la stessa istantanea dei dati e lo stesso orizzonte.</div></div><span id="forecastStatus" class="forecast-status">Non calcolato</span></div><div id="forecastPartyGrid" class="mc-party-grid"><div class="empty-small">Seleziona l'orizzonte e avvia il forecast. Il nowcast sopra non viene modificato.</div></div></div>
       <aside class="forecast-side"><div><h4>Rischio soglia</h4><p>Probabilità di ingresso con l'incertezza temporale aggiuntiva.</p><div id="forecastThreshold" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div><div><h4>Maggioranze</h4><p>Probabilità aritmetica di almeno 316 seggi; le incompatibilità politiche restano separate.</p><div id="forecastCoalitions" class="mc-list"><div class="empty-small">In attesa del forecast.</div></div></div></aside>
     </div>
-    <div class="forecast-note"><strong>Interpretazione.</strong> È un forecast condizionale, non una previsione della data delle prossime elezioni. Il modello non tenta di anticipare quali partiti saliranno o scenderanno: il valore centrale resta la media corrente e cambia soltanto la dispersione. La componente nazionale incorpora la deriva storica dei consensi; la modulazione share-aware riguarda soltanto la componente nowcast validata, mentre la deriva temporale aggiuntiva resta comune in punti percentuali. La geografia conserva il modello gerarchico Land/Wahlkreis e ne aumenta gradualmente la dispersione con l’orizzonte. Anche con un massimo di sei cicli la calibrazione resta prudenziale: AfD dispone di meno storia e BSW non ha ancora abbastanza elezioni per stimare una dipendenza propria. Gli scostamenti nazionali restano gaussiani e additivi in punti percentuali; vengono poi limitati a valori positivi e rinormalizzati: per partiti molto piccoli e orizzonti lunghi questa trasformazione può introdurre asimmetria, motivo per cui il forecast va letto come sperimentale.</div>
+    <div class="forecast-note"><strong>Interpretazione.</strong> È un forecast condizionale, non una previsione della data delle prossime elezioni. Il modello non tenta di anticipare quali partiti saliranno o scenderanno: il valore centrale resta la media ponderata del nowcast e cambia soltanto la dispersione. La componente nazionale incorpora la deriva storica dei consensi; la modulazione share-aware riguarda soltanto la componente nowcast validata, mentre la deriva temporale aggiuntiva resta comune in punti percentuali. La geografia conserva il modello gerarchico Land/Wahlkreis e ne aumenta gradualmente la dispersione con l’orizzonte. Anche con un massimo di sei cicli la calibrazione resta prudenziale: AfD dispone di meno storia e BSW non ha ancora abbastanza elezioni per stimare una dipendenza propria. Gli scostamenti nazionali restano gaussiani e additivi in punti percentuali; vengono poi limitati a valori positivi e rinormalizzati: per partiti molto piccoli e orizzonti lunghi questa trasformazione può introdurre asimmetria, motivo per cui il forecast va letto come sperimentale.</div>
   </section>
 
 
@@ -1485,14 +1509,30 @@ body.sticky-nowcast-offset{padding-top:0}
       <div id="legend" class="legend"></div>
     </div>
     <div class="card">
-      <div class="cardhead"><div><h3>Media corrente</h3><p>Valori della media mobile selezionata, ordinati dal più alto al più basso.</p></div></div>
+      <div class="cardhead"><div><h3>Media del nowcast</h3><p>Media ponderata a 14 giorni usata dal motore: un solo sondaggio per istituto, emivita di 7 giorni e pesi di affidabilità storica.</p></div></div>
       <div id="snapshot" class="snapshot"></div>
     </div>
   </section>
 
+  <details class="nowcast-audit" id="nowcastAverageAudit">
+    <summary><span><strong>Trasparenza della media del nowcast</strong><small>Confronta il vettore realmente usato dal motore con la media semplice degli ultimi 7 giorni</small></span><span class="audit-summary-badge">AUDIT</span></summary>
+    <div class="audit-body">
+      <p class="audit-intro">La colonna <strong>Nowcast 14 gg</strong> è il vettore che alimenta seggi, Monte Carlo e coalizioni. La colonna <strong>Semplice 7 gg</strong> è solo un indicatore descrittivo. La σ mostrata è quella dello shock nazionale del partito <em>prima</em> della positività e della rinormalizzazione al 100%.</p>
+      <div class="audit-tablewrap">
+        <table class="audit-table">
+          <thead><tr><th>Partito</th><th>Nowcast 14 gg</th><th>Semplice 7 gg</th><th>Δ</th><th>σ shock</th><th>≥ 5%</th><th>≥ 3 collegi</th><th>Ingresso</th></tr></thead>
+          <tbody id="averageAuditBody"><tr><td colspan="8">In attesa dei dati…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="audit-weight-head"><strong>Peso base degli istituti nel nowcast</strong><span id="averageAuditMeta">—</span></div>
+      <div id="averageAuditWeights" class="audit-weights"><span class="audit-weight-chip">In attesa dei dati…</span></div>
+      <div class="audit-note">Le probabilità ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
+    </div>
+  </details>
+
   <section class="grid three">
     <div class="card"><div class="cardhead"><div><h3>Variazione a 30 giorni</h3><p>Scostamento rispetto alla media di trenta giorni fa.</p></div></div><div id="momentum" class="mini-list"></div></div>
-    <div class="card"><div class="cardhead"><div><h3>Soglia di sbarramento</h3><p>Distanza dal 5% per i partiti più vicini alla soglia.</p></div></div><div id="threshold" class="threshold"></div></div>
+    <div class="card"><div class="cardhead"><div><h3>Soglia di sbarramento</h3><p>Distanza dal 5% calcolata sulla media ponderata effettivamente usata dal nowcast.</p></div></div><div id="threshold" class="threshold"></div></div>
     <div class="card"><div class="cardhead"><div><h3>Attività degli istituti</h3><p>Numero di sondaggi pubblicati negli ultimi 90 giorni.</p></div></div><div id="pollsters" class="mini-list"></div></div>
   </section>
 
@@ -2566,6 +2606,7 @@ function initForecastUI(){const sel=document.getElementById('forecastHorizon'),b
 
 function renderMonteCarlo(){
   renderErrorStructure();
+  renderAverageAudit();
   const status=document.getElementById('mcStatus'),grid=document.getElementById('mcPartyGrid'),thr=document.getElementById('mcThreshold'),coal=document.getElementById('mcCoalitions');if(!status||!grid||!thr||!coal)return;
   if(state.mcRunning||!state.monteCarlo?.ready){status.className='mc-status running';status.textContent=state.mcRunning?(compactStatusMode()?`Monte Carlo · ${fmtCount(state.mcProgress)} / ${fmtCount(MC_SIMS)}`:`Monte Carlo · ${fmtCount(state.mcProgress)} / ${fmtCount(MC_SIMS)} · blocchi da ${fmtCount(MC_BATCH)}`):'In attesa dei dati';if(state.mcRunning){grid.innerHTML='<div class="empty-small">Sto propagando l’incertezza nazionale regolarizzata, la componente territoriale, la soglia e i 299 collegi attraverso Sainte-Laguë/Schepers.</div>';thr.innerHTML='<div class="empty-small">Calcolo in corso…</div>';coal.innerHTML='<div class="empty-small">Calcolo in corso…</div>'}return}
   const mc=state.monteCarlo,avg=projectionAverage();state.modelUpdatedAt=mc.cached&&mc.savedAt?new Date(mc.savedAt):new Date();updateUtilityMeta();saveDailySnapshotMaybe();status.className='mc-status ready';status.textContent=mcReadyStatusText(mc);
@@ -2841,7 +2882,7 @@ function hideDistrictTooltip(){const tip=document.getElementById('wkTooltip');if
 function selectDistrict(id){const d=districtState.projected.find(x=>x.id===Number(id));if(d)renderDistrictDetail(d)}
 function initConstituencyUI(){document.querySelectorAll('#mapModeControls button').forEach(b=>b.addEventListener('click',()=>{districtState.mode=b.dataset.mapmode;document.querySelectorAll('#mapModeControls button').forEach(x=>x.classList.toggle('active',x===b));if(districtState.ready)renderConstituencyMap()}));initMapZoom();loadConstituencyModel()}
 
-function renderKPIs(){const cur=currentAvg();if(!cur)return;const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),a=ranked[0],b=ranked[1];document.getElementById('kpiLeader').textContent=a?`${a.label} ${pct(a.val)}`:'—';document.getElementById('kpiLeaderMeta').textContent=`media mobile · ${state.window} giorni`;document.getElementById('kpiLead').textContent=a&&b?pct(a.val-b.val):'—';document.getElementById('kpiLeadMeta').textContent=a&&b?`${a.label} rispetto a ${b.label}`:`media mobile · ${state.window} giorni`;const latest=state.polls[state.polls.length-1];document.getElementById('kpiLatest').textContent=fmtDate(latest.date);document.getElementById('kpiLatestMeta').textContent=`${latest.institute}${latest.client?' · '+latest.client:''}`;const start=new Date(latest.date);start.setDate(start.getDate()-29);const last30=state.polls.filter(p=>p.date>=start&&p.date<=latest.date);document.getElementById('kpiCount').textContent=last30.length;document.getElementById('kpiCountMeta').textContent=`${new Set(last30.map(p=>p.institute)).size} istituti`}
+function renderKPIs(){const cur=projectionAverage();if(!cur)return;const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),a=ranked[0],b=ranked[1];document.getElementById('kpiLeader').textContent=a?`${a.label} ${pct(a.val)}`:'—';document.getElementById('kpiLeaderMeta').textContent=`media nowcast · 14 giorni · ${cur.count} istituti`;document.getElementById('kpiLead').textContent=a&&b?pct(a.val-b.val):'—';document.getElementById('kpiLeadMeta').textContent=a&&b?`${a.label} rispetto a ${b.label} · media nowcast`:`media nowcast · 14 giorni`;const latest=state.polls[state.polls.length-1];document.getElementById('kpiLatest').textContent=fmtDate(latest.date);document.getElementById('kpiLatestMeta').textContent=`${latest.institute}${latest.client?' · '+latest.client:''}`;const start=new Date(latest.date);start.setDate(start.getDate()-29);const last30=state.polls.filter(p=>p.date>=start&&p.date<=latest.date);document.getElementById('kpiCount').textContent=last30.length;document.getElementById('kpiCountMeta').textContent=`${new Set(last30.map(p=>p.institute)).size} istituti`}
 
 function hemicyclePoints(){
   const rows=12,radii=Array.from({length:rows},(_,i)=>90+i*14),caps=radii.map(r=>Math.round(Math.PI*r/10));let sum=caps.reduce((a,b)=>a+b,0);caps[caps.length-1]+=TOTAL_SEATS-sum;const pts=[];
@@ -2951,9 +2992,26 @@ function renderCoalition(pr){
   renderVetoList();
 }
 
-function renderSnapshot(){const cur=currentAvg(),el=document.getElementById('snapshot');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),max=Math.max(...ranked.map(x=>x.val),30);el.innerHTML=ranked.map(x=>`<div class="barrow"><div class="party">${esc(x.label)}</div><div class="track"><div class="fill" style="--w:${Math.max(1,x.val/max*100)}%;--c:${x.color}"></div></div><div class="pct">${pct(x.val)}</div></div>`).join('')}
-function renderMomentum(){const cur=currentAvg(),past=nearestAvg(30),el=document.getElementById('momentum');if(!cur||!past){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}const rows=PARTIES.map(p=>({...p,now:cur[p.key],then:past[p.key]})).filter(x=>Number.isFinite(x.now)&&Number.isFinite(x.then)).map(x=>({...x,d:x.now-x.then})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));el.innerHTML=rows.map(x=>{const cls=x.d>.05?'up':x.d<-.05?'down':'flat',sign=x.d>0?'+':'';return `<div class="mini-row"><div><strong>${esc(x.label)}</strong><div class="sub">media corrente ${pct(x.now)}</div></div><span class="delta ${cls}">${sign}${x.d.toFixed(1).replace('.',',')} p.p.</span><span style="width:9px;height:9px;border-radius:3px;background:${x.color}"></span></div>`}).join('')}
-function renderThreshold(){const cur=currentAvg(),el=document.getElementById('threshold');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const rows=PARTIES.filter(p=>p.key!=='other'&&(['bsw','fdp','fw'].includes(p.key)||((cur[p.key]??99)<8))).map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val);el.innerHTML=rows.map(x=>{const w=Math.min(100,x.val/10*100),dist=x.val-5;return `<div class="threshold-row"><div class="threshold-top"><strong>${esc(x.label)}</strong><strong>${pct(x.val)}</strong></div><div class="threshold-track"><div class="threshold-fill" style="--w:${w}%;--c:${x.color}"></div><div class="threshold-line" title="Soglia 5%"></div></div><div class="threshold-note">${dist>=0?'+':''}${dist.toFixed(1).replace('.',',')} punti dalla soglia</div></div>`}).join('')||'<div class="empty">Nessun partito vicino alla soglia</div>'}
+function renderAverageAudit(){
+  const body=document.getElementById('averageAuditBody'),weightsEl=document.getElementById('averageAuditWeights'),meta=document.getElementById('averageAuditMeta');
+  if(!body||!weightsEl)return;
+  const proj=projectionAverage(),latest=state.polls[state.polls.length-1]?.date,simple=latest?avgAt(latest,7):null,mc=state.monteCarlo;
+  if(!proj||!simple){body.innerHTML='<tr><td colspan="8">Dati insufficienti</td></tr>';weightsEl.innerHTML='<span class="audit-weight-chip">Dati insufficienti</span>';return}
+  const keys=PARTIES.filter(p=>p.key!=='other'&&(Number.isFinite(proj[p.key])||Number.isFinite(simple[p.key])));
+  body.innerHTML=keys.map(p=>{
+    const a=Number(proj[p.key]),b=Number(simple[p.key]),d=a-b,sig=Number.isFinite(a)?mcSigmaForShare(a,MC_SIGMA,activeMcShareSigmaAlpha()):null,st=mc?.ready?mc.stats?.[p.key]:null,thresholdEligible=['afd','spd','gruene','linke','bsw','fdp','fw'].includes(p.key);
+    const dc=Math.abs(d)<.005?'audit-delta-flat':d>0?'audit-delta-pos':'audit-delta-neg',ds=Number.isFinite(d)?`${d>=0?'+':''}${d.toFixed(2).replace('.',',')}`:'—';
+    const q=v=>Number.isFinite(v)?`${(v*100).toFixed(1).replace('.',',')}%`:'—';
+    return `<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${esc(p.label)}</td><td><strong>${pct(a)}</strong></td><td>${pct(b)}</td><td class="${dc}">${ds}</td><td>${Number.isFinite(sig)?sig.toFixed(3).replace('.',','):'—'}</td><td>${thresholdEligible&&st?q(st.over5):'—'}</td><td>${thresholdEligible&&st?q(st.threeSeat):'—'}</td><td>${thresholdEligible&&st?q(st.entry):'—'}</td></tr>`;
+  }).join('');
+  const end=dayKey(proj.date),items=proj.rows.map(p=>{const key=p.institute.trim().toLowerCase(),age=Math.max(0,(end-dayKey(p.date))/DAY),rel=proj.reliability?.get(key)||1,w=Math.pow(.5,age/7)*rel;return{name:p.institute,date:p.date,age,rel,w}}),tot=items.reduce((s,x)=>s+x.w,0)||1;
+  items.sort((a,b)=>b.w-a.w);
+  weightsEl.innerHTML=items.map(x=>`<span class="audit-weight-chip"><strong>${esc(x.name)}</strong> ${(x.w/tot*100).toFixed(1).replace('.',',')}% <span>· ${Math.round(x.age)}g · rel ${x.rel.toFixed(3).replace('.',',')}</span></span>`).join('');
+  if(meta)meta.textContent=`${proj.count} istituti · ultimo sondaggio ${fmtDate(proj.date)} · emivita 7 giorni`;
+}
+function renderSnapshot(){const cur=projectionAverage(),el=document.getElementById('snapshot');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),max=Math.max(...ranked.map(x=>x.val),30);el.innerHTML=ranked.map(x=>`<div class="barrow"><div class="party">${esc(x.label)}</div><div class="track"><div class="fill" style="--w:${Math.max(1,x.val/max*100)}%;--c:${x.color}"></div></div><div class="pct">${pct(x.val)}</div></div>`).join('')}
+function renderMomentum(){const cur=currentAvg(),past=nearestAvg(30),el=document.getElementById('momentum');if(!cur||!past){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}const rows=PARTIES.map(p=>({...p,now:cur[p.key],then:past[p.key]})).filter(x=>Number.isFinite(x.now)&&Number.isFinite(x.then)).map(x=>({...x,d:x.now-x.then})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));el.innerHTML=rows.map(x=>{const cls=x.d>.05?'up':x.d<-.05?'down':'flat',sign=x.d>0?'+':'';return `<div class="mini-row"><div><strong>${esc(x.label)}</strong><div class="sub">media mobile semplice · ${state.window} gg · ${pct(x.now)}</div></div><span class="delta ${cls}">${sign}${x.d.toFixed(1).replace('.',',')} p.p.</span><span style="width:9px;height:9px;border-radius:3px;background:${x.color}"></span></div>`}).join('')}
+function renderThreshold(){const cur=projectionAverage(),el=document.getElementById('threshold');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const rows=PARTIES.filter(p=>p.key!=='other'&&(['bsw','fdp','fw'].includes(p.key)||((cur[p.key]??99)<8))).map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val);el.innerHTML=rows.map(x=>{const w=Math.min(100,x.val/10*100),dist=x.val-5;return `<div class="threshold-row"><div class="threshold-top"><strong>${esc(x.label)}</strong><strong>${pct(x.val)}</strong></div><div class="threshold-track"><div class="threshold-fill" style="--w:${w}%;--c:${x.color}"></div><div class="threshold-line" title="Soglia 5%"></div></div><div class="threshold-note">${dist>=0?'+':''}${dist.toFixed(1).replace('.',',')} punti dalla soglia · media nowcast</div></div>`}).join('')||'<div class="empty">Nessun partito vicino alla soglia</div>'}
 function renderPollsters(){const last=state.polls[state.polls.length-1]?.date,el=document.getElementById('pollsters');if(!last)return;const start=new Date(last);start.setDate(start.getDate()-89);const counts={};for(const p of state.polls.filter(p=>p.date>=start))counts[p.institute]=(counts[p.institute]||0)+1;const rows=Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,8),max=Math.max(1,...rows.map(x=>x[1]));el.innerHTML=rows.map(([name,n])=>`<div class="mini-row"><div><strong>${esc(name)}</strong><div class="sub"><span style="display:inline-block;width:${Math.max(6,n/max*100)}%;height:4px;background:#d2aa16;border-radius:9px"></span></div></div><span class="delta flat">${n}</span><span class="sub">sondaggi</span></div>`).join('')}
 function formatItalianCountText(v){const s=String(v??'');return s.replace(/\b\d{4,}\b/g,m=>fmtCount(Number(m)))}
 function renderPollDetails(p){const bits=[];if(p.method)bits.push(esc(p.method));if(p.fieldwork)bits.push(esc(p.fieldwork));if(p.sample)bits.push(esc(formatItalianCountText(p.sample)));if(p.sourceUrl)bits.push(`<a href="${esc(p.sourceUrl)}" target="_blank" rel="noopener">Fonte ↗</a>`);else if(p.source)bits.push(esc(p.source));return bits.length?bits.join('<span class="detail-sep">·</span>'):'—'}
@@ -2986,7 +3044,7 @@ function renderLineChart(){
   rect.addEventListener('pointermove',ev=>{const r=rect.getBoundingClientRect(),mx=(ev.clientX-r.left)/r.width*iw+m.l,ts=t0+((mx-m.l)/iw)*(t1-t0);let best=data[0];for(const d of data)if(Math.abs(d.date.getTime()-ts)<Math.abs(best.date.getTime()-ts))best=d;const xx=X(best.date);cross.setAttribute('x1',xx);cross.setAttribute('x2',xx);cross.setAttribute('opacity','1');const lines=vis.map(p=>({p,v:best[p.key]})).filter(x=>Number.isFinite(x.v)).sort((a,b)=>b.v-a.v).map(x=>`<div class="line"><span><span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:${x.p.color};margin-right:5px"></span>${x.p.label}</span><strong>${pct(x.v)}</strong></div>`).join('');tip.innerHTML=`<div class="date">${fmtDate(best.date)} · media ${state.window} giorni</div>${lines}`;tip.style.display='block';tip.style.left=Math.max(8,Math.min(innerWidth-258,ev.clientX+14))+'px';tip.style.top=Math.max(8,Math.min(innerHeight-190,ev.clientY+14))+'px'});
   rect.addEventListener('pointerleave',()=>{cross.setAttribute('opacity','0');tip.style.display='none'})
 }
-function renderAll(){renderKPIs();renderParliament();renderSnapshot();renderMomentum();renderThreshold();renderPollsters();renderTable();renderLegend();renderLineChart();renderNationalBacktest();renderForecast();state.modelUpdatedAt=new Date();updateUtilityMeta();const prev=document.getElementById('aiPromptPreview');if(prev)prev.textContent=aiPrompt();if(districtState.ready)updateConstituencyProjection();scheduleMonteCarlo()}
+function renderAll(){renderKPIs();renderParliament();renderSnapshot();renderAverageAudit();renderMomentum();renderThreshold();renderPollsters();renderTable();renderLegend();renderLineChart();renderNationalBacktest();renderForecast();state.modelUpdatedAt=new Date();updateUtilityMeta();const prev=document.getElementById('aiPromptPreview');if(prev)prev.textContent=aiPrompt();if(districtState.ready)updateConstituencyProjection();scheduleMonteCarlo()}
 
 function updateUtilityMeta(){
   const avg=projectionAverage();
@@ -3065,7 +3123,7 @@ function drawPreviewCard(){
   text('Quadro sintetico',788,100,'800 18px system-ui, -apple-system, sans-serif','#ffcc00');
   const leaderFont=leader.label.length>9?'900 46px system-ui, -apple-system, sans-serif':'900 66px system-ui, -apple-system, sans-serif';
   text(leader.label,788,160,leaderFont,'#fff');
-  text(`${pct(leader.val)} · primo partito nella media corrente`,788,190,'500 14px system-ui, -apple-system, sans-serif','#d9dde3');
+  text(`${pct(leader.val)} · primo partito nella media del nowcast`,788,190,'500 14px system-ui, -apple-system, sans-serif','#d9dde3');
 
   rr(rightX,226,rightW,344,22,'#fff','#d9dce0',1.4);
   text('Nowcast con Monte Carlo calibrato',788,262,'500 16px system-ui, -apple-system, sans-serif','#656a72');
@@ -3295,12 +3353,12 @@ function openShare(kind,triggerEl=null){
   if(url) window.open(url,'_blank','noopener');
 }
 function aiPrompt(){
-  const avg=projectionAverage(), pr=projectSeats(), mc=state.monteCarlo, url=location.href;
+  const avg=projectionAverage(), simple7=state.polls.length?avgAt(state.polls[state.polls.length-1].date,7):null, pr=projectSeats(), mc=state.monteCarlo, url=location.href;
   const order=['afd','union','spd','gruene','linke','fdp','bsw','fw','ssw'];
   const currentSeats=mc?.ready?mc.centralSeats:pr?.seats;
   const partyLines=avg&&currentSeats?order.filter(k=>k==='ssw'||Number.isFinite(avg[k])).map(k=>{
     const p=partyByKey(k), vote=k==='ssw'?SSW_ASSUMED_SHARE:avg[k], seats=currentSeats[k]||0, st=mc?.ready?mc.stats?.[k]:null;
-    let s=`- ${p.label}: ${k==='ssw'?'quota assunta '+pct(vote):pct(vote)+' nella media'}, ${seats} seggi nello scenario centrale`;
+    let s=`- ${p.label}: ${k==='ssw'?'quota assunta '+pct(vote):pct(vote)+' nella media del nowcast'}, ${seats} seggi nello scenario centrale`;
     if(st) s+=`, intervallo 80% ${st.low}–${st.high} (mediana ${st.median})`;
     if(st?.leader>.005) s+=`, probabilità di primo partito ${(st.leader*100).toFixed(0)}%`;
     if(k!=='ssw'&&st&&((vote??99)<8||st.entry<.995)) s+=`, probabilità di ingresso nel riparto ${(st.entry*100).toFixed(0)}%`;
@@ -3308,7 +3366,7 @@ function aiPrompt(){
   }):[];
   const thresholdLines=mc?.ready&&avg?order.filter(k=>k!=='ssw'&&mc.stats?.[k]&&((avg[k]??99)<8||mc.stats[k].entry<.995)).map(k=>{
     const p=partyByKey(k),st=mc.stats[k];
-    return `- ${p.label}: media ${pct(avg[k])}; sopra il 5% ${(st.over5*100).toFixed(0)}%; almeno 3 collegi ${(st.threeSeat*100).toFixed(0)}%; ingresso complessivo ${(st.entry*100).toFixed(0)}%.`;
+    return `- ${p.label}: media del nowcast ${pct(avg[k])}; sopra il 5% ${(st.over5*100).toFixed(0)}%; almeno 3 collegi ${(st.threeSeat*100).toFixed(0)}%; ingresso complessivo ${(st.entry*100).toFixed(0)}%.`;
   }):[];
   const combos=[['union','spd'],['union','gruene'],['union','spd','gruene'],['spd','gruene','linke'],['union','fdp'],['union','afd']];
   const coalitionLines=mc?.ready?combos.map(keys=>{
@@ -3321,7 +3379,9 @@ function aiPrompt(){
     '',
     `Dashboard: ${url}`,
     avg?`Ultimo sondaggio incluso nel modello: ${fmtDate(avg.date)}.`:'',
-    avg?`Media corrente: CDU/CSU ${pct(avg.union)}, AfD ${pct(avg.afd)}, SPD ${pct(avg.spd)}, Verdi ${pct(avg.gruene)}, Linke ${pct(avg.linke)}, FDP ${pct(avg.fdp)}, BSW ${pct(avg.bsw)}.`:'',
+    avg?`Media ponderata a 14 giorni usata dal nowcast: CDU/CSU ${pct(avg.union)}, AfD ${pct(avg.afd)}, SPD ${pct(avg.spd)}, Verdi ${pct(avg.gruene)}, Linke ${pct(avg.linke)}, FDP ${pct(avg.fdp)}, BSW ${pct(avg.bsw)}.`:'',
+    avg?'Queste percentuali sono il vettore effettivamente usato dal motore per seggi, simulazioni e coalizioni. È distinto dalla media mobile semplice a 7 giorni mostrata solo come indicatore secondario.':'',
+    simple7?`Media semplice ultimi 7 giorni, solo per confronto: CDU/CSU ${pct(simple7.union)}, AfD ${pct(simple7.afd)}, SPD ${pct(simple7.spd)}, Verdi ${pct(simple7.gruene)}, Linke ${pct(simple7.linke)}, FDP ${pct(simple7.fdp)}, BSW ${pct(simple7.bsw)}.`:'',
     mc?.ready?`Il nowcast usa ${mc.n.toLocaleString('it-IT')} simulazioni Monte Carlo e ricalcola i 299 collegi in ogni simulazione. La maggioranza assoluta è 316 seggi su 630.`:'',
     '',
     'STIME CORRENTI PER PARTITO',
@@ -3419,7 +3479,9 @@ window.addEventListener('resize',()=>{
 },{passive:true});
 
 </script>
-<!-- v22.4 final clean · map renderer restored + geometry smoke test · 27-08-2026
+<!-- v22.4 final clean · average-traceability audit + projectionAverage promoted to headline · 28-08-2026
+     No statistical parameter changed.
+     Original map note: map renderer restored + geometry smoke test · 27-08-2026
      Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma.
      Rejected after backtest: party-error common factor (insufficient independent elections);
      Student-t heavy-tailed national shocks (no candidate improved both national CRPS and WIS versus Gaussian).
