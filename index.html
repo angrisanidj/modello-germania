@@ -1219,7 +1219,7 @@ body.sticky-nowcast-offset{padding-top:0}
 .audit-intro,.audit-note{margin:0 0 12px;color:#646a72;font-size:10.5px;line-height:1.55}
 .audit-note{margin:12px 0 0;padding-top:11px;border-top:1px solid #eceef0}
 .audit-tablewrap{overflow:auto;border:1px solid #e3e5e7;border-radius:9px}
-.audit-table{min-width:780px}
+.audit-table{min-width:1080px}
 .audit-table th,.audit-table td{padding:8px 9px;font-size:10.5px;text-align:right}
 .audit-table th:first-child,.audit-table td:first-child{text-align:left;font-weight:750}
 .audit-table th{position:static;background:#f6f7f8}
@@ -1229,6 +1229,11 @@ body.sticky-nowcast-offset{padding-top:0}
 .audit-weights{display:flex;flex-wrap:wrap;gap:6px}
 .audit-weight-chip{display:inline-flex;gap:5px;align-items:center;border:1px solid #e0e2e5;border-radius:999px;background:#fafbfb;padding:5px 8px;font-size:9.5px;color:#50555c}
 .audit-weight-chip strong{color:#17191c}
+.audit-integrity-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:12px 0}
+.audit-integrity-card{border:1px solid #e1e4e7;border-radius:9px;background:#fafbfb;padding:9px 10px}.audit-integrity-card .k{font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#747a82;font-weight:800}.audit-integrity-card .v{font-size:17px;font-weight:900;margin-top:2px;color:#17191c}.audit-integrity-card .s{font-size:9px;color:#777d84;margin-top:2px;line-height:1.35}.audit-integrity-card.warn{border-color:#edc6c6;background:#fff8f8}.audit-integrity-card.ok{border-color:#cce4d5;background:#f8fdf9}
+.audit-shadow-box{margin-top:12px;border:1px solid #dde1e5;border-radius:10px;padding:11px;background:#fcfcfb}.audit-shadow-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.audit-shadow-head strong{font-size:11px}.audit-shadow-head span{font-size:9.5px;color:#727880}.audit-shadow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.audit-shadow-col{border:1px solid #e4e6e8;border-radius:8px;padding:8px;background:#fff}.audit-shadow-col h4{margin:0 0 5px;font-size:10.5px}.audit-shadow-col p{margin:3px 0;font-size:9.5px;color:#5f656d}.audit-shadow-col strong{color:#17191c}.audit-shadow-col.candidate{border-color:#c8dfd0;background:#f9fdf9}.audit-shadow-col.strict{border-color:#eadfc3;background:#fffcf5}
+.audit-shadow-action{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}.audit-shadow-action button{font-size:10px;padding:6px 9px}.audit-shadow-result{font-size:9.5px;color:#5e646c;line-height:1.5;margin-top:8px}.audit-gate-pass{color:#137642;font-weight:850}.audit-gate-warn{color:#a25c00;font-weight:850}.audit-gate-fail{color:#aa2338;font-weight:850}
+@media(max-width:720px){.audit-integrity-grid{grid-template-columns:1fr 1fr}.audit-shadow-grid{grid-template-columns:1fr}}
 @media(max-width:720px){.nowcast-audit>summary{padding:13px 14px}.audit-body{padding:13px 12px 15px}.audit-weight-head{align-items:flex-start;flex-direction:column;gap:3px}.audit-weight-head span{text-align:left}}
 </style>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 3 3'%3E%3Cpath d='M0 0h3v1H0z' fill='%23000'/%3E%3Cpath d='M0 1h3v1H0z' fill='%23DD0000'/%3E%3Cpath d='M0 2h3v1H0z' fill='%23FFCE00'/%3E%3C/svg%3E">
@@ -1517,16 +1522,23 @@ body.sticky-nowcast-offset{padding-top:0}
   <details class="nowcast-audit" id="nowcastAverageAudit">
     <summary><span><strong>Trasparenza della media del nowcast</strong><small>Confronta il vettore realmente usato dal motore con la media semplice degli ultimi 7 giorni</small></span><span class="audit-summary-badge">AUDIT</span></summary>
     <div class="audit-body">
-      <p class="audit-intro">La colonna <strong>Nowcast 14 gg</strong> è il vettore che alimenta seggi, Monte Carlo e coalizioni. La colonna <strong>Semplice 7 gg</strong> è solo un indicatore descrittivo. La σ mostrata è quella dello shock nazionale del partito <em>prima</em> della positività e della rinormalizzazione al 100%.</p>
+      <p class="audit-intro">La colonna <strong>Nowcast 14 gg</strong> è il vettore pubblicato. L’audit distingue però il valore osservato dall’<strong>input effettivamente passato al Monte Carlo</strong>: nel percorso live corrente un valore mancante viene coercizzato a zero e riceve comunque lo shock minimo share-aware. Lo shadow non modifica la produzione.</p>
+      <div id="averageAuditIntegrity" class="audit-integrity-grid"><div class="audit-integrity-card"><div class="k">Integrità vettore</div><div class="v">—</div><div class="s">In attesa dei dati</div></div></div>
       <div class="audit-tablewrap">
         <table class="audit-table">
-          <thead><tr><th>Partito</th><th>Nowcast 14 gg</th><th>Semplice 7 gg</th><th>Δ</th><th>σ shock</th><th>≥ 5%</th><th>≥ 3 collegi</th><th>Ingresso</th></tr></thead>
-          <tbody id="averageAuditBody"><tr><td colspan="8">In attesa dei dati…</td></tr></tbody>
+          <thead><tr><th>Partito</th><th>Nowcast 14 gg</th><th>Semplice 7 gg</th><th>Δ</th><th>Input legacy</th><th>σ legacy</th><th>≥5% live</th><th>≥5% shadow A</th><th>≥3 collegi</th><th>Ingresso</th></tr></thead>
+          <tbody id="averageAuditBody"><tr><td colspan="10">In attesa dei dati…</td></tr></tbody>
         </table>
+      </div>
+      <div class="audit-shadow-box">
+        <div class="audit-shadow-head"><strong>Shadow fix del residuo nazionale</strong><span id="residualShadowStatus">In attesa del Monte Carlo</span></div>
+        <div id="residualShadowSummary" class="audit-shadow-grid"></div>
+        <div class="audit-shadow-action"><button type="button" id="runResidualFullShadow">Esegui shadow completo 50.000</button><span>Opzionale: ricalcola anche seggi, collegi e coalizioni senza modificare il modello pubblicato.</span></div>
+        <div id="residualFullShadowResult" class="audit-shadow-result"></div>
       </div>
       <div class="audit-weight-head"><strong>Peso base degli istituti nel nowcast</strong><span id="averageAuditMeta">—</span></div>
       <div id="averageAuditWeights" class="audit-weights"><span class="audit-weight-chip">In attesa dei dati…</span></div>
-      <div class="audit-note">Le probabilità ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
+      <div class="audit-note">Le probabilità live ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. Lo shadow A ricostruisce soltanto il residuo “Altri” e lascia invariata la gestione delle categorie nominate mancanti; lo shadow B disattiva anche lo shock delle categorie nominate non osservate. Nessuno dei due modifica i numeri pubblicati. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
     </div>
   </details>
 
@@ -1690,11 +1702,11 @@ const DISTRICT_PARTIES={
   bsw:{label:'BSW',model:'bsw',color:'#792350'},fdp:{label:'FDP',model:'fdp',color:'#ffcc00'},
   fw:{label:'FW',model:'fw',color:'#f39200'},other:{label:'Altri',model:'other',color:'#9a9a96'}
 };
-const districtState={ready:false,loading:false,loadedOnce:false,geo:null,base:null,projected:[],deterministicProjected:[],mode:'winner',selected:null,source:null,pathCache:null,qa:null,partyFilters:new Set(),territorialCalibration:null,scenarioMode:'deterministic',validation:null,nextPollCheckAt:null};
+const districtState={ready:false,loading:false,loadedOnce:false,geo:null,base:null,projected:[],deterministicProjected:[],mode:'winner',selected:null,source:null,pathCache:null,qa:null,partyFilters:new Set(),territorialCalibration:null,scenarioMode:'deterministic',validation:null,nextPollCheckAt:null,residualShadowCache:null,residualFullShadow:null,residualFullShadowRunning:false,residualFullShadowProgress:0,residualFullShadowFingerprint:null};
 const mapZoomState={base:{x:0,y:0,w:640,h:760},view:{x:0,y:0,w:640,h:760},maxZoom:5,panning:false,pointerId:null,startX:0,startY:0,startView:null,moved:false,suppressClickUntil:0};
 
 const SEAT_ORDER=['linke','gruene','spd','ssw','union','fdp','fw','bsw','afd'];
-let state={polls:[],window:7,range:180,visible:new Set(),fetchedAt:null,modelUpdatedAt:null,lastSnapshotAt:null,directExceptions:new Set(),autoDirectExceptions:new Set(),coalition:new Set(),lastProjection:null,monteCarlo:null,mcRunning:false,mcFingerprint:null,mcToken:0,mcProgress:0,mcLoadedFromCache:false,forecast:null,forecastRunning:false,forecastProgress:0,forecastToken:0,forecastFingerprint:null,forecastHorizon:12,forecastCalibration:null,errorStructure:null,mcCachePersisted:null,forecastCachePersisted:null,validation:null,nextPollCheckAt:null};
+let state={polls:[],window:7,range:180,visible:new Set(),fetchedAt:null,modelUpdatedAt:null,lastSnapshotAt:null,directExceptions:new Set(),autoDirectExceptions:new Set(),coalition:new Set(),lastProjection:null,monteCarlo:null,mcRunning:false,mcFingerprint:null,mcToken:0,mcProgress:0,mcLoadedFromCache:false,forecast:null,forecastRunning:false,forecastProgress:0,forecastToken:0,forecastFingerprint:null,forecastHorizon:12,forecastCalibration:null,errorStructure:null,mcCachePersisted:null,forecastCachePersisted:null,validation:null,nextPollCheckAt:null,residualShadowCache:null,residualFullShadow:null,residualFullShadowRunning:false,residualFullShadowProgress:0,residualFullShadowFingerprint:null};
 
 /* Political coalition relations, checked 25 Aug 2026. They never alter seat arithmetic. */
 const POLITICAL_LEVELS={
@@ -2511,6 +2523,94 @@ function simulateDirectWinnerCounts(v,cache,sim,seed,winnerTally=null){
   return counts;
 }
 function simulatedLandSecondWeights(cache){const out={};for(let p=0;p<cache.P;p++){const k=cache.partyKeys[p];if(k==='other')continue;const by={};for(let l=0;l<cache.L;l++){const v=cache.landSecondBase[p*cache.L+l]*cache.landMult[p*cache.L+l];if(v>0)by[cache.landCodes[l]]=v}out[k]=by}return out}
+
+/* ===== Shadow audit: live residual integrity (does not change production) ===== */
+function finitePollShare(v){return typeof v==='number'&&Number.isFinite(v)}
+function nationalSimulationBaseInfo(avg,mode='legacy'){
+  const target=100-SSW_ASSUMED_SHARE,base={},active=new Set(),missing=[];
+  for(const k of MC_KEYS){
+    if(k==='other')continue;
+    if(finitePollShare(avg?.[k])){base[k]=Math.max(0,Number(avg[k]));active.add(k)}
+    else{base[k]=0;missing.push(k)}
+  }
+  if(mode==='legacy'){
+    const observed=Number(avg?.other);
+    base.other=Math.max(.01,(Number.isFinite(observed)?observed:0)-SSW_ASSUMED_SHARE);
+    for(const k of MC_KEYS)active.add(k); // reproduces the current live path exactly, including missing categories
+  }else{
+    const named=MC_KEYS.filter(k=>k!=='other').reduce((s,k)=>s+(finitePollShare(avg?.[k])?Number(avg[k]):0),0),closureOther=Math.max(.01,target-named);
+    base.other=closureOther;active.add('other');
+    if(mode==='residual')for(const k of MC_KEYS)active.add(k); // minimal fix: keep legacy treatment of missing named parties (e.g. FW)
+  }
+  const rawSum=MC_KEYS.reduce((s,k)=>s+(base[k]||0),0),delta=rawSum-target,observedOther=finitePollShare(avg?.other)?Number(avg.other):null,observedOtherBase=Number.isFinite(observedOther)?Math.max(.01,observedOther-SSW_ASSUMED_SHARE):null,observedTotal=Number.isFinite(observedOtherBase)?MC_KEYS.filter(k=>k!=='other').reduce((s,k)=>s+(finitePollShare(avg?.[k])?Number(avg[k]):0),0)+observedOtherBase:null;
+  return{mode,target,base,active,missing,rawSum,delta,reconstructedOther:mode!=='legacy'&&!finitePollShare(avg?.other),observedOther,observedTotal};
+}
+function strictResidualBase(avg){
+  const info=nationalSimulationBaseInfo(avg,'strict');
+  if(Number.isFinite(info.observedTotal)&&Math.abs(info.observedTotal-info.target)>.5)throw new Error(`Vettore nazionale esplicito non integro: scarto ${(info.observedTotal-info.target).toFixed(3)} p.p. dal target.`);
+  if(Math.abs(info.delta)>.5)throw new Error(`Vettore nazionale ricostruito non integro: scarto ${info.delta.toFixed(3)} p.p. dal target.`);
+  return info;
+}
+function shadowGaussianState(seed){return{rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()}}
+function drawVoteVectorFromBaseInfo(info,rngState,sigma=MC_SIGMA){
+  const {rng}=rngState;let {spare}=rngState;
+  const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};
+  const es=rngState.errorStructure||nationalErrorStructure(),common=gauss(),v={},raw={},alpha=activeMcShareSigmaAlpha();let total=0;
+  for(const k of MC_KEYS){
+    const b=info.base[k]||0,r=Math.max(0,Math.min(.95,Number(es.rho?.[k])||0)),sg=(es.sign?.[k]||1),z=r>0?sg*Math.sqrt(r)*common+Math.sqrt(1-r)*gauss():gauss();
+    const x=info.active.has(k)?Math.max(.01,b+mcSigmaForShare(b,sigma,alpha)*z):0;raw[k]=x;v[k]=x;total+=x;
+  }
+  const scale=info.target/total;for(const k of MC_KEYS)v[k]*=scale;
+  rngState.spare=spare;rngState.errorStructure=es;return{v,raw,total,scale};
+}
+function residualShadowNational(avg,n=MC_SIMS){
+  const fp=`${mcFingerprint(avg)}|residual-shadow-v2|${n}`;
+  if(state.residualShadowCache?.fingerprint===fp)return state.residualShadowCache;
+  const modes=['legacy','residual','strict'],out={fingerprint:fp,n,modes:{}};
+  for(const mode of modes){
+    const info=mode==='strict'?strictResidualBase(avg):nationalSimulationBaseInfo(avg,mode),rs=shadowGaussianState(hashString(`${fp}|${mode}`)),over5=Object.fromEntries(MC_KEYS.map(k=>[k,0])),rawMeans=Object.fromEntries(MC_KEYS.map(k=>[k,0]));let scaleSum=0,scaleSq=0,totalSum=0;
+    for(let i=0;i<n;i++){
+      const d=drawVoteVectorFromBaseInfo(info,rs);scaleSum+=d.scale;scaleSq+=d.scale*d.scale;totalSum+=d.total;
+      for(const k of MC_KEYS){rawMeans[k]+=d.raw[k];if(k!=='other'&&d.v[k]>=5)over5[k]++}
+    }
+    for(const k of MC_KEYS)rawMeans[k]/=n;
+    const meanScale=scaleSum/n,scaleSd=Math.sqrt(Math.max(0,scaleSq/n-meanScale*meanScale));
+    out.modes[mode]={info,meanScale,scaleSd,meanRawTotal:totalSum/n,over5:Object.fromEntries(MC_KEYS.map(k=>[k,over5[k]/n])),rawMeans};
+  }
+  state.residualShadowCache=out;return out;
+}
+let RESIDUAL_SAFE_BT_CACHE=null;
+function residualSafeSeatBacktestForAlpha(alpha=activeMcShareSigmaAlpha()){
+  if(RESIDUAL_SAFE_BT_CACHE?.alpha===alpha)return RESIDUAL_SAFE_BT_CACHE.result;
+  const cycle=NATIONAL_BACKTEST_DATA.find(c=>c.cycle==='2025');if(!cycle)return null;
+  const avg=dedicatedBacktestAverage(cycle),n=MC_PROB_BACKTEST_SIMS,scoreKeys=['union','afd','spd','gruene','linke','bsw','fdp'],actual={union:208,afd:152,spd:120,gruene:85,linke:64,bsw:0,fdp:0},samples=Object.fromEntries(scoreKeys.map(k=>[k,new Uint16Array(n)])),info=strictResidualBase(avg),gauss=backtestGaussian(hashString(`${NATIONAL_BACKTEST_DATA_VERSION}|prob-seat|2025`)),target=100-SSW_ASSUMED_SHARE;
+  for(let i=0;i<n;i++){
+    const v={};let total=0;
+    for(const k of MC_KEYS){const z=gauss(),b=info.base[k]||0,x=info.active.has(k)?Math.max(.01,b+mcSigmaForShare(b,MC_SIGMA,alpha)*z):0;v[k]=x;total+=x}
+    const scale=target/total;for(const k of MC_KEYS)v[k]*=scale;
+    const w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE;if(cduVote>=5)w.cdu=cduVote;if(csuVote>=5)w.csu=csuVote;for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw'])if(v[k]>=5)w[k]=v[k];w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0};for(const k of scoreKeys)samples[k][i]=sv[k]||0;
+  }
+  let covered=0,crps=0,wis=0;const bands={};for(const k of scoreKeys){const y=actual[k],is=intervalScore80(samples[k],y),cs=empiricalCrps(samples[k],y);covered+=is.covered?1:0;crps+=cs;wis+=is.score;bands[k]={low:is.low,median:backtestQuantile(samples[k],.5),high:is.high,actual:y}}const result={n:scoreKeys.length,coverage:covered/scoreKeys.length,crps:crps/scoreKeys.length,wis:wis/scoreKeys.length,bands};RESIDUAL_SAFE_BT_CACHE={alpha,result};return result;
+}
+function residualShadowGate(){
+  const alpha=activeMcShareSigmaAlpha(),legacy=probabilisticSeatBacktestForAlpha(alpha),strict=residualSafeSeatBacktestForAlpha(alpha),tol=1e-9;
+  const strictPass=strict.crps<=legacy.crps+tol&&strict.wis<=legacy.wis+tol&&Math.abs(strict.coverage-.8)<=Math.abs(legacy.coverage-.8)+tol;
+  return{legacy,strict,strictPass,residualOnlyPass:true,detail:'Shadow A ricostruisce soltanto Altri e mantiene il comportamento FW già presente nel seat backtest 2025; è quindi compatibile per costruzione con il gate corrente. Shadow B elimina anche gli shock delle categorie nominate mancanti e deve superare nuovamente il gate.'};
+}
+async function runResidualFullShadow(){
+  if(state.residualFullShadowRunning)return;if(!districtState.ready||state.mcRunning||!state.monteCarlo?.ready){alert('Attendi che il nowcast principale e i 299 collegi siano pronti.');return}
+  const avg=projectionAverage(),fp=`${mcFingerprint(avg)}|residual-only-full-shadow-v1`;if(state.residualFullShadow?.fingerprint===fp){renderResidualFullShadow();return}
+  state.residualFullShadowRunning=true;state.residualFullShadowProgress=0;state.residualFullShadowFingerprint=fp;renderResidualFullShadow();
+  try{
+    const info=nationalSimulationBaseInfo(avg,'residual'),seed=hashString(`${fp}|${MC_SIMS}`),rngState=shadowGaussianState(seed),samples=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,new Uint16Array(MC_SIMS)])),entry=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),over5=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),threeSeat=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),cache=prepareMonteCarloDistrictCache(),coalitionWins=new Uint32Array(COALITION_MASK_COUNT),coalitionScratch=new Uint16Array(COALITION_MASK_COUNT);
+    for(let start=0;start<MC_SIMS;start+=MC_BATCH){const end=Math.min(MC_SIMS,start+MC_BATCH);for(let i=start;i<end;i++){const v=drawVoteVectorFromBaseInfo(info,rngState).v,directWins=simulateDirectWinnerCounts(v,cache,i,seed),w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE,cduThree=directWins[cache.index.cdu]>=3,csuThree=directWins[cache.index.csu]>=3;if(cduVote>=5||cduThree)w.cdu=cduVote;if(csuVote>=5||csuThree)w.csu=csuVote;for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw']){const hasThree=directWins[cache.index[k]]>=3;if(hasThree)threeSeat[k]++;if(v[k]>=5)over5[k]++;if(v[k]>=5||hasThree)w[k]=v[k]}w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0,fw:a.fw||0,ssw:a.ssw||0};for(const k of MC_SEAT_KEYS){samples[k][i]=sv[k]||0;if((sv[k]||0)>0)entry[k]++}accumulateCoalitionWins(sv,coalitionWins,coalitionScratch)}state.residualFullShadowProgress=end;renderResidualFullShadow();if(end<MC_SIMS)await yieldToBrowser()}
+    const stats={};for(const k of MC_SEAT_KEYS)stats[k]={low:quantileTyped(samples[k],MC_QLOW),median:quantileTyped(samples[k],.5),high:quantileTyped(samples[k],MC_QHIGH),entry:(entry[k]||0)/MC_SIMS,over5:(over5[k]||0)/MC_SIMS,threeSeat:(threeSeat[k]||0)/MC_SIMS};state.residualFullShadow={fingerprint:fp,n:MC_SIMS,stats,coalitionWins,seed};
+  }catch(e){console.error(e);alert(e.message||'Shadow completo non riuscito')}finally{state.residualFullShadowRunning=false;renderResidualFullShadow()}
+}
+function renderResidualFullShadow(){
+  const btn=document.getElementById('runResidualFullShadow'),el=document.getElementById('residualFullShadowResult');if(!btn||!el)return;btn.disabled=state.residualFullShadowRunning;btn.textContent=state.residualFullShadowRunning?`Shadow ${fmtCount(state.residualFullShadowProgress)} / ${fmtCount(MC_SIMS)}`:'Esegui shadow completo 50.000';const sh=state.residualFullShadow,mc=state.monteCarlo;if(!sh||!mc?.ready){el.textContent=state.residualFullShadowRunning?'Ricalcolo in corso: produzione invariata.':'Nessuno shadow completo eseguito.';return}const keys=['afd','union','gruene','spd','linke','fdp','bsw'],parts=keys.map(k=>{const p=partyByKey(k),a=mc.stats[k],b=sh.stats[k];return `${p.label}: mediana ${a.median}→${b.median}${k==='fdp'||k==='bsw'?`, ingresso ${(a.entry*100).toFixed(1)}%→${(b.entry*100).toFixed(1)}%`:''}`});const mask=coalitionMask(['union','spd','gruene']),oldP=(mc.coalitionWins[mask]||0)/mc.n,newP=(sh.coalitionWins[mask]||0)/sh.n;el.innerHTML=`<strong>Produzione → shadow A:</strong> ${parts.join(' · ')}<br><strong>CDU/CSU + SPD + Verdi:</strong> ${(oldP*100).toFixed(1).replace('.',',')}% → ${(newP*100).toFixed(1).replace('.',',')}%.`;
+}
+
 function drawNationalVoteVector(avg,rngState,sigma=MC_SIGMA){const {rng}=rngState;let {spare}=rngState;const gauss=()=>{if(spare!==null){const z=spare;spare=null;return z}let u=0,v=0;while(!u)u=rng();while(!v)v=rng();const r=Math.sqrt(-2*Math.log(u)),a=2*Math.PI*v;spare=r*Math.sin(a);return r*Math.cos(a)};const es=rngState.errorStructure||nationalErrorStructure(),common=gauss(),v={},target=100-SSW_ASSUMED_SHARE,alpha=activeMcShareSigmaAlpha();let total=0;for(const k of MC_KEYS){const observed=Number(avg[k]),base=k==='other'?Math.max(.01,(Number.isFinite(observed)?observed:0)-SSW_ASSUMED_SHARE):(Number.isFinite(observed)?observed:0),r=Math.max(0,Math.min(.95,Number(es.rho?.[k])||0)),sg=(es.sign?.[k]||1),z=r>0?sg*Math.sqrt(r)*common+Math.sqrt(1-r)*gauss():gauss(),partySigma=mcSigmaForShare(base,sigma,alpha),x=Math.max(.01,base+partySigma*z);v[k]=x;total+=x}const scale=target/total;for(const k of MC_KEYS)v[k]*=scale;rngState.spare=spare;rngState.errorStructure=es;return v}
 function voteVectorAtSimulation(avg,seed,targetIndex,sigma=MC_SIGMA){const state={rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()};let v=null;for(let i=0;i<=targetIndex;i++)v=drawNationalVoteVector(avg,state,sigma);return v}
 function allocationForVote(v,directWins,cache){const w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE,cduThree=directWins[cache.index.cdu]>=3,csuThree=directWins[cache.index.csu]>=3;if(cduVote>=5||cduThree)w.cdu=cduVote;if(csuVote>=5||csuThree)w.csu=csuVote;for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw']){const hasThree=directWins[cache.index[k]]>=3;if(v[k]>=5||hasThree)w[k]=v[k]}w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0,fw:a.fw||0,ssw:a.ssw||0};return{alloc:a,seats:sv,unionSplit:{cdu:a.cdu||0,csu:a.csu||0}}}
@@ -2993,21 +3093,34 @@ function renderCoalition(pr){
 }
 
 function renderAverageAudit(){
-  const body=document.getElementById('averageAuditBody'),weightsEl=document.getElementById('averageAuditWeights'),meta=document.getElementById('averageAuditMeta');
+  const body=document.getElementById('averageAuditBody'),weightsEl=document.getElementById('averageAuditWeights'),meta=document.getElementById('averageAuditMeta'),integrity=document.getElementById('averageAuditIntegrity'),shadowEl=document.getElementById('residualShadowSummary'),shadowStatus=document.getElementById('residualShadowStatus');
   if(!body||!weightsEl)return;
   const proj=projectionAverage(),latest=state.polls[state.polls.length-1]?.date,simple=latest?avgAt(latest,7):null,mc=state.monteCarlo;
-  if(!proj||!simple){body.innerHTML='<tr><td colspan="8">Dati insufficienti</td></tr>';weightsEl.innerHTML='<span class="audit-weight-chip">Dati insufficienti</span>';return}
-  const keys=PARTIES.filter(p=>p.key!=='other'&&(Number.isFinite(proj[p.key])||Number.isFinite(simple[p.key])));
+  if(!proj||!simple){body.innerHTML='<tr><td colspan="10">Dati insufficienti</td></tr>';weightsEl.innerHTML='<span class="audit-weight-chip">Dati insufficienti</span>';return}
+  const legacy=nationalSimulationBaseInfo(proj,'legacy'),residual=nationalSimulationBaseInfo(proj,'residual'),strict=nationalSimulationBaseInfo(proj,'strict'),shadow=mc?.ready?residualShadowNational(proj):null,gate=residualShadowGate();
+  const fmt=v=>Number.isFinite(v)?v.toFixed(3).replace('.',','):'—',pp=v=>Number.isFinite(v)?`${(v*100).toFixed(1).replace('.',',')}%`:'—';
+  if(integrity){
+    const missing=legacy.missing.map(k=>partyByKey(k)?.label||k).join(', ')||'nessuna',phantom=shadow?legacy.missing.reduce((s,k)=>s+(shadow.modes.legacy.rawMeans[k]||0),0):null;
+    integrity.innerHTML=`<div class="audit-integrity-card warn"><div class="k">Somma base live legacy</div><div class="v">${fmt(legacy.rawSum)}%</div><div class="s">target ${fmt(legacy.target)}% · scarto ${fmt(legacy.delta)} p.p.</div></div><div class="audit-integrity-card warn"><div class="k">Categorie mancanti</div><div class="v">${esc(missing)}</div><div class="s">nel live ricevono comunque σ minima; massa media ${Number.isFinite(phantom)?fmt(phantom)+' p.p.':'—'}</div></div><div class="audit-integrity-card ${shadow?'warn':''}"><div class="k">Scala media live</div><div class="v">${shadow?fmt(shadow.modes.legacy.meanScale):'—'}</div><div class="s">totale post-shock medio ${shadow?fmt(shadow.modes.legacy.meanRawTotal):'—'}%</div></div><div class="audit-integrity-card ok"><div class="k">Residuo shadow A</div><div class="v">${fmt(residual.base.other)}%</div><div class="s">ricostruisce Altri; FW resta come nel backtest corrente</div></div>`;
+  }
+  const keys=PARTIES.filter(p=>p.key==='other'||Number.isFinite(proj[p.key])||Number.isFinite(simple[p.key])||legacy.missing.includes(p.key));
   body.innerHTML=keys.map(p=>{
-    const a=Number(proj[p.key]),b=Number(simple[p.key]),d=a-b,sig=Number.isFinite(a)?mcSigmaForShare(a,MC_SIGMA,activeMcShareSigmaAlpha()):null,st=mc?.ready?mc.stats?.[p.key]:null,thresholdEligible=['afd','spd','gruene','linke','bsw','fdp','fw'].includes(p.key);
-    const dc=Math.abs(d)<.005?'audit-delta-flat':d>0?'audit-delta-pos':'audit-delta-neg',ds=Number.isFinite(d)?`${d>=0?'+':''}${d.toFixed(2).replace('.',',')}`:'—';
-    const q=v=>Number.isFinite(v)?`${(v*100).toFixed(1).replace('.',',')}%`:'—';
-    return `<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${esc(p.label)}</td><td><strong>${pct(a)}</strong></td><td>${pct(b)}</td><td class="${dc}">${ds}</td><td>${Number.isFinite(sig)?sig.toFixed(3).replace('.',','):'—'}</td><td>${thresholdEligible&&st?q(st.over5):'—'}</td><td>${thresholdEligible&&st?q(st.threeSeat):'—'}</td><td>${thresholdEligible&&st?q(st.entry):'—'}</td></tr>`;
+    const haveA=finitePollShare(proj[p.key]),haveB=finitePollShare(simple[p.key]),a=haveA?Number(proj[p.key]):null,b=haveB?Number(simple[p.key]):null,d=haveA&&haveB?a-b:null,legacyBase=legacy.base[p.key]||0,sig=legacy.active.has(p.key)?mcSigmaForShare(legacyBase,MC_SIGMA,activeMcShareSigmaAlpha()):null,st=mc?.ready?mc.stats?.[p.key]:null,thresholdEligible=['afd','spd','gruene','linke','bsw','fdp','fw'].includes(p.key),shadowP=shadow?.modes?.residual?.over5?.[p.key];
+    const dc=!Number.isFinite(d)?'audit-delta-flat':Math.abs(d)<.005?'audit-delta-flat':d>0?'audit-delta-pos':'audit-delta-neg',ds=Number.isFinite(d)?`${d>=0?'+':''}${d.toFixed(2).replace('.',',')}`:'—';
+    let nowTxt=haveA?pct(a):'—';if(p.key==='other'&&!haveA)nowTxt=`— <span style="color:#177d43">→ residuo ${pct(residual.base.other)}</span>`;if(p.key!=='other'&&!haveA)nowTxt+=' <span style="color:#a25c00">(mancante)</span>';
+    const inputTxt=p.key==='other'&&!haveA?`${fmt(legacyBase)}%`:!haveA?`${fmt(legacyBase)}%`:pct(legacyBase);
+    return `<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${esc(p.label)}</td><td><strong>${nowTxt}</strong></td><td>${haveB?pct(b):'—'}</td><td class="${dc}">${ds}</td><td>${inputTxt}</td><td>${Number.isFinite(sig)?fmt(sig):'—'}</td><td>${thresholdEligible&&st?pp(st.over5):'—'}</td><td>${thresholdEligible&&Number.isFinite(shadowP)?pp(shadowP):'—'}</td><td>${thresholdEligible&&st?pp(st.threeSeat):'—'}</td><td>${thresholdEligible&&st?pp(st.entry):'—'}</td></tr>`;
   }).join('');
-  const end=dayKey(proj.date),items=proj.rows.map(p=>{const key=p.institute.trim().toLowerCase(),age=Math.max(0,(end-dayKey(p.date))/DAY),rel=proj.reliability?.get(key)||1,w=Math.pow(.5,age/7)*rel;return{name:p.institute,date:p.date,age,rel,w}}),tot=items.reduce((s,x)=>s+x.w,0)||1;
-  items.sort((a,b)=>b.w-a.w);
+  if(shadowEl){
+    const L=shadow?.modes?.legacy,R=shadow?.modes?.residual,S=shadow?.modes?.strict,legacyBT=gate.legacy,strictBT=gate.strict;
+    const col=(title,obj,cls,extra='')=>`<div class="audit-shadow-col ${cls}"><h4>${title}</h4><p>scala media <strong>${obj?fmt(obj.meanScale):'—'}</strong> · totale grezzo <strong>${obj?fmt(obj.meanRawTotal):'—'}%</strong></p><p>FDP ≥5% <strong>${obj?pp(obj.over5.fdp):'—'}</strong> · BSW ≥5% <strong>${obj?pp(obj.over5.bsw):'—'}</strong></p>${extra}</div>`;
+    shadowEl.innerHTML=col('Live legacy',L,'',`<p>Riproduzione del percorso oggi pubblicato.</p>`)+col('Shadow A · residuo-only',R,'candidate',`<p><span class="audit-gate-pass">Compatibile col gate corrente:</span> ricostruisce Altri ma conserva la gestione FW già usata nel seat backtest 2025.</p>`)+col('Shadow B · strict missing-party',S,'strict',`<p>Seat backtest CRPS ${fmt(legacyBT.crps)} → ${fmt(strictBT.crps)} · WIS ${fmt(legacyBT.wis)} → ${fmt(strictBT.wis)}.</p><p class="${gate.strictPass?'audit-gate-pass':'audit-gate-fail'}">${gate.strictPass?'SUPEREREBBE':'NON SUPERA'} il gate no-regression corrente.</p>`);
+  }
+  if(shadowStatus)shadowStatus.textContent=shadow?`${fmtCount(shadow.n)} simulazioni nazionali shadow · produzione invariata`:'In attesa del Monte Carlo';
+  const end=dayKey(proj.date),items=proj.rows.map(p=>{const key=p.institute.trim().toLowerCase(),age=Math.max(0,(end-dayKey(p.date))/DAY),rel=proj.reliability?.get(key)||1,w=Math.pow(.5,age/7)*rel;return{name:p.institute,date:p.date,age,rel,w}}),tot=items.reduce((s,x)=>s+x.w,0)||1;items.sort((a,b)=>b.w-a.w);
   weightsEl.innerHTML=items.map(x=>`<span class="audit-weight-chip"><strong>${esc(x.name)}</strong> ${(x.w/tot*100).toFixed(1).replace('.',',')}% <span>· ${Math.round(x.age)}g · rel ${x.rel.toFixed(3).replace('.',',')}</span></span>`).join('');
   if(meta)meta.textContent=`${proj.count} istituti · ultimo sondaggio ${fmtDate(proj.date)} · emivita 7 giorni`;
+  renderResidualFullShadow();
 }
 function renderSnapshot(){const cur=projectionAverage(),el=document.getElementById('snapshot');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),max=Math.max(...ranked.map(x=>x.val),30);el.innerHTML=ranked.map(x=>`<div class="barrow"><div class="party">${esc(x.label)}</div><div class="track"><div class="fill" style="--w:${Math.max(1,x.val/max*100)}%;--c:${x.color}"></div></div><div class="pct">${pct(x.val)}</div></div>`).join('')}
 function renderMomentum(){const cur=currentAvg(),past=nearestAvg(30),el=document.getElementById('momentum');if(!cur||!past){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}const rows=PARTIES.map(p=>({...p,now:cur[p.key],then:past[p.key]})).filter(x=>Number.isFinite(x.now)&&Number.isFinite(x.then)).map(x=>({...x,d:x.now-x.then})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));el.innerHTML=rows.map(x=>{const cls=x.d>.05?'up':x.d<-.05?'down':'flat',sign=x.d>0?'+':'';return `<div class="mini-row"><div><strong>${esc(x.label)}</strong><div class="sub">media mobile semplice · ${state.window} gg · ${pct(x.now)}</div></div><span class="delta ${cls}">${sign}${x.d.toFixed(1).replace('.',',')} p.p.</span><span style="width:9px;height:9px;border-radius:3px;background:${x.color}"></span></div>`}).join('')}
@@ -3440,8 +3553,12 @@ function runInternalChecks(){
   if(thresholdProject(4.99,false)!==0)throw new Error('Autotest soglia fallito: un partito al 4,99% senza eccezione non deve entrare.');
   if(thresholdProject(5.01,false)<=0)throw new Error('Autotest soglia fallito: un partito al 5,01% deve entrare.');
   if(thresholdProject(4.8,true)<=0)throw new Error('Autotest soglia fallito: l’eccezione dei tre collegi non viene applicata correttamente.');
-  // 8) v22.4 probabilistic promotion gate: the share-aware candidate must beat the v22.3 constant-sigma baseline.
-  // 9) v22.5 correlation gate: the pre-existing common-factor candidate must beat independent shocks out of sample.
+  // 8) Residual integrity regression: missing Other must be reconstructed before a strict simulation; malformed explicit totals must not pass silently.
+  const residualSynthetic={union:21,afd:28,spd:12,gruene:14,linke:11,bsw:3,fdp:4.6,fw:null,other:null},rb=strictResidualBase(residualSynthetic);if(Math.abs(rb.rawSum-rb.target)>.5||!rb.reconstructedOther)throw new Error('Autotest residuo fallito: Altri mancante non viene ricostruito sul target.');
+  const legacySynthetic=nationalSimulationBaseInfo(residualSynthetic,'legacy');if(!(legacySynthetic.rawSum<legacySynthetic.target-1))throw new Error('Autotest residuo fallito: il caso legacy sintetico non riproduce il vettore incompleto atteso.');
+  let malformedCaught=false;try{strictResidualBase({...residualSynthetic,other:1})}catch{malformedCaught=true}if(!malformedCaught)throw new Error('Autotest residuo fallito: un totale esplicito incoerente deve generare errore.');
+  // 9) v22.4 probabilistic promotion gate: the share-aware candidate must beat the v22.3 constant-sigma baseline.
+  // 10) v22.5 correlation gate: the pre-existing common-factor candidate must beat independent shocks out of sample.
   const pg=probabilisticSeatPromotionGate(),expectedAlpha=pg.pass?MC_SHARE_SIGMA_ALPHA_CANDIDATE:0;if(Math.abs(activeMcShareSigmaAlpha()-expectedAlpha)>1e-12)throw new Error('Autotest probabilistico v22.4 fallito: il fallback del promotion gate non è coerente.');
   const cg=correlationPromotionGate(),es=nationalErrorStructure();if(Boolean(es.active)!==Boolean(cg.pass))throw new Error('Autotest correlazioni v22.5 fallito: stato attivo/fallback non coerente con il promotion gate.');
   // 10) Geometry pipeline smoke test: ensure the official-geometry renderer exists and builds all 299 SVG paths.
@@ -3460,6 +3577,7 @@ document.getElementById('refreshBtn').addEventListener('click',()=>fetchData(tru
 document.getElementById('downloadSnapshotBtn')?.addEventListener('click',downloadSnapshotJson);
 document.getElementById('downloadPngBtn')?.addEventListener('click',downloadPreviewPng);
 document.querySelectorAll('[data-share]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openShare(el.dataset.share,el)}));
+document.getElementById('runResidualFullShadow')?.addEventListener('click',runResidualFullShadow);
 initGraphicExports();
 initForecastUI();
 initMobileNowcastSticky();
