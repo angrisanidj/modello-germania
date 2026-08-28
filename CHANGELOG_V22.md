@@ -1,5 +1,13 @@
 # Changelog v22
 
+## v22.4.5 — 28 agosto 2026
+
+- Hardening infrastrutturale: fingerprint e seed serializzano le date di sondaggio come date civili, eliminando lo slittamento di un giorno dovuto a `toISOString()` nei fusi positivi.
+- Schema fingerprint esplicito `civil-date-v1`; cache/seed vengono quindi rigenerati in modo deterministico senza cambiare il motore statistico.
+- Guard A upstream automatizzata e verificata; stato normale atteso verde.
+- Audit finale coverage 50/80/95 e fascia 3–7% superato. Nessuna modifica metodologica, al forecast o al territorio.
+
+
 ## Release pubblica pulita · 28 agosto 2026
 
 - rimossi dall'interfaccia pubblica i pannelli di audit, gli shadow test e i pulsanti di sensitivity usati durante la validazione;

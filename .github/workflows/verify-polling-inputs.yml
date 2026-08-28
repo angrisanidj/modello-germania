@@ -41,6 +41,8 @@ jobs:
           node scripts/test-input-integrity-panel.js
           node scripts/test-v2244-before-after-audit.js
           node scripts/test-guard-a-workflow.js
+          node scripts/test-civil-date-fingerprint.js
+          node scripts/test-final-smoke.js
           node --check scripts/input-integrity-core.js
           node --check scripts/input-integrity-ui.js
           node --check scripts/audit-v2244-before-after.js

@@ -1287,7 +1287,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="hero-meta">
       <div id="status" class="status"><span class="dot loading"></span><span>Caricamento dati…</span></div>
-      <span class="badge">v22.4.4</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
+      <span class="badge">v22.4.5</span><span class="badge">Nowcast · se si votasse oggi</span><span class="badge">630 seggi</span><span class="badge">Maggioranza 316</span><span class="badge">Sainte-Laguë/Schepers</span>
     </div>
     <div class="election-calendar-banner"><strong>Nowcast, non elezione convocata.</strong> Al 28 agosto 2026 non è fissata una data per nuove elezioni federali. In assenza di elezioni anticipate, la prossima elezione ordinaria deve tenersi tra il 26 gennaio e il 25 marzo 2029. <a href="https://www.bundeswahlleiterin.de/bundestagswahlen/2029.html" target="_blank" rel="noopener">Fonte ufficiale ↗</a></div>
   </header>
@@ -1300,7 +1300,7 @@ body.sticky-nowcast-offset{padding-top:0}
     </div>
     <div class="editorial-meta-actions"><button id="downloadSnapshotBtn">Esporta JSON</button><button id="downloadPngBtn">Salva immagine</button></div>
   </section>
-  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · Correzione del residuo nazionale.</strong> Il Monte Carlo ricostruisce ora esplicitamente la quota “Altri” prima di applicare gli shock e verificare le soglie. La correzione rende coerenti il percorso live e il backtest storico, senza modificare la media dei sondaggi né i parametri di incertezza del modello.</div>
+  <div class="release-note"><strong><time datetime="2026-08-28">28 agosto 2026</time> · v22.4.5 · Hardening infrastrutturale finale.</strong> I fingerprint e i seed usano ora date civili indipendenti dal fuso orario; la verifica upstream Guard A è automatizzata. Nessuna modifica alla media dei sondaggi, alla dispersione, al riparto dei seggi, al forecast o al modello territoriale.</div>
   <details class="read-guide">
     <summary>Come leggere il modello</summary>
     <div class="read-guide-grid">
@@ -1620,7 +1620,7 @@ const CSV_EXPORT_URLS=[
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A8:Z`,
   `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}&headers=1&range=A10:Z`
 ];
-const APP_VERSION='22.4.4';
+const APP_VERSION='22.4.5';
 const SHARE_CARD_VERSION='20260827v22_4_final';
 const CACHE_KEY='de_poll_dashboard_v21_3_editorial';
 const POLL_REFRESH_BASE_MS=12*60*60*1000;
@@ -1629,6 +1629,7 @@ let pollRefreshTimer=null;
 const DAILY_SNAPSHOT_KEY='de_poll_dashboard_daily_snapshot_v21';
 const CACHE_MS=24*60*60*1000;
 const DAY=86400000;
+const FINGERPRINT_SCHEMA_VERSION='civil-date-v1';
 const TOTAL_SEATS=630, MAJORITY=316, SSW_ASSUMED_SHARE=0.153;
 const MC_SIMS=50000, MC_BATCH=1000, MC_SIGMA=1.30, MC_QLOW=0.10, MC_QHIGH=0.90;
 const MC_SHARE_SIGMA_ALPHA_CANDIDATE=0.10, MC_SHARE_SIGMA_REFERENCE=15, MC_SHARE_SIGMA_MIN=0.75, MC_SHARE_SIGMA_MAX=1.25;
@@ -1750,6 +1751,11 @@ function downloadBlob(filename,content,type='application/json'){const blob=new B
 function snapshotFilename(ext='json'){const d=projectionAverage()?.date||state.fetchedAt||new Date();const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dd=String(d.getDate()).padStart(2,'0');return `bundestag_snapshot_${y}-${m}-${dd}.${ext}`}
 
 function dayKey(d){return new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime()}
+function civilDateString(d){
+  if(!d)return'';
+  const x=d instanceof Date?d:new Date(d);if(isNaN(x))return'';
+  return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`;
+}
 function parseDate(v,f){
   if(v instanceof Date&&!isNaN(v))return v;
   const s=String(f||v||'').trim();
@@ -1763,7 +1769,7 @@ function partyByKey(k){return k==='ssw'?SSW:PARTIES.find(p=>p.key===k)}
 function safeStorageGet(key){try{return localStorage.getItem(key)}catch(e){console.warn('Storage non leggibile:',key,e);return null}}
 function safeStorageSet(key,value){try{localStorage.setItem(key,value);return true}catch(e){console.warn('Storage non scrivibile:',key,e);return false}}
 function safeStorageRemove(key){try{localStorage.removeItem(key);return true}catch{return false}}
-function pollArraySignature(polls){let h=2166136261>>>0;for(const p of polls||[]){const row=`${p.date?.toISOString?.().slice(0,10)||''}|${String(p.institute||'').trim().toLowerCase()}|${MC_KEYS.map(k=>Number.isFinite(p[k])?Number(p[k]).toFixed(3):'').join(',')}`;for(let i=0;i<row.length;i++){h^=row.charCodeAt(i);h=Math.imul(h,16777619)}}return `${(polls||[]).length}:${h>>>0}`}
+function pollArraySignature(polls){let h=2166136261>>>0;for(const p of polls||[]){const row=`${FINGERPRINT_SCHEMA_VERSION}|${civilDateString(p.date)}|${String(p.institute||'').trim().toLowerCase()}|${MC_KEYS.map(k=>Number.isFinite(p[k])?Number(p[k]).toFixed(3):'').join(',')}`;for(let i=0;i<row.length;i++){h^=row.charCodeAt(i);h=Math.imul(h,16777619)}}return `${(polls||[]).length}:${h>>>0}`}
 
 function normLabel(v){
   return String(v??'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'').trim();
@@ -2489,10 +2495,10 @@ function representativeSimulationIndex(samples,stats){
 }
 function mcFingerprint(avg){
   const vals=MC_KEYS.map(k=>Number(avg?.[k]||0).toFixed(4)).join('|');
-  const rows=(avg?.rows||[]).map(r=>`${r.date?.toISOString?.().slice(0,10)||''}:${String(r.institute||'').trim().toLowerCase()}:${MC_KEYS.map(k=>Number(r[k]||0).toFixed(2)).join(',')}`).sort().join('~');
+  const rows=(avg?.rows||[]).map(r=>`${civilDateString(r.date)}:${String(r.institute||'').trim().toLowerCase()}:${MC_KEYS.map(k=>Number(r[k]||0).toFixed(2)).join(',')}`).sort().join('~');
   const pollSnapshot=hashString(rows).toString(16);
   const hist=Object.keys(districtState.base?.nationalVotesPrev||{}).length?'hist1':'hist0',src=hashString(String(districtState.source||'')).toString(16),err=nationalErrorStructure().signature;
-  return `${MC_ENGINE_VERSION}|${avg?.date?.toISOString?.().slice(0,10)||''}|${vals}|polls:${pollSnapshot}|wk:${districtState.ready?299:0}|${hist}|src:${src}|err:${err}`;
+  return `${MC_ENGINE_VERSION}|fp:${FINGERPRINT_SCHEMA_VERSION}|${civilDateString(avg?.date)}|${vals}|polls:${pollSnapshot}|wk:${districtState.ready?299:0}|${hist}|src:${src}|err:${err}`;
 }
 function coalitionMask(keys){let mask=0;for(const k of keys||[])mask|=COALITION_KEY_BIT[k]||0;return mask}
 function accumulateCoalitionWins(seatVector,wins,scratch,conditionalWins=null){scratch[0]=0;for(let mask=1;mask<COALITION_MASK_COUNT;mask++){const idx=COALITION_BIT_INDEX[mask],sum=scratch[COALITION_PREV_MASK[mask]]+(seatVector[MC_SEAT_KEYS[idx]]||0);scratch[mask]=sum;if(sum>=MAJORITY){wins[mask]++;if(conditionalWins)conditionalWins[mask]++}}}
@@ -3406,7 +3412,7 @@ function drawPreviewCard(){
 
 function socialCardVersionToken(){
   const avg=projectionAverage();
-  const date=avg?.date?avg.date.toISOString().slice(0,10).replace(/-/g,''):'nodate';
+  const date=avg?.date?civilDateString(avg.date).replace(/-/g,''):'nodate';
   const values=['union','afd','spd','gruene','linke','fdp','bsw','fw'].map(k=>Number(avg?.[k]||0).toFixed(2)).join('|');
   const seed=state.monteCarlo?.ready?String(state.monteCarlo.seed||'0'):'pre';
   return `${date}-${hashString(values).toString(16)}-${seed}`;

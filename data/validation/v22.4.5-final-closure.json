@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "version": "22.4.5",
+  "scope": "final infrastructure-only hardening",
+  "methodologyChanged": false,
+  "statisticalEngine": "v22.4.1-residual-fix",
+  "forecastEngine": "v22.4.1-residual-fix-forecast",
+  "fingerprintSchema": "civil-date-v1",
+  "guardA": {
+    "status": "verified",
+    "mode": "automated",
+    "asOfDate": "2026-08-28",
+    "parserVersion": 1,
+    "fixtureBaseline": "2026-08-28"
+  },
+  "coverageAudit": {
+    "file": "v22.4.4-final-coverage-audit.json",
+    "pass": true,
+    "schemaVersion": 2
+  },
+  "productionVerification": "pending-after-push",
+  "note": "Record pre-push. La chiusura definitiva richiede verifica dello SHA remoto, workflow verde e dashboard/Guard A verde."
+}

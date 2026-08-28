@@ -9,5 +9,5 @@ must(/union:20,afd:28,spd:13,gruene:16,linke:12,bsw:2,fdp:4,fw:null,other:5/,'va
 must(/async function applyFetchedPolls\(polls,\{sourceLabel='Fonte controllata',quiet=false\}=\{\}\)\{\s*polls=mergeInputHotfixSupplement\(polls\);/,'merge non applicato prima della firma/cache');
 const cacheHits=(s.match(/state\.polls=mergeInputHotfixSupplement\(deserializePolls\(cachedObj\.polls\)\)/g)||[]).length;
 if(cacheHits<2){console.error('merge cache incompleto: '+cacheHits);process.exit(1)}
-if(!/const APP_VERSION='22\.4\.4';/.test(s)){console.error('APP_VERSION inattesa');process.exit(1)}
+if(!/const APP_VERSION='22\.4\.5';/.test(s)){console.error('APP_VERSION inattesa');process.exit(1)}
 console.log('input-supplement structural tests passed');
