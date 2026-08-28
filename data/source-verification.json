@@ -2,11 +2,13 @@
   "schemaVersion": 1,
   "source": "Wahlrecht.de",
   "status": "verified",
-  "mode": "manual",
-  "verifiedAt": "2026-08-28T18:29:00+02:00",
+  "mode": "automated",
+  "verifiedAt": "2026-08-28T17:57:40.001822Z",
   "asOfDate": "2026-08-28",
   "windowDays": 14,
   "staleAfterHours": 36,
+  "parserVersion": 1,
+  "fixtureBaseline": "2026-08-28",
   "sourcePages": [
     "https://www.wahlrecht.de/umfragen/",
     "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"
@@ -41,5 +43,5 @@
       "date": "2026-08-21"
     }
   ],
-  "note": "Verifica upstream manuale iniziale: certifica la lista eleggibile ma non abilita il verde. Il verde richiede mode=automated, freshness valida e coerenza fonte → dataset → motore."
+  "note": "Verifica upstream automatizzata. Verde atteso solo con freshness valida e coerenza fonte → dataset → motore; ogni giallo dopo il primo run automatico è un'anomalia da verificare."
 }
