@@ -1,0 +1,119 @@
+name: Verify polling input integrity
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: polling-input-integrity
+  cancel-in-progress: false
+
+jobs:
+  guard-a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Parser fixture tests
+        run: python -m unittest tests/test_wahlrecht_source.py -v
+
+      - name: Existing input-integrity tests
+        run: |
+          node scripts/test-input-integrity.js
+          node scripts/test-input-integrity-certification.js
+          node scripts/test-input-integrity-certification-ui.js
+          node scripts/test-input-integrity-ui-date.js
+          node scripts/test-input-supplement.js
+          node scripts/test-input-integrity-panel.js
+          node scripts/test-v2244-before-after-audit.js
+          node scripts/test-guard-a-workflow.js
+          node --check scripts/input-integrity-core.js
+          node --check scripts/input-integrity-ui.js
+          node --check scripts/audit-v2244-before-after.js
+          node --check scripts/test-guard-a-workflow.js
+          python -m py_compile tools/verify_wahlrecht_source.py
+          git diff --check
+
+      - name: Live Wahlrecht markup drift and Guard A candidate
+        run: |
+          set +e
+          python tools/verify_wahlrecht_source.py live \
+            --root . \
+            --candidate /tmp/source-verification.json \
+            --report /tmp/guard-a-report.json
+          code=$?
+          set -e
+          if [ "$code" -eq 20 ]; then
+            echo "::error title=Guard A source unavailable::Wahlrecht returned an unavailable/rate-limited condition (including 429/503 or network failure). Manifest left untouched."
+            exit 20
+          elif [ "$code" -eq 30 ]; then
+            echo "::error title=Guard A parser sanity failure::Live HTML parsed to an implausible/partial result. Manifest left untouched."
+            exit 30
+          elif [ "$code" -eq 31 ]; then
+            echo "::error title=Guard A markup drift::Live parser shape deviates beyond the versioned fixture tolerance. Manifest left untouched."
+            exit 31
+          elif [ "$code" -ne 0 ]; then
+            echo "::error title=Guard A unknown failure::Verifier returned exit code $code. Manifest left untouched."
+            exit "$code"
+          fi
+
+      - name: Conditionally refresh automated certification
+        run: |
+          python tools/verify_wahlrecht_source.py apply-candidate \
+            --current data/source-verification.json \
+            --candidate /tmp/source-verification.json \
+            --max-age-hours 24
+
+      - name: Enforce write allowlist
+        run: |
+          set -euo pipefail
+          changed="$(
+            {
+              git diff --name-only
+              git ls-files --others --exclude-standard
+            } | sed '/^$/d' | sort -u
+          )"
+          unexpected="$(printf '%s\n' "$changed" | grep -v '^data/source-verification\.json$' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "::error title=Guard A write-scope violation::Unexpected changed files:"
+            printf '%s\n' "$unexpected"
+            exit 1
+          fi
+          git diff --check
+
+      - name: Commit certification when needed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/source-verification.json; then
+            echo "Guard A verified; no manifest commit needed."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add -- data/source-verification.json
+
+          staged="$(git diff --cached --name-only)"
+          if [ "$staged" != "data/source-verification.json" ]; then
+            echo "::error title=Guard A staging violation::Only data/source-verification.json may be staged."
+            printf '%s\n' "$staged"
+            exit 1
+          fi
+
+          git diff --cached --check
+          git commit -m "chore: certify polling source [guard-a]"
+          git pull --rebase origin main
+          git push origin HEAD:main

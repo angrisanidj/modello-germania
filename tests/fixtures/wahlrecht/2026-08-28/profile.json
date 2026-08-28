@@ -1,0 +1,70 @@
+{
+  "parserVersion": 1,
+  "main": {
+    "headerColumns": 12,
+    "dateColumns": 12,
+    "primaryInstitutes": [
+      "Allensbach",
+      "Forsa",
+      "Forschungsgruppe Wahlen",
+      "GMS",
+      "INSA",
+      "Infratest dimap",
+      "Verian",
+      "YouGov"
+    ],
+    "tableRows": 11
+  },
+  "other": {
+    "headerColumns": 13,
+    "pollRows": 28,
+    "institutes": [
+      "INFO GmbH",
+      "INSA",
+      "IfM Leipzig",
+      "Trend Research Hamburg",
+      "pollytix"
+    ],
+    "tableRows": 38
+  },
+  "capturedAt": "2026-08-28T17:44:36.017350Z",
+  "sourcePages": [
+    "https://www.wahlrecht.de/umfragen/",
+    "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"
+  ],
+  "sha256": {
+    "main.html": "105bea64f37bd1d3c9bb14a0194dc1e94d9f178d239b67bb60b0a37d974483e5",
+    "weitere-umfragen.html": "a6b2370ad9857707f196f05052fd6994b31005f164b9daab165ad23aa53aabc9"
+  },
+  "asOfDate": "2026-08-28",
+  "eligible": [
+    {
+      "institute": "Allensbach",
+      "date": "2026-08-21"
+    },
+    {
+      "institute": "Verian",
+      "date": "2026-08-28"
+    },
+    {
+      "institute": "Forsa",
+      "date": "2026-08-25"
+    },
+    {
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2026-08-20"
+    },
+    {
+      "institute": "INSA",
+      "date": "2026-08-25"
+    },
+    {
+      "institute": "YouGov",
+      "date": "2026-08-18"
+    },
+    {
+      "institute": "pollytix",
+      "date": "2026-08-21"
+    }
+  ]
+}
