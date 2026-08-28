@@ -10,8 +10,8 @@
 <meta property="og:url" content="https://angrisanidj.github.io/modello-germania/" />
 <meta property="og:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta property="og:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta property="og:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
-<meta property="og:image:secure_url" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
+<meta property="og:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
+<meta property="og:image:secure_url" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -20,7 +20,7 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Elezioni federali tedesche — Sondaggi e proiezione del Bundestag" />
 <meta name="twitter:description" content="Media dei sondaggi, proiezione probabilistica dei seggi, simulazione dei collegi e costruttore di maggioranze." />
-<meta name="twitter:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-2438703555" />
+<meta name="twitter:image" content="https://angrisanidj.github.io/modello-germania/social-card-bundestag-v2.png?v=20260825-87d51937-1363519761" />
 <meta name="twitter:image:alt" content="Proiezione del Bundestag: emiciclo, seggi e sondaggi aggiornati dal modello." />
 <meta name="twitter:url" content="https://angrisanidj.github.io/modello-germania/" />
 <link rel="canonical" href="https://angrisanidj.github.io/modello-germania/" />
@@ -1543,6 +1543,15 @@ body.sticky-nowcast-offset{padding-top:0}
       </div>
       <div class="audit-weight-head"><strong>Peso base degli istituti nel nowcast</strong><span id="averageAuditMeta">—</span></div>
       <div id="averageAuditWeights" class="audit-weights"><span class="audit-weight-chip">In attesa dei dati…</span></div>
+      <div class="audit-shadow-box" id="reliabilitySensitivityBox">
+        <div class="audit-shadow-head"><strong>Sensitivity dei pesi di affidabilità</strong><span id="reliabilitySensitivityStatus">Confronto rel attuali vs tutti rel=1,000</span></div>
+        <div id="reliabilitySensitivitySummary" class="audit-shadow-grid"></div>
+        <div class="audit-tablewrap" style="margin-top:12px">
+          <table class="audit-table"><thead><tr><th>Partito</th><th>Pesi attuali</th><th>rel=1,000</th><th>Δ</th></tr></thead><tbody id="reliabilitySensitivityBody"><tr><td colspan="4">In attesa dei dati…</td></tr></tbody></table>
+        </div>
+        <div class="audit-shadow-action" style="margin-top:12px"><button type="button" id="runReliabilityShadow">Esegui sensitivity 50.000</button><span>Ricalcola seggi e coalizioni con gli stessi shock ma senza reliability weights; produzione invariata.</span></div>
+        <div id="reliabilityShadowResult" class="audit-shadow-result">Nessuna sensitivity completa eseguita.</div>
+      </div>
       <div class="audit-note">Le probabilità di produzione ≥5%, ≥3 collegi e ingresso sono conteggi diretti delle 50.000 simulazioni, non approssimazioni analitiche. La produzione v22.4.1 ricostruisce il residuo “Altri” e conserva la gestione delle categorie nominate mancanti già presente nel backtest. Il confronto pre-fix e lo shadow B sono solo diagnostici. La normalizzazione media post-shock può restare leggermente diversa da 1: con FW non osservato la base è 0 ma lo shock minimo ereditato dal backtest (σ≈0,975) viene troncato a valori positivi, introducendo in media circa 0,39 p.p. di massa prima della rinormalizzazione. Questo effetto è diagnostico e separato dalla guardia di integrità, che opera sul vettore base e deve leggere 1,000; variazioni future materialmente superiori a questo ordine di grandezza vanno investigate. I pesi degli istituti mostrati sotto sono i pesi base temporali × affidabilità; se un sondaggio non riporta un partito, il denominatore di quel partito viene naturalmente ricalcolato sui soli valori disponibili. Per CDU/CSU la soglia è applicata separatamente a CDU e CSU, quindi queste tre colonne non sono riportate sull'aggregato Union.</div>
     </div>
   </details>
@@ -1707,7 +1716,7 @@ const DISTRICT_PARTIES={
   bsw:{label:'BSW',model:'bsw',color:'#792350'},fdp:{label:'FDP',model:'fdp',color:'#ffcc00'},
   fw:{label:'FW',model:'fw',color:'#f39200'},other:{label:'Altri',model:'other',color:'#9a9a96'}
 };
-const districtState={ready:false,loading:false,loadedOnce:false,geo:null,base:null,projected:[],deterministicProjected:[],mode:'winner',selected:null,source:null,pathCache:null,qa:null,partyFilters:new Set(),territorialCalibration:null,scenarioMode:'deterministic',validation:null,nextPollCheckAt:null,residualShadowCache:null,residualFullShadow:null,residualFullShadowRunning:false,residualFullShadowProgress:0,residualFullShadowFingerprint:null};
+const districtState={ready:false,loading:false,loadedOnce:false,geo:null,base:null,projected:[],deterministicProjected:[],mode:'winner',selected:null,source:null,pathCache:null,qa:null,partyFilters:new Set(),territorialCalibration:null,scenarioMode:'deterministic',validation:null,nextPollCheckAt:null,residualShadowCache:null,residualFullShadow:null,residualFullShadowRunning:false,residualFullShadowProgress:0,residualFullShadowFingerprint:null,reliabilityShadow:null,reliabilityShadowRunning:false,reliabilityShadowProgress:0,reliabilityShadowFingerprint:null};
 const mapZoomState={base:{x:0,y:0,w:640,h:760},view:{x:0,y:0,w:640,h:760},maxZoom:5,panning:false,pointerId:null,startX:0,startY:0,startView:null,moved:false,suppressClickUntil:0};
 
 const SEAT_ORDER=['linke','gruene','spd','ssw','union','fdp','fw','bsw','afd'];
@@ -1921,6 +1930,14 @@ function projectionAverage(){
   for(const party of PARTIES){let num=0,den=0;for(const p of rows){const v=p[party.key];if(!Number.isFinite(v))continue;const age=Math.max(0,(dayKey(latest)-dayKey(p.date))/DAY),w=Math.pow(.5,age/7)*(rel.get(p.institute.trim().toLowerCase())||1);num+=v*w;den+=w}out[party.key]=den?num/den:null}
   return out;
 }
+function projectionAverageNeutralReliability(){
+  if(!state.polls.length)return null;const latest=state.polls[state.polls.length-1].date,start=dayKey(latest)-13*DAY,byInst=new Map();
+  for(const p of state.polls){if(dayKey(p.date)<start||p.date>latest)continue;const k=p.institute.trim().toLowerCase(),prev=byInst.get(k);if(!prev||p.date>=prev.date)byInst.set(k,p)}
+  const rows=[...byInst.values()];if(!rows.length)return null;const out={date:latest,count:rows.length,rows,reliability:new Map()};
+  for(const party of PARTIES){let num=0,den=0;for(const p of rows){const v=p[party.key];if(!Number.isFinite(v))continue;const age=Math.max(0,(dayKey(latest)-dayKey(p.date))/DAY),w=Math.pow(.5,age/7);num+=v*w;den+=w}out[party.key]=den?num/den:null}
+  return out;
+}
+
 function projectionAverageAt(endDate){
   if(!state.polls.length)return null;const end=new Date(endDate),endDay=dayKey(end),start=endDay-13*DAY,byInst=new Map();
   for(const p of state.polls){const t=dayKey(p.date);if(t<start||t>endDay)continue;const k=p.institute.trim().toLowerCase(),prev=byInst.get(k);if(!prev||p.date>=prev.date)byInst.set(k,p)}
@@ -2128,6 +2145,18 @@ function probabilisticSeatPromotionGate(){
   return MC_PROB_BACKTEST_CACHE;
 }
 function activeMcShareSigmaAlpha(){return probabilisticSeatPromotionGate().alpha}
+
+function dedicatedBacktestAverageNeutralReliability(cycle){
+  const cutoff=new Date(cycle.election.getTime()-DAY),end=dayKey(cutoff),start=end-13*DAY,byInst=new Map();
+  for(const p of cycle.polls){const t=dayKey(p.date);if(t<start||t>end)continue;const key=p.institute.trim().toLowerCase(),prev=byInst.get(key);if(!prev||p.date>=prev.date)byInst.set(key,p)}
+  const rows=[...byInst.values()],out={date:cutoff,count:rows.length,rows,reliability:new Map()};
+  for(const k of Object.keys(cycle.result)){let num=0,den=0;for(const p of rows){const v=p[k];if(!Number.isFinite(v))continue;const age=Math.max(0,(end-dayKey(p.date))/DAY),w=Math.pow(.5,age/7);num+=v*w;den+=w}out[k]=den?num/den:null}
+  return out;
+}
+function neutralReliabilityBacktest(){
+  const rows=[];for(const cycle of NATIONAL_BACKTEST_DATA){const avg=dedicatedBacktestAverageNeutralReliability(cycle),obs=[];for(const [k,actual] of Object.entries(cycle.result)){const estimate=avg[k];if(Number.isFinite(estimate)&&Number.isFinite(actual))obs.push({k,estimate,actual,error:estimate-actual})}const mae=obs.reduce((a,o)=>a+Math.abs(o.error),0)/obs.length,rmse=Math.sqrt(obs.reduce((a,o)=>a+o.error*o.error,0)/obs.length);rows.push({cycle:cycle.cycle,n:obs.length,mae,rmse,obs})}
+  const all=rows.flatMap(r=>r.obs),n=all.length,mae=all.reduce((a,o)=>a+Math.abs(o.error),0)/n,rmse=Math.sqrt(all.reduce((a,o)=>a+o.error*o.error,0)/n);return{n,mae,rmse,rows};
+}
 
 function dedicatedBacktestAverage(cycle){
   const cutoff=new Date(cycle.election.getTime()-DAY),end=dayKey(cutoff),start=end-13*DAY,byInst=new Map();
@@ -2626,6 +2655,23 @@ async function runResidualFullShadow(){
 }
 function renderResidualFullShadow(){
   const btn=document.getElementById('runResidualFullShadow'),el=document.getElementById('residualFullShadowResult');if(!btn||!el)return;btn.disabled=state.residualFullShadowRunning;btn.textContent=state.residualFullShadowRunning?`Shadow ${fmtCount(state.residualFullShadowProgress)} / ${fmtCount(MC_SIMS)}`:'Esegui shadow completo 50.000';const sh=state.residualFullShadow,mc=state.monteCarlo;if(!sh||!mc?.ready){el.textContent=state.residualFullShadowRunning?'Ricalcolo in corso: produzione invariata.':'Nessuno shadow completo eseguito.';return}const keys=['afd','union','gruene','spd','linke','fdp','bsw'],parts=keys.map(k=>{const p=partyByKey(k),a=mc.stats[k],b=sh.stats[k];return `${p.label}: mediana ${a.median}→${b.median}${k==='fdp'||k==='bsw'?`, ingresso ${(a.entry*100).toFixed(1)}%→${(b.entry*100).toFixed(1)}%`:''}`});const mask=coalitionMask(['union','spd','gruene']),oldP=(mc.coalitionWins[mask]||0)/mc.n,newP=(sh.coalitionWins[mask]||0)/sh.n;el.innerHTML=`<strong>Produzione → shadow A:</strong> ${parts.join(' · ')}<br><strong>CDU/CSU + SPD + Verdi:</strong> ${(oldP*100).toFixed(1).replace('.',',')}% → ${(newP*100).toFixed(1).replace('.',',')}%.`;
+}
+
+async function runReliabilityWeightShadow(){
+  if(state.reliabilityShadowRunning)return;if(!districtState.ready||state.mcRunning||!state.monteCarlo?.ready){alert('Attendi che il nowcast principale e i 299 collegi siano pronti.');return}
+  const avg=projectionAverageNeutralReliability();if(!avg)return;const fp=`${mcFingerprint(projectionAverage())}|rel-neutral-shadow-v1`;if(state.reliabilityShadow?.fingerprint===fp){renderReliabilitySensitivity();return}
+  state.reliabilityShadowRunning=true;state.reliabilityShadowProgress=0;state.reliabilityShadowFingerprint=fp;renderReliabilitySensitivity();
+  try{
+    const seed=state.monteCarlo.seed||hashString(`${fp}|${MC_SIMS}`),rngState={rng:mulberry32(seed),spare:null,errorStructure:nationalErrorStructure()},samples=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,new Uint16Array(MC_SIMS)])),entry=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),over5=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),threeSeat=Object.fromEntries(MC_SEAT_KEYS.map(k=>[k,0])),cache=prepareMonteCarloDistrictCache(),coalitionWins=new Uint32Array(COALITION_MASK_COUNT),coalitionScratch=new Uint16Array(COALITION_MASK_COUNT);
+    for(let start=0;start<MC_SIMS;start+=MC_BATCH){const end=Math.min(MC_SIMS,start+MC_BATCH);for(let i=start;i<end;i++){const v=drawNationalVoteVector(avg,rngState),directWins=simulateDirectWinnerCounts(v,cache,i,seed),w={},cduVote=v.union*CDU_UNION_SHARE,csuVote=v.union*CSU_UNION_SHARE,cduThree=directWins[cache.index.cdu]>=3,csuThree=directWins[cache.index.csu]>=3;if(cduVote>=5||cduThree)w.cdu=cduVote;if(csuVote>=5||csuThree)w.csu=csuVote;for(const k of ['afd','spd','gruene','linke','bsw','fdp','fw']){const hasThree=directWins[cache.index[k]]>=3;if(hasThree)threeSeat[k]++;if(v[k]>=5)over5[k]++;if(v[k]>=5||hasThree)w[k]=v[k]}w.ssw=SSW_ASSUMED_SHARE;const a=sainteLagueFast(w,TOTAL_SEATS),sv={union:(a.cdu||0)+(a.csu||0),afd:a.afd||0,spd:a.spd||0,gruene:a.gruene||0,linke:a.linke||0,bsw:a.bsw||0,fdp:a.fdp||0,fw:a.fw||0,ssw:a.ssw||0};for(const k of MC_SEAT_KEYS){samples[k][i]=sv[k]||0;if((sv[k]||0)>0)entry[k]++}accumulateCoalitionWins(sv,coalitionWins,coalitionScratch)}state.reliabilityShadowProgress=end;renderReliabilitySensitivity();if(end<MC_SIMS)await yieldToBrowser()}
+    const stats={};for(const k of MC_SEAT_KEYS)stats[k]={low:quantileTyped(samples[k],MC_QLOW),median:quantileTyped(samples[k],.5),high:quantileTyped(samples[k],MC_QHIGH),entry:(entry[k]||0)/MC_SIMS,over5:(over5[k]||0)/MC_SIMS,threeSeat:(threeSeat[k]||0)/MC_SIMS};state.reliabilityShadow={fingerprint:fp,n:MC_SIMS,avg,stats,coalitionWins,seed};
+  }catch(e){console.error(e);alert(e.message||'Sensitivity pesi non riuscita')}finally{state.reliabilityShadowRunning=false;renderReliabilitySensitivity()}
+}
+function renderReliabilitySensitivity(){
+  const body=document.getElementById('reliabilitySensitivityBody'),sum=document.getElementById('reliabilitySensitivitySummary'),status=document.getElementById('reliabilitySensitivityStatus'),btn=document.getElementById('runReliabilityShadow'),result=document.getElementById('reliabilityShadowResult');if(!body||!sum)return;const weighted=projectionAverage(),neutral=projectionAverageNeutralReliability();if(!weighted||!neutral){body.innerHTML='<tr><td colspan="4">Dati insufficienti</td></tr>';return}
+  const fmt=v=>Number.isFinite(v)?`${v.toFixed(2).replace('.',',')}%`:'—',delta=v=>Number.isFinite(v)?`${v>=0?'+':''}${v.toFixed(2).replace('.',',')} p.p.`:'—',keys=PARTIES.filter(p=>p.key!=='other'&&Number.isFinite(weighted[p.key])&&Number.isFinite(neutral[p.key]));body.innerHTML=keys.map(p=>{const d=weighted[p.key]-neutral[p.key],cls=Math.abs(d)<.005?'audit-delta-flat':d>0?'audit-delta-pos':'audit-delta-neg';return `<tr><td><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${p.color};margin-right:6px"></span>${esc(p.label)}</td><td><strong>${fmt(weighted[p.key])}</strong></td><td>${fmt(neutral[p.key])}</td><td class="${cls}">${delta(d)}</td></tr>`}).join('');
+  const bt=nationalBacktest(),nb=neutralReliabilityBacktest(),maxAbs=Math.max(...keys.map(p=>Math.abs(weighted[p.key]-neutral[p.key]))),afdD=Number.isFinite(weighted.afd)&&Number.isFinite(neutral.afd)?weighted.afd-neutral.afd:null,fdpD=Number.isFinite(weighted.fdp)&&Number.isFinite(neutral.fdp)?weighted.fdp-neutral.fdp:null;sum.innerHTML=`<div class="audit-shadow-col candidate"><h4>Pesi attuali</h4><p>MAE storico <strong>${bt.mae.toFixed(4).replace('.',',')}</strong> · RMSE <strong>${bt.rmse.toFixed(4).replace('.',',')}</strong></p><p>AfD <strong>${fmt(weighted.afd)}</strong> · FDP <strong>${fmt(weighted.fdp)}</strong></p></div><div class="audit-shadow-col"><h4>Tutti rel=1,000</h4><p>MAE storico <strong>${nb.mae.toFixed(4).replace('.',',')}</strong> · RMSE <strong>${nb.rmse.toFixed(4).replace('.',',')}</strong></p><p>AfD <strong>${fmt(neutral.afd)}</strong> · FDP <strong>${fmt(neutral.fdp)}</strong></p></div><div class="audit-shadow-col ${maxAbs>.25?'strict':''}"><h4>Impatto corrente</h4><p>Δ massimo fra partiti <strong>${delta(maxAbs)}</strong></p><p>AfD ${delta(afdD)} · FDP ${delta(fdpD)}</p><p>${bt.mae<nb.mae&&bt.rmse<nb.rmse?'<span class="audit-gate-pass">I pesi migliorano MAE e RMSE nel backtest walk-forward.</span>':'<span class="audit-gate-fail">I pesi non migliorano entrambe le metriche storiche.</span>'}</p></div>`;
+  if(status)status.textContent='Walk-forward storico + sensitivity corrente; produzione invariata';if(btn){btn.disabled=state.reliabilityShadowRunning;btn.textContent=state.reliabilityShadowRunning?`Sensitivity ${fmtCount(state.reliabilityShadowProgress)} / ${fmtCount(MC_SIMS)}`:'Esegui sensitivity 50.000'}if(result){const sh=state.reliabilityShadow,mc=state.monteCarlo;if(!sh||!mc?.ready){result.textContent=state.reliabilityShadowRunning?'Ricalcolo in corso con rel=1,000; produzione invariata.':'Nessuna sensitivity completa eseguita.'}else{const parties=['afd','union','gruene','spd','linke','fdp','bsw'],bits=parties.map(k=>{const p=partyByKey(k),a=mc.stats[k],b=sh.stats[k];return `${p.label}: ${a.median}→${b.median}${k==='fdp'||k==='bsw'?` · ingresso ${(a.entry*100).toFixed(1).replace('.',',')}%→${(b.entry*100).toFixed(1).replace('.',',')}%`:''}`}),mask=coalitionMask(['union','spd','gruene']),p0=(mc.coalitionWins[mask]||0)/mc.n,p1=(sh.coalitionWins[mask]||0)/sh.n;result.innerHTML=`<strong>Pesi attuali → rel=1,000:</strong> ${bits.join(' · ')}<br><strong>CDU/CSU + SPD + Verdi:</strong> ${(p0*100).toFixed(1).replace('.',',')}% → ${(p1*100).toFixed(1).replace('.',',')}%.`}}
 }
 
 function drawNationalVoteVector(avg,rngState,sigma=MC_SIGMA){
@@ -3143,6 +3189,7 @@ function renderAverageAudit(){
   const end=dayKey(proj.date),items=proj.rows.map(p=>{const key=p.institute.trim().toLowerCase(),age=Math.max(0,(end-dayKey(p.date))/DAY),rel=proj.reliability?.get(key)||1,w=Math.pow(.5,age/7)*rel;return{name:p.institute,date:p.date,age,rel,w}}),tot=items.reduce((s,x)=>s+x.w,0)||1;items.sort((a,b)=>b.w-a.w);
   weightsEl.innerHTML=items.map(x=>`<span class="audit-weight-chip"><strong>${esc(x.name)}</strong> ${(x.w/tot*100).toFixed(1).replace('.',',')}% <span>· ${Math.round(x.age)}g · rel ${x.rel.toFixed(3).replace('.',',')}</span></span>`).join('');
   if(meta)meta.textContent=`${proj.count} istituti · ultimo sondaggio ${fmtDate(proj.date)} · emivita 7 giorni`;
+  renderReliabilitySensitivity();
 }
 function renderSnapshot(){const cur=projectionAverage(),el=document.getElementById('snapshot');if(!cur){el.innerHTML='<div class="empty">Nessun dato</div>';return}const ranked=PARTIES.map(p=>({...p,val:cur[p.key]})).filter(x=>Number.isFinite(x.val)).sort((a,b)=>b.val-a.val),max=Math.max(...ranked.map(x=>x.val),30);el.innerHTML=ranked.map(x=>`<div class="barrow"><div class="party">${esc(x.label)}</div><div class="track"><div class="fill" style="--w:${Math.max(1,x.val/max*100)}%;--c:${x.color}"></div></div><div class="pct">${pct(x.val)}</div></div>`).join('')}
 function renderMomentum(){const cur=currentAvg(),past=nearestAvg(30),el=document.getElementById('momentum');if(!cur||!past){el.innerHTML='<div class="empty">Dati insufficienti</div>';return}const rows=PARTIES.map(p=>({...p,now:cur[p.key],then:past[p.key]})).filter(x=>Number.isFinite(x.now)&&Number.isFinite(x.then)).map(x=>({...x,d:x.now-x.then})).sort((a,b)=>Math.abs(b.d)-Math.abs(a.d));el.innerHTML=rows.map(x=>{const cls=x.d>.05?'up':x.d<-.05?'down':'flat',sign=x.d>0?'+':'';return `<div class="mini-row"><div><strong>${esc(x.label)}</strong><div class="sub">media mobile semplice · ${state.window} gg · ${pct(x.now)}</div></div><span class="delta ${cls}">${sign}${x.d.toFixed(1).replace('.',',')} p.p.</span><span style="width:9px;height:9px;border-radius:3px;background:${x.color}"></span></div>`}).join('')}
@@ -3601,6 +3648,7 @@ document.getElementById('downloadSnapshotBtn')?.addEventListener('click',downloa
 document.getElementById('downloadPngBtn')?.addEventListener('click',downloadPreviewPng);
 document.querySelectorAll('[data-share]').forEach(el=>el.addEventListener('click',ev=>{ev.preventDefault();openShare(el.dataset.share,el)}));
 document.getElementById('runResidualFullShadow')?.addEventListener('click',runResidualFullShadow);
+document.getElementById('runReliabilityShadow')?.addEventListener('click',runReliabilityWeightShadow);
 initGraphicExports();
 initForecastUI();
 initMobileNowcastSticky();
@@ -3623,7 +3671,7 @@ window.addEventListener('resize',()=>{
 <!-- v22.4 final clean · average-traceability audit + projectionAverage promoted to headline · 28-08-2026
      No statistical parameter changed.
      Original map note: map renderer restored + geometry smoke test · 27-08-2026
-     Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma.
+     Retained: pollster reliability weighting, territorial nested calibration, share-aware sigma. Added non-production reliability-weight sensitivity audit (rel=1.000 comparator).
      Rejected after backtest: party-error common factor (insufficient independent elections);
      Student-t heavy-tailed national shocks (no candidate improved both national CRPS and WIS versus Gaussian).
 -->
