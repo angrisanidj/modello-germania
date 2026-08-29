@@ -13,6 +13,7 @@ assert(w.includes('node scripts/test-input-integrity-ui-date.js'));
 assert(w.includes('node scripts/test-input-supplement.js'));
 assert(w.includes('node scripts/test-input-integrity-panel.js'));
 assert(w.includes('node scripts/test-v2244-before-after-audit.js'));
+assert(w.includes('node scripts/test-mc-national-residual.js'));
 assert(w.includes("grep -v '^data/source-verification\\.json$'"));
 assert(w.includes('git add -- data/source-verification.json'));
 assert(w.includes('[guard-a]'));
