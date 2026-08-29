@@ -2540,7 +2540,7 @@ function scheduleMonteCarlo(){
   const cached=loadMonteCarloCache(fp);
   if(cached){state.mcFingerprint=fp;state.monteCarlo=cached;state.mcRunning=false;state.mcProgress=MC_SIMS;state.mcLoadedFromCache=true;state.mcCachePersisted=true;renderParliament();renderMonteCarlo();renderParliamentConfigurations();applyRepresentativeTerritory(cached,avg);return}
   const token=++state.mcToken;state.mcFingerprint=fp;state.mcRunning=true;state.mcProgress=0;state.mcLoadedFromCache=false;state.monteCarlo=null;renderMonteCarlo();
-  runMonteCarloAsync(avg,token).then(result=>{if(!result||token!==state.mcToken)return;state.monteCarlo=result;state.mcRunning=false;state.mcProgress=MC_SIMS;state.mcCachePersisted=saveMonteCarloCache(fp,result);renderParliament();renderMonteCarlo();renderParliamentConfigurations();applyRepresentativeTerritory(result,avg)}).catch(e=>{if(token!==state.mcToken)return;console.error(e);state.mcRunning=false;alert(e?.message||String(e)||'Errore Monte Carlo sconosciuto');const st=document.getElementById('mcStatus');if(st){st.className='mc-status';st.textContent='Simulazione non disponibile'}});
+  runMonteCarloAsync(avg,token).then(result=>{if(!result||token!==state.mcToken)return;state.monteCarlo=result;state.mcRunning=false;state.mcProgress=MC_SIMS;state.mcCachePersisted=saveMonteCarloCache(fp,result);renderParliament();renderMonteCarlo();renderParliamentConfigurations();applyRepresentativeTerritory(result,avg)}).catch(e=>{if(token!==state.mcToken)return;console.error(e);state.mcRunning=false;const st=document.getElementById('mcStatus');if(st){st.className='mc-status';st.textContent='Simulazione non disponibile'}});
 }
 const TERRITORIAL_PARTY_KEYS=['cdu','csu','afd','spd','gruene','linke','bsw','fdp','fw'];
 const TERRITORIAL_COVERAGE_TARGET=.80,TERRITORIAL_COVERAGE_SCALE_MIN=1.00,TERRITORIAL_COVERAGE_SCALE_MAX=1.60,TERRITORIAL_COVERAGE_GATE_GAIN=.01,TERRITORIAL_COVERAGE_GATE_MIN=.70,TERRITORIAL_COVERAGE_GATE_MAX=.90,TERRITORIAL_Z80=1.281551565545;
@@ -2628,7 +2628,7 @@ function nationalSimulationBaseInfo(avg,mode='legacy'){
   return{mode,target,base,active,missing,rawSum,delta,reconstructedOther:mode!=='legacy'&&!Number.isFinite(observedOther),observedOther,observedTotal,integrityScale:rawSum>0?target/rawSum:null};
 }
 function productionNationalBaseInfo(avg){
-  const info=nationalSimulationBaseInfo(avg,'residual');
+  const info=nationalSimulationBaseInfo({...avg,other:null},'residual');
   if(Math.abs(info.delta)>NATIONAL_VECTOR_TOLERANCE)throw new Error(`Vettore nazionale non integro: scarto ${info.delta.toFixed(3)} p.p. dal target dopo la gestione del residuo.`);
   return info;
 }
@@ -3715,10 +3715,10 @@ function runInternalChecks(){
   if(thresholdProject(4.99,false)!==0)throw new Error('Autotest soglia fallito: un partito al 4,99% senza eccezione non deve entrare.');
   if(thresholdProject(5.01,false)<=0)throw new Error('Autotest soglia fallito: un partito al 5,01% deve entrare.');
   if(thresholdProject(4.8,true)<=0)throw new Error('Autotest soglia fallito: l’eccezione dei tre collegi non viene applicata correttamente.');
-  // 8) Residual integrity regression: missing Other must be reconstructed before a strict simulation; malformed explicit totals must not pass silently.
+  // 8) Residual integrity regression: production reconstructs Other; strict audits still reject malformed explicit totals.
   const residualSynthetic={union:21,afd:28,spd:12,gruene:14,linke:11,bsw:3,fdp:4.6,fw:null,other:null},rb=productionNationalBaseInfo(residualSynthetic);if(Math.abs(rb.rawSum-rb.target)>1e-9||!rb.reconstructedOther||Math.abs(rb.integrityScale-1)>1e-9)throw new Error('Autotest residuo fallito: Altri mancante non viene ricostruito esattamente sul target.');
   const legacySynthetic=nationalSimulationBaseInfo(residualSynthetic,'legacy');if(!(legacySynthetic.rawSum<legacySynthetic.target-1))throw new Error('Autotest residuo fallito: il caso legacy sintetico non riproduce il vettore incompleto atteso.');
-  let malformedCaught=false;try{productionNationalBaseInfo({...residualSynthetic,other:1})}catch{malformedCaught=true}if(!malformedCaught)throw new Error('Autotest guardia residuo fallito: un totale esplicito incoerente deve generare errore invece di essere riscalato.');
+  const explicitResidual=productionNationalBaseInfo({...residualSynthetic,other:1});if(Math.abs(explicitResidual.base.other-rb.base.other)>1e-9)throw new Error('Autotest residuo fallito: la simulazione non ignora la media autonoma di Altri.');let malformedCaught=false;try{strictResidualBase({...residualSynthetic,other:1})}catch{malformedCaught=true}if(!malformedCaught)throw new Error('Autotest guardia residuo fallito: l’audit stretto deve rifiutare un totale esplicito incoerente.');
   // 9) v22.4 probabilistic promotion gate: the share-aware candidate must beat the v22.3 constant-sigma baseline.
   // 10) v22.5 correlation gate: the pre-existing common-factor candidate must beat independent shocks out of sample.
   const pg=probabilisticSeatPromotionGate(),expectedAlpha=pg.pass?MC_SHARE_SIGMA_ALPHA_CANDIDATE:0;if(Math.abs(activeMcShareSigmaAlpha()-expectedAlpha)>1e-12)throw new Error('Autotest probabilistico v22.4 fallito: il fallback del promotion gate non è coerente.');
