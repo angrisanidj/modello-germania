@@ -20,6 +20,10 @@ assert(index.includes('<div hidden aria-hidden="true"><span class="meta-kicker">
 assert(index.includes('<div hidden aria-hidden="true"><span class="meta-kicker">Istantanea</span><strong id="dateSnapshot">—</strong></div>'),'snapshot technical metadata must be hidden');
 assert(index.includes('<button id="downloadSnapshotBtn" hidden aria-hidden="true">Esporta JSON</button>'),'JSON export must be hidden in clean UI');
 assert(index.includes('<h3>Media ponderata del nowcast</h3>'),'nowcast average wording must be explicit');
+assert(index.includes('data-share="telegram-web" title="Telegram Web: condividi testo e link precompilati" aria-label="Telegram Web: condividi testo e link precompilati"'),'Telegram Web label must describe the prefilled share flow');
+assert(index.includes("else if(kind==='telegram-web') url=`https://t.me/share/url?url=${u}&text=${encodeURIComponent(messageText)}`;"),'Telegram Web must use the official prefilled Telegram share URL');
+assert(!index.includes("window.open('https://web.telegram.org/a/','_blank','noopener');"),'Telegram Web must not open an empty WebA composer');
+assert(!index.includes("copyTextWithFeedback(messageText+'\\n\\n'+shareUrl,triggerEl,'Copiato ✓','Testo e link copiati');"),'Telegram Web must not rely on clipboard handoff');
 const sv=JSON.parse(fs.readFileSync(path.join(root,'data/source-verification.json'),'utf8'));
 assert.equal(sv.status,'verified');assert.equal(sv.mode,'automated');
 const cov=JSON.parse(fs.readFileSync(path.join(root,'data/validation/v22.4.4-final-coverage-audit.json'),'utf8'));
