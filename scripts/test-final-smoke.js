@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const root=path.resolve(__dirname,'..'),index=fs.readFileSync(path.join(root,'index.html'),'utf8');
+const root=path.resolve(__dirname,'..'),index=fs.readFileSync(path.join(root,'index.html'),'utf8'),integrityUi=fs.readFileSync(path.join(root,'scripts/input-integrity-ui.js'),'utf8');
 assert(index.includes('Daniele Angrisani · Sondaggi e proiezioni'),'clean public brand missing');
 assert.equal((index.match(/Daniele Angrisani · Sondaggi e proiezioni/g)||[]).length,2,'brand must be present in desktop and mobile headers');
 assert(!index.includes('Daniele Angrisani · Bundestag · Sondaggi e proiezioni'),'Bundestag must not appear in the public brand');
@@ -26,6 +26,15 @@ assert(!index.includes('.share-btn.telegram-web'),'Telegram Web badge CSS must b
 assert(!index.includes("kind==='telegram-web'"),'duplicate Telegram Web JS branch must be removed');
 assert(index.includes("else if(kind==='telegram') url=`https://t.me/share/url?url=${u}&text=${encodeURIComponent(messageText)}`;"),'Telegram share must keep the official prefilled share URL');
 assert(index.includes("telegram:'share-telegram.html'"),'Telegram share must keep the dedicated preview page');
+assert(integrityUi.includes('function renderMonteCarloLifecycle()'),'visible Monte Carlo lifecycle renderer missing');
+assert(integrityUi.includes("text='Preparazione dei 299 collegi…';"),'district preparation state missing');
+assert(integrityUi.includes('state.mcRunning'),'Monte Carlo running state missing');
+assert(integrityUi.includes('state.mcProgress'),'Monte Carlo progress state missing');
+assert(integrityUi.includes('data-mc-retry'),'Monte Carlo retry control missing');
+assert(integrityUi.includes('scheduleMonteCarlo();'),'Monte Carlo retry must use the existing scheduler');
+assert(integrityUi.includes('setInterval(renderMonteCarloLifecycle,750);'),'Monte Carlo lifecycle polling missing');
+assert(index.includes('<span id="forecastStatus" class="forecast-status">Non calcolato</span>'),'forecast must remain on-demand');
+assert(index.includes('<button id="forecastRun" type="button" class="primary">Calcola il forecast</button>'),'forecast trigger must remain explicit');
 const sv=JSON.parse(fs.readFileSync(path.join(root,'data/source-verification.json'),'utf8'));
 assert.equal(sv.status,'verified');assert.equal(sv.mode,'automated');
 const cov=JSON.parse(fs.readFileSync(path.join(root,'data/validation/v22.4.4-final-coverage-audit.json'),'utf8'));
