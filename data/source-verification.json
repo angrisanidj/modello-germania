@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-04T20:43:38.305202Z",
-  "asOfDate": "2026-09-03",
+  "verifiedAt": "2026-09-08T16:35:43.423370Z",
+  "asOfDate": "2026-09-08",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 1,
@@ -15,16 +15,12 @@
   ],
   "eligible": [
     {
-      "institute": "Allensbach",
-      "date": "2026-08-21"
-    },
-    {
       "institute": "Verian",
       "date": "2026-08-28"
     },
     {
       "institute": "Forsa",
-      "date": "2026-09-01"
+      "date": "2026-09-08"
     },
     {
       "institute": "Infratest dimap",
@@ -32,11 +28,11 @@
     },
     {
       "institute": "INSA",
-      "date": "2026-09-01"
+      "date": "2026-09-08"
     },
     {
       "institute": "pollytix",
-      "date": "2026-08-21"
+      "date": "2026-09-08"
     }
   ],
   "note": "Verifica upstream automatizzata. Verde atteso solo con freshness valida e coerenza fonte → dataset → motore; ogni giallo dopo il primo run automatico è un'anomalia da verificare."
