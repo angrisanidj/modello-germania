@@ -3,11 +3,11 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-12T10:41:39.832142Z",
-  "asOfDate": "2026-09-08",
+  "verifiedAt": "2026-09-14T21:47:06.825329Z",
+  "asOfDate": "2026-09-14",
   "windowDays": 14,
   "staleAfterHours": 36,
-  "parserVersion": 1,
+  "parserVersion": 2,
   "fixtureBaseline": "2026-08-28",
   "sourcePages": [
     "https://www.wahlrecht.de/umfragen/",
@@ -15,12 +15,12 @@
   ],
   "eligible": [
     {
-      "institute": "Verian",
-      "date": "2026-08-28"
-    },
-    {
       "institute": "Forsa",
       "date": "2026-09-08"
+    },
+    {
+      "institute": "GMS",
+      "date": "2026-09-14"
     },
     {
       "institute": "Infratest dimap",
@@ -28,7 +28,11 @@
     },
     {
       "institute": "INSA",
-      "date": "2026-09-08"
+      "date": "2026-09-12"
+    },
+    {
+      "institute": "Ipsos",
+      "date": "2026-09-02"
     },
     {
       "institute": "pollytix",
