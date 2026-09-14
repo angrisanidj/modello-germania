@@ -28,7 +28,9 @@ class WahlrechtParserTests(unittest.TestCase):
         self.assertEqual(got["Infratest dimap"], "2026-08-06")
         self.assertEqual(got["INSA"], "2026-08-25")
         self.assertEqual(got["YouGov"], "2026-08-18")
+        self.assertEqual(got["Ipsos"], "2026-09-02")
         self.assertEqual(set(profile["primaryInstitutes"]), set(V.REQUIRED_PRIMARY))
+        self.assertEqual(profile["auxiliaryInstitutes"], ["Ipsos"])
 
     def test_other_parser_extracts_all_dated_poll_rows(self):
         obs, profile = V.parse_other_page(self.other)
@@ -40,7 +42,7 @@ class WahlrechtParserTests(unittest.TestCase):
         main, _ = V.parse_main_page(self.main)
         other, _ = V.parse_other_page(self.other)
         as_of, eligible = V.build_eligible(main + other, window_days=14)
-        self.assertEqual(as_of, "2026-08-28")
+        self.assertEqual(as_of, "2026-09-02")
         self.assertEqual(
             [(x["institute"], x["date"]) for x in eligible],
             [
@@ -49,7 +51,7 @@ class WahlrechtParserTests(unittest.TestCase):
                 ("Forsa", "2026-08-25"),
                 ("Forschungsgruppe Wahlen", "2026-08-20"),
                 ("INSA", "2026-08-25"),
-                ("YouGov", "2026-08-18"),
+                ("Ipsos", "2026-09-02"),
                 ("pollytix", "2026-08-21"),
             ],
         )
@@ -88,7 +90,7 @@ class WahlrechtParserTests(unittest.TestCase):
         other, op = V.parse_other_page(self.other)
         snap = V.validate_snapshot(
             main, other, mp, op,
-            now=datetime(2026, 8, 28, 20, 0, tzinfo=timezone.utc)
+            now=datetime(2026, 9, 2, 20, 0, tzinfo=timezone.utc)
         )
         manifest = V.build_manifest(
             snap,
@@ -97,9 +99,10 @@ class WahlrechtParserTests(unittest.TestCase):
         )
         self.assertEqual(manifest["mode"], "automated")
         self.assertEqual(manifest["status"], "verified")
-        self.assertEqual(manifest["asOfDate"], "2026-08-28")
+        self.assertEqual(manifest["asOfDate"], "2026-09-02")
         self.assertEqual(len(manifest["eligible"]), 7)
         self.assertEqual(manifest["parserVersion"], V.PARSER_VERSION)
+        self.assertEqual(V.PARSER_VERSION, 2)
 
     def test_conditional_refresh_on_first_automation_change_or_24h(self):
         now = datetime(2026, 8, 29, 18, 0, tzinfo=timezone.utc)

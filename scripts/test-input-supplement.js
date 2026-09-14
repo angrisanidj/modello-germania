@@ -4,8 +4,10 @@ function must(re,msg){if(!re.test(s)){console.error(msg);process.exit(1)}}
 must(/const INPUT_HOTFIX_SUPPLEMENT=\[/,'supplemento mancante');
 must(/date:new Date\('2026-08-21T12:00:00\+02:00'\)[\s\S]*institute:'pollytix'/,'pollytix 21/08 mancante');
 must(/date:new Date\('2026-08-28T12:00:00\+02:00'\)[\s\S]*institute:'Verian'/,'Verian 28/08 mancante');
+must(/date:new Date\('2026-09-02T12:00:00\+02:00'\)[\s\S]*institute:'Ipsos'/,'Ipsos 02/09 mancante');
 must(/union:20,afd:28,spd:15,gruene:13,linke:11,bsw:4,fdp:5,fw:null,other:4/,'valori pollytix errati');
 must(/union:20,afd:28,spd:13,gruene:16,linke:12,bsw:2,fdp:4,fw:null,other:5/,'valori Verian errati');
+must(/union:21,afd:27,spd:12,gruene:15,linke:13,bsw:3,fdp:5,fw:null,other:4/,'valori Ipsos errati');
 must(/async function applyFetchedPolls\(polls,\{sourceLabel='Fonte controllata',quiet=false\}=\{\}\)\{\s*polls=mergeInputHotfixSupplement\(polls\);/,'merge non applicato prima della firma/cache');
 const cacheHits=(s.match(/state\.polls=mergeInputHotfixSupplement\(deserializePolls\(cachedObj\.polls\)\)/g)||[]).length;
 if(cacheHits<2){console.error('merge cache incompleto: '+cacheHits);process.exit(1)}

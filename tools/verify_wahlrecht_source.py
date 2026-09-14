@@ -14,7 +14,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterable
 
-PARSER_VERSION = 1
+PARSER_VERSION = 2
 WINDOW_DAYS = 14
 STALE_AFTER_HOURS = 36
 REFRESH_COMMIT_HOURS = 24
@@ -34,7 +34,8 @@ REQUIRED_PRIMARY = [
     "INSA",
     "YouGov",
 ]
-ORDER = {name: i for i, name in enumerate(REQUIRED_PRIMARY + ["pollytix"])}
+AUXILIARY_MAIN = ["Ipsos"]
+ORDER = {name: i for i, name in enumerate(REQUIRED_PRIMARY + AUXILIARY_MAIN + ["pollytix"])}
 
 EXIT_SOURCE_UNAVAILABLE = 20
 EXIT_PARSER_FAILURE = 30
@@ -158,6 +159,28 @@ def _row_first(row: list[str]) -> str:
             return _clean(c)
     return ""
 
+class TextCollector(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.parts: list[str] = []
+
+    def handle_data(self, data):
+        if data:
+            self.parts.append(data)
+
+def parse_auxiliary_main(html: str):
+    p=TextCollector();p.feed(html);p.close()
+    text=_clean(" ".join(p.parts))
+    observations=[]
+    for institute in AUXILIARY_MAIN:
+        m=re.search(rf"\b{re.escape(institute)}\b\s*\((\d{{2}}\.\d{{2}}\.\d{{4}})\)",text,flags=re.IGNORECASE)
+        if not m:
+            continue
+        d=parse_date_text(m.group(1))
+        if d:
+            observations.append({"institute":institute,"date":d})
+    return observations
+
 def parse_main_page(html: str):
     tables=extract_tables(html)
     candidate=None
@@ -187,10 +210,12 @@ def parse_main_page(html: str):
         if not d:
             raise ParserSanityError(f"main page: missing publication date for {name}")
         observations.append({"institute":name,"date":d})
+    observations.extend(parse_auxiliary_main(html))
     profile={
         "headerColumns":len(inst_row),
         "dateColumns":len(date_row),
-        "primaryInstitutes":sorted({x["institute"] for x in observations}),
+        "primaryInstitutes":sorted({x["institute"] for x in observations if x["institute"] in REQUIRED_PRIMARY}),
+        "auxiliaryInstitutes":sorted({x["institute"] for x in observations if x["institute"] in AUXILIARY_MAIN}),
         "tableRows":len(candidate),
     }
     return observations,profile
