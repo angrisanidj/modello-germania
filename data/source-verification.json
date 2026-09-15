@@ -3,7 +3,7 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-15T11:39:54.558400Z",
+  "verifiedAt": "2026-09-15T16:55:34.261549Z",
   "asOfDate": "2026-09-15",
   "windowDays": 14,
   "staleAfterHours": 36,
@@ -16,7 +16,7 @@
   "eligible": [
     {
       "institute": "Forsa",
-      "date": "2026-09-08"
+      "date": "2026-09-15"
     },
     {
       "institute": "GMS",
