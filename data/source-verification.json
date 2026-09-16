@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-15T16:55:34.261549Z",
-  "asOfDate": "2026-09-15",
+  "verifiedAt": "2026-09-16T16:50:04.607865Z",
+  "asOfDate": "2026-09-16",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -35,12 +35,8 @@
       "date": "2026-09-15"
     },
     {
-      "institute": "Ipsos",
-      "date": "2026-09-02"
-    },
-    {
       "institute": "pollytix",
-      "date": "2026-09-08"
+      "date": "2026-09-16"
     }
   ],
   "note": "Verifica upstream automatizzata. Verde atteso solo con freshness valida e coerenza fonte → dataset → motore; ogni giallo dopo il primo run automatico è un'anomalia da verificare."
