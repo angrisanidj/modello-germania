@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-18T20:51:56.187448Z",
-  "asOfDate": "2026-09-16",
+  "verifiedAt": "2026-09-20T04:50:06.828880Z",
+  "asOfDate": "2026-09-20",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -23,12 +23,8 @@
       "date": "2026-09-14"
     },
     {
-      "institute": "Infratest dimap",
-      "date": "2026-09-03"
-    },
-    {
       "institute": "INSA",
-      "date": "2026-09-15"
+      "date": "2026-09-20"
     },
     {
       "institute": "YouGov",
