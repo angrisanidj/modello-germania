@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-23T21:28:06.328996Z",
-  "asOfDate": "2026-09-22",
+  "verifiedAt": "2026-09-24T11:40:22.977696Z",
+  "asOfDate": "2026-09-24",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -14,6 +14,10 @@
     "https://www.wahlrecht.de/umfragen/weitere-umfragen.htm"
   ],
   "eligible": [
+    {
+      "institute": "Allensbach",
+      "date": "2026-09-24"
+    },
     {
       "institute": "Forsa",
       "date": "2026-09-22"
