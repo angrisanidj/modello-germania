@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-24T11:40:22.977696Z",
-  "asOfDate": "2026-09-24",
+  "verifiedAt": "2026-09-25T11:46:31.294865Z",
+  "asOfDate": "2026-09-25",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -19,8 +19,16 @@
       "date": "2026-09-24"
     },
     {
+      "institute": "Verian",
+      "date": "2026-09-25"
+    },
+    {
       "institute": "Forsa",
       "date": "2026-09-22"
+    },
+    {
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2026-09-25"
     },
     {
       "institute": "GMS",
