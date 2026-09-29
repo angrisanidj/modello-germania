@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-09-28T23:13:30.302295Z",
-  "asOfDate": "2026-09-26",
+  "verifiedAt": "2026-09-29T12:47:00.161671Z",
+  "asOfDate": "2026-09-29",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -24,23 +24,15 @@
     },
     {
       "institute": "Forsa",
-      "date": "2026-09-22"
+      "date": "2026-09-29"
     },
     {
       "institute": "Forschungsgruppe Wahlen",
       "date": "2026-09-25"
     },
     {
-      "institute": "GMS",
-      "date": "2026-09-14"
-    },
-    {
       "institute": "INSA",
-      "date": "2026-09-26"
-    },
-    {
-      "institute": "YouGov",
-      "date": "2026-09-15"
+      "date": "2026-09-29"
     },
     {
       "institute": "pollytix",
