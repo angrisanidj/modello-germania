@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-10-07T23:02:33.868587Z",
-  "asOfDate": "2026-10-06",
+  "verifiedAt": "2026-10-08T05:57:43.425612Z",
+  "asOfDate": "2026-10-08",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -15,10 +15,6 @@
   ],
   "eligible": [
     {
-      "institute": "Allensbach",
-      "date": "2026-09-24"
-    },
-    {
       "institute": "Verian",
       "date": "2026-09-25"
     },
@@ -28,7 +24,7 @@
     },
     {
       "institute": "Forschungsgruppe Wahlen",
-      "date": "2026-09-25"
+      "date": "2026-10-08"
     },
     {
       "institute": "Infratest dimap",
