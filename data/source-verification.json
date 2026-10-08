@@ -3,7 +3,7 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-10-08T05:57:43.425612Z",
+  "verifiedAt": "2026-10-08T23:18:08.194800Z",
   "asOfDate": "2026-10-08",
   "windowDays": 14,
   "staleAfterHours": 36,
@@ -33,6 +33,10 @@
     {
       "institute": "INSA",
       "date": "2026-10-05"
+    },
+    {
+      "institute": "Ipsos",
+      "date": "2026-10-08"
     }
   ],
   "note": "Verifica upstream automatizzata. Verde atteso solo con freshness valida e coerenza fonte → dataset → motore; ogni giallo dopo il primo run automatico è un'anomalia da verificare."
