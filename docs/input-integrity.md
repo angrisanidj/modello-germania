@@ -18,7 +18,7 @@ The verifier runs every six hours and on manual dispatch. It fetches two Wahlrec
 
 HTTP 429/503, timeouts, DNS and network failures are logged as `source-unavailable`.
 
-Missing canonical institute headers, implausible dates, too few eligible institutes, or fixture drift are parser/markup failures. They are treated as more severe because they can otherwise create plausible but incomplete verification results.
+Missing canonical institute headers, implausible dates, or fixture drift are parser/markup failures. They are treated as more severe because they can otherwise create plausible but incomplete verification results. Source completeness is checked across all eight canonical primary institutes, regardless of poll age. A smaller eligible set in the 14-day window is valid when older polls naturally leave the window; it does not indicate a parser failure. The verifier certifies the source observations, not the statistical adequacy of their count.
 
 ## Write boundary
 

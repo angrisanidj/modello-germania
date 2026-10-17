@@ -66,7 +66,7 @@ class WahlrechtParserTests(unittest.TestCase):
                 now=datetime(2026, 8, 28, 20, 0, tzinfo=timezone.utc)
             )
 
-    def test_sanity_check_rejects_too_few_eligible_institutes(self):
+    def test_sanity_check_rejects_incomplete_source_even_with_recent_polls(self):
         main, mp = V.parse_main_page(self.main)
         other, op = V.parse_other_page(self.other)
         tiny = [x for x in main if x["institute"] in {"INSA","Forsa"}]
@@ -75,6 +75,44 @@ class WahlrechtParserTests(unittest.TestCase):
                 tiny, [], mp, op,
                 now=datetime(2026, 8, 28, 20, 0, tzinfo=timezone.utc)
             )
+
+    def test_complete_source_remains_valid_when_old_poll_leaves_window(self):
+        dates = {
+            "Allensbach": "2026-09-24", "Verian": "2026-09-25",
+            "Forsa": "2026-10-13", "Forschungsgruppe Wahlen": "2026-10-08",
+            "GMS": "2026-09-14", "Infratest dimap": "2026-10-01",
+            "INSA": "2026-10-13", "YouGov": "2026-09-15", "Ipsos": "2026-10-08",
+        }
+        for insa_date, expected_count in [("2026-10-13", 5), ("2026-10-17", 4)]:
+            with self.subTest(insa_date=insa_date):
+                dates["INSA"] = insa_date
+                main, mp = V.parse_main_page(self.main)
+                main = [dict(row, date=dates[row["institute"]]) for row in main]
+                other, op = V.parse_other_page(self.other)
+                snap = V.validate_snapshot(
+                    main, other, mp, op,
+                    now=datetime(2026, 10, 17, 10, 36, tzinfo=timezone.utc),
+                )
+                self.assertEqual(snap["asOfDate"], insa_date)
+                self.assertEqual(len(snap["eligible"]), expected_count)
+                self.assertEqual(
+                    "Infratest dimap" in {row["institute"] for row in snap["eligible"]},
+                    expected_count == 5,
+                )
+                manifest = V.build_manifest(snap)
+                self.assertEqual(manifest["status"], "verified")
+                self.assertEqual(manifest["eligible"], snap["eligible"])
+
+    def test_complete_source_with_only_one_recent_institute_is_not_parser_failure(self):
+        main, mp = V.parse_main_page(self.main)
+        other, op = V.parse_other_page(self.other)
+        main = [dict(row, date="2026-10-17" if row["institute"] == "INSA" else "2026-09-24")
+                for row in main]
+        snap = V.validate_snapshot(
+            main, other, mp, op,
+            now=datetime(2026, 10, 17, 10, 36, tzinfo=timezone.utc),
+        )
+        self.assertEqual(snap["eligible"], [{"institute": "INSA", "date": "2026-10-17"}])
 
     def test_structural_drift_fails_beyond_tolerance(self):
         main, mp = V.parse_main_page(self.main)

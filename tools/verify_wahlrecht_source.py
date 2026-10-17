@@ -18,7 +18,6 @@ PARSER_VERSION = 2
 WINDOW_DAYS = 14
 STALE_AFTER_HOURS = 36
 REFRESH_COMMIT_HOURS = 24
-MIN_ELIGIBLE_INSTITUTES = 5
 MAX_SOURCE_LAG_DAYS = 45
 USER_AGENT = "modello-germania-input-integrity/1.0 (+https://github.com/angrisanidj/modello-germania)"
 MAIN_URL = "https://www.wahlrecht.de/umfragen/"
@@ -300,8 +299,9 @@ def validate_snapshot(main_obs, other_obs, main_profile, other_profile, now: dat
     lag=(today-as_of_day).days
     if lag < -1 or lag > MAX_SOURCE_LAG_DAYS:
         raise ParserSanityError(f"latest canonical poll date implausible: {as_of} (lag {lag} days)")
-    if len(eligible) < MIN_ELIGIBLE_INSTITUTES:
-        raise ParserSanityError(f"eligible institute count too low: {len(eligible)} < {MIN_ELIGIBLE_INSTITUTES}")
+    # Source completeness is checked above against every canonical institute.
+    # A correctly parsed source can have few recent polls as older ones leave
+    # the rolling window; that is not evidence of a partial parse.
     return {
         "asOfDate":as_of,
         "eligible":eligible,

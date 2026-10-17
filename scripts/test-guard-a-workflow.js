@@ -24,6 +24,5 @@ const p=fs.readFileSync(path.join(root,'tools/verify_wahlrecht_source.py'),'utf8
 assert(p.includes('modello-germania-input-integrity/1.0'));
 assert(p.includes('HTTP {status}'));
 assert(p.includes('429,503'));
-assert(p.includes('MIN_ELIGIBLE_INSTITUTES = 5'));
 assert(p.includes('REQUIRED_PRIMARY'));
 console.log('guard-a workflow structural tests passed');
