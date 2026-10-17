@@ -25,12 +25,13 @@ A live verification is invalid if any of these fail:
 - primary publication dates are impossible or predate the post-2025 polling period;
 - no pollytix row can be recovered from the secondary page;
 - the newest canonical poll is more than 45 days old or lies in the future;
-- fewer than five institutes are eligible in the 14-day window;
 - live parser structure drifts beyond the dated fixture tolerance.
 
 Parser/sanity/markup failures do **not** overwrite `data/source-verification.json`. The GitHub Actions run fails red immediately. The public dashboard continues to use the last valid certification and therefore degrades to yellow after its existing 36-hour freshness threshold. This preserves the explicit “do not touch the manifest on parser failure” requirement while avoiding false green recertification.
 
 HTTP 429, HTTP 503, timeout, DNS/network failures are classified separately as `source-unavailable`; they also leave the manifest untouched and fail the Action, but are not reported as parser corruption.
+
+The count of eligible institutes is not a parser-completeness check: a complete source can legitimately contain fewer than five recent institutes when older polls leave the 14-day window. Completeness still requires all eight canonical primary institutes, valid publication dates, the historical/current pollytix row, and the structural fixture checks. This distinction was corrected after the 17 October 2026 INSA update moved Infratest dimap's 1 October poll outside the window.
 
 ## Fixtures and live drift
 
