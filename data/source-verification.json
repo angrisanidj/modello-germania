@@ -3,7 +3,7 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-10-20T11:30:08.735201Z",
+  "verifiedAt": "2026-10-20T16:58:40.098817Z",
   "asOfDate": "2026-10-20",
   "windowDays": 14,
   "staleAfterHours": 36,
@@ -16,7 +16,7 @@
   "eligible": [
     {
       "institute": "Forsa",
-      "date": "2026-10-13"
+      "date": "2026-10-20"
     },
     {
       "institute": "Forschungsgruppe Wahlen",
@@ -37,6 +37,10 @@
     {
       "institute": "Ipsos",
       "date": "2026-10-08"
+    },
+    {
+      "institute": "pollytix",
+      "date": "2026-10-20"
     }
   ],
   "note": "Verifica upstream automatizzata. Verde atteso solo con freshness valida e coerenza fonte → dataset → motore; ogni giallo dopo il primo run automatico è un'anomalia da verificare."
