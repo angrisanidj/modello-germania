@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-10-21T17:07:23.779214Z",
-  "asOfDate": "2026-10-20",
+  "verifiedAt": "2026-10-22T17:06:27.389616Z",
+  "asOfDate": "2026-10-22",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -15,12 +15,12 @@
   ],
   "eligible": [
     {
-      "institute": "Forsa",
-      "date": "2026-10-20"
+      "institute": "Allensbach",
+      "date": "2026-10-22"
     },
     {
-      "institute": "Forschungsgruppe Wahlen",
-      "date": "2026-10-08"
+      "institute": "Forsa",
+      "date": "2026-10-20"
     },
     {
       "institute": "GMS",
@@ -33,10 +33,6 @@
     {
       "institute": "YouGov",
       "date": "2026-10-20"
-    },
-    {
-      "institute": "Ipsos",
-      "date": "2026-10-08"
     },
     {
       "institute": "pollytix",
