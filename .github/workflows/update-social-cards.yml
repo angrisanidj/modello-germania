@@ -23,7 +23,7 @@ jobs:
     # The bot commit also changes index.html. Skip that follow-up push so the
     # workflow does not immediately run a second time on its own output.
     if: ${{ github.event_name != 'push' || !contains(github.event.head_commit.message, '[social-card]') }}
-    runs-on: ubuntu-latest
+        runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
