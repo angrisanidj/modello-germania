@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-11-12T15:05:26.534377Z",
-  "asOfDate": "2026-11-11",
+  "verifiedAt": "2026-11-13T19:37:16.159803Z",
+  "asOfDate": "2026-11-13",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -17,6 +17,10 @@
     {
       "institute": "Forsa",
       "date": "2026-11-10"
+    },
+    {
+      "institute": "Forschungsgruppe Wahlen",
+      "date": "2026-11-13"
     },
     {
       "institute": "Infratest dimap",
