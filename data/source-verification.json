@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-11-16T06:19:29.110466Z",
-  "asOfDate": "2026-11-14",
+  "verifiedAt": "2026-11-17T07:49:25.424760Z",
+  "asOfDate": "2026-11-17",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -29,6 +29,10 @@
     {
       "institute": "INSA",
       "date": "2026-11-14"
+    },
+    {
+      "institute": "YouGov",
+      "date": "2026-11-17"
     },
     {
       "institute": "Ipsos",
