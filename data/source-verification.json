@@ -3,7 +3,7 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-11-17T07:49:25.424760Z",
+  "verifiedAt": "2026-11-17T20:50:13.801210Z",
   "asOfDate": "2026-11-17",
   "windowDays": 14,
   "staleAfterHours": 36,
@@ -16,7 +16,7 @@
   "eligible": [
     {
       "institute": "Forsa",
-      "date": "2026-11-10"
+      "date": "2026-11-17"
     },
     {
       "institute": "Forschungsgruppe Wahlen",
@@ -28,7 +28,7 @@
     },
     {
       "institute": "INSA",
-      "date": "2026-11-14"
+      "date": "2026-11-17"
     },
     {
       "institute": "YouGov",
