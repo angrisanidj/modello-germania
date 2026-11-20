@@ -3,8 +3,8 @@
   "source": "Wahlrecht.de",
   "status": "verified",
   "mode": "automated",
-  "verifiedAt": "2026-11-19T07:17:10.345527Z",
-  "asOfDate": "2026-11-17",
+  "verifiedAt": "2026-11-20T20:06:19.090509Z",
+  "asOfDate": "2026-11-20",
   "windowDays": 14,
   "staleAfterHours": 36,
   "parserVersion": 2,
@@ -15,16 +15,16 @@
   ],
   "eligible": [
     {
+      "institute": "Verian",
+      "date": "2026-11-20"
+    },
+    {
       "institute": "Forsa",
       "date": "2026-11-17"
     },
     {
       "institute": "Forschungsgruppe Wahlen",
       "date": "2026-11-13"
-    },
-    {
-      "institute": "Infratest dimap",
-      "date": "2026-11-05"
     },
     {
       "institute": "INSA",
